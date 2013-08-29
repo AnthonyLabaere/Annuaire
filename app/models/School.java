@@ -14,7 +14,12 @@ public class School extends Model{
 	
 	public String name;
 	@ManyToOne
-	public Country country;
+	public City city;
 	
 	public static Finder<Integer,School> find = new Finder<Integer,School>(Integer.class, School.class);
+	
+	@Override
+	public String toString(){
+		return id + ". " + name + " in " + city.name;
+	}
 }

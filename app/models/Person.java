@@ -1,5 +1,7 @@
 package models;
 
+import help.Parse;
+
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -33,4 +35,21 @@ public class Person extends Model{
 	public Options options;
 	
 	public static Finder<String,Person> find = new Finder<String,Person>(String.class, Person.class);
+	
+	public Person(String uid_,String name_,String surname_,String birthday_,String mail_,String phone_,String skype_,String school_,String nationality_){
+		uid=uid_;
+		name=name_;
+		surname=surname_;
+		birthday=Parse.parseDate(birthday_);
+		mail=mail_;
+		if(!phone_.equals("")){
+			phone=phone_;
+		}
+		if(!skype_.equals("")){
+			skype=skype_;
+		}
+		schoolOfOrigin=School.find.byId(Parse.parseIntSchool(school_));
+		nationality=Country.find.byId(Integer.parseInt(nationality_));
+		save();
+	}
 }

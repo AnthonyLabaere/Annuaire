@@ -78,7 +78,7 @@ create table plan (
 create table school (
   id                        integer auto_increment not null,
   name                      varchar(255),
-  country_id                integer,
+  city_id                   integer,
   constraint pk_school primary key (id))
 ;
 
@@ -132,8 +132,8 @@ alter table plan add constraint fk_plan_country_12 foreign key (country_id) refe
 create index ix_plan_country_12 on plan (country_id);
 alter table plan add constraint fk_plan_city_13 foreign key (city_id) references city (id) on delete restrict on update restrict;
 create index ix_plan_city_13 on plan (city_id);
-alter table school add constraint fk_school_country_14 foreign key (country_id) references country (id) on delete restrict on update restrict;
-create index ix_school_country_14 on school (country_id);
+alter table school add constraint fk_school_city_14 foreign key (city_id) references city (id) on delete restrict on update restrict;
+create index ix_school_city_14 on school (city_id);
 alter table travelled add constraint fk_travelled_person_15 foreign key (person_uid) references person (uid) on delete restrict on update restrict;
 create index ix_travelled_person_15 on travelled (person_uid);
 alter table travelled add constraint fk_travelled_country_16 foreign key (country_id) references country (id) on delete restrict on update restrict;

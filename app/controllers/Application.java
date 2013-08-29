@@ -24,7 +24,7 @@ public class Application extends Controller {
 	 */
     public static Result index() {
     	if(session("uid")==null)	return ok(index.render());
-    	else						return	ok(list.render());
+    	else						return	showList();
     }
     
     /**
@@ -37,7 +37,7 @@ public class Application extends Controller {
     	if(LDAP.check(login, info.get("passw"))){
     		session("uid",login);
     		if(firstTime(login))	return ok(firstTime.render());
-    		else					return ok(list.render());
+    		else					return showList();
     	}else{
     		return index();
     	}
@@ -50,5 +50,9 @@ public class Application extends Controller {
     public static Result logOut(){
     	session().clear();
     	return redirect("/");
+    }
+    
+    public static Result showList(){
+    	return ok(list.render());
     }
 }
