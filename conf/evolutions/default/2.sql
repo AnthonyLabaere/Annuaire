@@ -6,7 +6,7 @@
 INSERT INTO country(name,nationality) VALUES
 ('Afghanistan','Afghan'),
 ('Albania',''),
-('Algeria',''),
+('Algeria','Algerian'),
 ('American Samoa',''),
 ('Andorra',''),
 ('Angola',''),
@@ -78,7 +78,7 @@ INSERT INTO country(name,nationality) VALUES
 ('Faroe Islands',''),
 ('Fiji',''),
 ('Finland',''),
-('France',''),
+('France','French'),
 ('French Guiana',''),
 ('French Polynesia',''),
 ('French Southern Terr.',''),

@@ -21,5 +21,7 @@ GET		/loadCityList/:country_id	controllers.Ajax.loadCityList(country_id: Integer
 
 POST	/addSchool/:name/:city_id	controllers.Ajax.addSchool(name: String, city_id: Integer)
 
+POST	/search						controllers.Search.search()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.ArrayList;
+
 import models.Person;
 import connections.LDAP;
 import play.data.DynamicForm;
@@ -53,7 +55,7 @@ public class Application extends Controller {
     }
     
     public static Result showList(){
-    	return ok(list.render());
+    	return ok(list.render(new ArrayList<Person>()));
     }
     
     public static Result showFirst(){
