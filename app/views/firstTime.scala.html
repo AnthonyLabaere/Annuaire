@@ -1,19 +1,27 @@
 @main("This is your first time on this site - ACCENTS Annuaire"){
 	@logOut()
 	<p>Either fill the following form to sign up :</p>
-	<form id="newForm" action="/signup" method="POST">
+<form id="newForm" action="/signup" method="POST">
 	*<input type="text" id="name" name="name" placeholder="First Name"><br>
 	*<input type="text" id="surname" name="surname" placeholder="Surname Name"><br>
 	*<input type="text" id="birthday" name="birthday" placeholder="dd/mm/yyyy"><br>
 	*<input type="text" id="mail" name="mail" placeholder="E-mail"><br>
 	<input type="text" id="phone" name="phone" placeholder="Phone number"><br>
 	<input type="text" id="skype" name="skype" placeholder="Skype ID"><br>
-	*<input type="text" id="school" name="school" placeholder="School of origin"> Can't find your school? Click here to add a new one.<br>
+	*<input type="text" id="school" name="school" placeholder="School of origin"> Can't find your school? <span class="button" onClick="showNewSchool()">Click here to add your school.</span><br>
+	<div id="newSchool" style="display:none">
+		<input id="newSchool" placeholder="Name of your school">
+		<select id="country>
+			<option value="">&nbsp;</option>
+			@for(country <- models.Country.find.all()){<option value="@country.id">@country.name</option>}
+		</select>
+		<span class="button" onClick="addSchool()">Add the school to our database</span>
+	</div>
 	*<select name="nationality" id="nationality">
-	<option value="">&nbsp;</option>
-	@for(country <- models.Country.find.all()){<option value="@country.id">@country.name</option>}
-	</select> Can't find your country? Click here to add a new one.
-	</form>
+		<option value="">&nbsp;</option>
+		@for(country <- models.Country.find.all()){<option value="@country.id">@country.name</option>}
+	</select>
+</form>
 	<button onCLick="send()">Send</button>
 	<p>Or consult the annuaire :</p><form action="/" method="GET"><button>Go to annuaire</button></form>
 <link rel="stylesheet" href="/assets/stylesheets/jquery-ui.css">
@@ -47,6 +55,18 @@ function schoolCorrect(){
 $('#school').autocomplete({	source : schoolList,
 				minLength: 2
 			});
+
+function showNewSchool(){
+	var val = $('#newSchool').attr('style');
+	if(val=='display:none'){
+		$('#newSchool').attr('style','display:block');
+	}else{
+		$('#newSchool').attr('style','display:none');
+	}
+}
+function addSchool(){
+}
+
 
 $(document).ready(function() {
   $(window).keydown(function(event){

@@ -36,7 +36,7 @@ public class Application extends Controller {
     	String login = info.get("login");
     	if(LDAP.check(login, info.get("passw"))){
     		session("uid",login);
-    		if(firstTime(login))	return ok(firstTime.render());
+    		if(firstTime(login))	return showFirst();
     		else					return showList();
     	}else{
     		return index();
@@ -54,5 +54,9 @@ public class Application extends Controller {
     
     public static Result showList(){
     	return ok(list.render());
+    }
+    
+    public static Result showFirst(){
+    	return ok(firstTime.render());
     }
 }
