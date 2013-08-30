@@ -2,7 +2,15 @@
 @main("Liste"){
 @logOut()
 <form action="/search" method="POST">
-	Search by first name : <input type="text" name="name">
+	Search by: <ul>
+			<li>first name <input type="text" name="name"></li>
+			<li>surname <input type="text" name="surname"></li>
+			<li>year of travel <input type="text" disabled></li>
+			<li>nationality <input type="text" name="nationality"></li>
+			<li>destination <input type="text" disabled></li>
+			<li>school <input type="text" name="school"></li>
+			<li>company <input type="text" disabled></li>
+			   </ul>
 	<button>Search</button>
 </form>
 	<table>
@@ -27,5 +35,5 @@
 		<td>@if(person.nationality.nationality.equals("")){@person.nationality.name}else{@person.nationality.nationality}</td>
 	</tr>}
 	</table>
-<form action="/first"><button>Sign in</button></form>
+@if(scala.Util.signedIn()){<button>Edit your profile</button>}else{<form action="/first"><button>Sign in</button></form>}
 }

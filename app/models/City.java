@@ -28,7 +28,7 @@ public class City extends Model{
 	}
 	
 	public static Integer unusedID(){
-		List<City> cities = find.orderBy("id desc").findList();
+		List<City> cities = find.orderBy("id desc").setMaxRows(1).findList();
 		if(cities.isEmpty())	return 1;
 		else					return cities.get(0).id+1;
 	}

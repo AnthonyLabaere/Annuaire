@@ -15,5 +15,7 @@ dist
 /.settings
 /.target
 
+dist
+
 #gedit dump
 *~

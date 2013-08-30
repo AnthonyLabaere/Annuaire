@@ -2,8 +2,6 @@ package controllers;
 
 import java.util.List;
 
-import com.avaje.ebean.ExpressionList;
-
 import connections.Ebean;
 
 import models.Person;
