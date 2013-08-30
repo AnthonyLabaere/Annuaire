@@ -14,7 +14,7 @@
 		<input id="newSchoolName" placeholder="Name of your school">
 		<select id="country" onClick="loadCityList()">>
 			<option value="">&nbsp;</option>
-			@for(country <- models.Country.find.all()){<option value="@country.id">@country.name</option>}
+			@for(country <- connections.Ebean.findAllCountries()){<option value="@country.id">@country.name</option>}
 		</select>
 		<select id="cityList">
 			<option value="" id="noCity">&nbsp;</option>
@@ -27,7 +27,7 @@
 	</div>
 	*<select name="nationality" id="nationality">
 		<option value="">&nbsp;</option>
-		@for(country <- models.Country.find.all()){<option value="@country.id">@country.name</option>}
+		@for(country <- connections.Ebean.findAllCountries()){<option value="@country.id">@country.name</option>}
 	</select>
 </form>
 	<button onCLick="send()">Send</button>
