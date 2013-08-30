@@ -18,6 +18,12 @@ public class School extends Model{
 	
 	public static Finder<Integer,School> find = new Finder<Integer,School>(Integer.class, School.class);
 	
+	public School(String name_, Integer city_id){
+		name=name_;
+		city=City.find.ref(city_id);
+		save();
+	}
+	
 	@Override
 	public String toString(){
 		return id + ". " + name + " in " + city.name;

@@ -1,4 +1,5 @@
 @main("This is your first time on this site - ACCENTS Annuaire"){
+<link rel="stylesheet" media="screen" href="/assets/stylesheets/first.css">
 	@logOut()
 	<p>Either fill the following form to sign up :</p>
 <form id="newForm" action="/signup" method="POST">
@@ -10,11 +11,18 @@
 	<input type="text" id="skype" name="skype" placeholder="Skype ID"><br>
 	*<input type="text" id="school" name="school" placeholder="School of origin"> Can't find your school? <span class="button" onClick="showNewSchool()">Click here to add your school.</span><br>
 	<div id="newSchool" style="display:none">
-		<input id="newSchool" placeholder="Name of your school">
-		<select id="country>
+		<input id="newSchoolName" placeholder="Name of your school">
+		<select id="country" onClick="loadCityList()">>
 			<option value="">&nbsp;</option>
 			@for(country <- models.Country.find.all()){<option value="@country.id">@country.name</option>}
 		</select>
+		<select id="cityList">
+			<option value="" id="noCity">&nbsp;</option>
+		</select> Can't find your city? <span class="button" onClick="showNewCity()">Click here to add your city.</span><br>
+		<div id="newCity" style="display:none">
+			<input id="newCityName" placeholder="Name of your city">
+			<span class="button" onClick="addCity()">Add the city to our database</span>
+		</div>
 		<span class="button" onClick="addSchool()">Add the school to our database</span>
 	</div>
 	*<select name="nationality" id="nationality">
@@ -50,7 +58,6 @@ var schoolList = [@Html(scala.Util.getSchools())];
 function schoolCorrect(){
 	var school = $('#school').val();
 	return schoolList.indexOf(school)>=0;
-	
 }
 $('#school').autocomplete({	source : schoolList,
 				minLength: 2
@@ -64,9 +71,69 @@ function showNewSchool(){
 		$('#newSchool').attr('style','display:none');
 	}
 }
-function addSchool(){
+function showNewCity(){
+	var val = $('#newCity').attr('style');
+	if(val=='display:none'){
+		$('#newCity').attr('style','display:block');
+	}else{
+		$('#newCity').attr('style','display:none');
+	}
 }
-
+@* This is bullshit, I've chosen the id for nothing. Delete that as soon as you can, moron!*@
+function addCity(){
+	var id;
+	$.ajax({
+            type : 'GET',
+            url : '/unusedCityID',
+            success: function(data, textStatus, jqXHR) {
+				id = data;
+				var name = $('#newCityName').val();
+				var country = $('#country').val();
+				if(country=='')	alert('Please select a country first');
+				else{
+					if(name=='') alert('Please enter a name for your city');
+					else{
+						$.ajax({
+            				type : 'POST',
+            				url : '/addCity/'+id+'/'+name+'/'+country,
+            				success: function(data, textStatus, jqXHR) {
+            					loadCityList();
+            					showNewCity();
+            				}
+        				});
+       				}
+    			}
+			}
+	});
+}
+function addSchool(){
+	var name = $('#newSchoolName').val();
+	var city = $('#cityList').val();
+	if(city=='')	alert('Please choose the city in which your school is.');
+	else{
+		if(name=='')	alert('Please specify a name for your school');
+		else{
+			$.ajax({
+            	type : 'POST',
+            	url : '/addSchool/'+name+'/'+city,
+            	success : function(data, textStatus, jqXHR) {
+            		schoolList.push(data);
+            		showNewSchool();
+            	}
+            });
+		}
+	}
+}
+function loadCityList(){
+	var country = $('#country').val();
+	$.ajax({
+    	type : 'GET',
+        url : '/loadCityList/'+country,
+        success: function(data, textStatus, jqXHR) {
+           	$('#cityList').replaceWith(data);
+        }
+     });
+}
 
 $(document).ready(function() {
   $(window).keydown(function(event){

@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -17,4 +19,17 @@ public class City extends Model{
 	public Country country;
 	
 	public static Finder<Integer,City> find = new Finder<Integer,City>(Integer.class, City.class);
+	
+	public City(Integer city_id, String name_, Integer country_id){
+		id=city_id;
+		name=name_;
+		country=Country.find.ref(country_id);
+		save();
+	}
+	
+	public static Integer unusedID(){
+		List<City> cities = find.orderBy("id desc").findList();
+		if(cities.isEmpty())	return 1;
+		else					return cities.get(0).id+1;
+	}
 }
