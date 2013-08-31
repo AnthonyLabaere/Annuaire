@@ -1,4 +1,4 @@
-package controllers;
+package ajax;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import models.School;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-public class Ajax extends Controller{
+public class AjaxSignUp extends Controller{
 	
 	public static Result addSchool(String name, Integer city_id){
 		School school = new School(name,city_id);

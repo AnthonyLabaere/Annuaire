@@ -13,15 +13,18 @@ POST	/signup						controllers.SignUp.newMember()
 
 GET		/first						controllers.Application.showFirst()
 
-POST	/addCity/:name/:country_id	controllers.Ajax.addCity(name: String, country_id: Integer)
+POST	/addCity/:name/:country_id	ajax.AjaxSignUp.addCity(name: String, country_id: Integer)
 
-GET		/unusedCityID				controllers.Ajax.unusedCityID()
+GET		/loadCityList/:country_id	ajax.AjaxSignUp.loadCityList(country_id: Integer)
 
-GET		/loadCityList/:country_id	controllers.Ajax.loadCityList(country_id: Integer)
-
-POST	/addSchool/:name/:city_id	controllers.Ajax.addSchool(name: String, city_id: Integer)
+POST	/addSchool/:name/:city_id	ajax.AjaxSignUp.addSchool(name: String, city_id: Integer)
 
 POST	/search						controllers.Search.search()
+
+
+GET		/edit						controllers.Application.editProfile()
+
+POST	/saveEdits/:arg/:value		ajax.AjaxEdit.save(arg: String,value: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -24,4 +24,8 @@ public class Util extends Controller{
 	public static boolean signedIn(){
 		return Person.find.byId(session("uid"))!=null;
 	}
+	
+	public static String addEscChar(String str){
+		return str.replace("'", "\'");
+	}
 }

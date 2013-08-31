@@ -12,6 +12,7 @@ import play.mvc.Result;
 import views.html.index;
 import views.html.firstTime;
 import views.html.list;
+import views.html.editProfile;
 
 /**
  * Application
@@ -60,5 +61,11 @@ public class Application extends Controller {
     
     public static Result showFirst(){
     	return ok(firstTime.render());
+    }
+    
+    public static Result editProfile(){
+    	Person profile = Person.find.byId(session("uid"));
+    	if(profile!=null)	return ok(editProfile.render(profile));
+    	else				return index();
     }
 }

@@ -42,12 +42,8 @@ public class Person extends Model{
 		surname=surname_;
 		birthday=Parse.parseDate(birthday_);
 		mail=mail_;
-		if(!phone_.equals("")){
-			phone=phone_;
-		}
-		if(!skype_.equals("")){
-			skype=skype_;
-		}
+		phone=phone_;
+		skype=skype_;
 		schoolOfOrigin=School.find.byId(Parse.parseIntSchool(school_));
 		nationality=Country.find.byId(Integer.parseInt(nationality_));
 		save();
