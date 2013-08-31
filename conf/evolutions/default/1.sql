@@ -12,7 +12,7 @@ create table cv (
 create table city (
   id                        integer auto_increment not null,
   name                      varchar(255),
-  country_id                integer,
+  country_id                varchar(255),
   constraint pk_city primary key (id))
 ;
 
@@ -31,7 +31,7 @@ create table contact_type (
 ;
 
 create table country (
-  id                        integer auto_increment not null,
+  id                        varchar(255) not null,
   name                      varchar(255),
   nationality               varchar(255),
   constraint pk_country primary key (id))
@@ -52,7 +52,7 @@ create table person (
   phone                     varchar(255),
   skype                     varchar(255),
   school_of_origin_id       integer,
-  nationality_id            integer,
+  nationality_id            varchar(255),
   photo_id                  integer,
   cv_id                     integer,
   options_id                integer,
@@ -68,7 +68,7 @@ create table photo (
 create table plan (
   id                        integer auto_increment not null,
   person_uid                varchar(255),
-  country_id                integer,
+  country_id                varchar(255),
   city_id                   integer,
   for_what                  TEXT,
   but_when                  TEXT,
@@ -85,7 +85,7 @@ create table school (
 create table travelled (
   id                        integer auto_increment not null,
   person_uid                varchar(255),
-  country_id                integer,
+  country_id                varchar(255),
   city_id                   integer,
   for_what                  TEXT,
   but_when                  TEXT,

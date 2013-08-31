@@ -15,7 +15,7 @@ public class AjaxSignUp extends Controller{
 		return ok(school.toString());
 	}
 	
-	public static Result addCity(String name, Integer country_id){
+	public static Result addCity(String name, String country_id){
 		new City(name,country_id);
 		return ok("City added with success");
 	}
@@ -24,7 +24,7 @@ public class AjaxSignUp extends Controller{
 		return ok(City.unusedID().toString());
 	}
 	
-	public static Result loadCityList(Integer country_id){
+	public static Result loadCityList(String country_id){
 		Country country = Country.find.ref(country_id);
 		List<City> cities = City.find.where().eq("country", country).orderBy("name").findList();
 		String result = "<select id=\"cityList\">";

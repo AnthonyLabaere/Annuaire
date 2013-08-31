@@ -13,9 +13,9 @@ POST	/signup						controllers.SignUp.newMember()
 
 GET		/first						controllers.Application.showFirst()
 
-POST	/addCity/:name/:country_id	ajax.AjaxSignUp.addCity(name: String, country_id: Integer)
+POST	/addCity/:name/:country_id	ajax.AjaxSignUp.addCity(name: String, country_id: String)
 
-GET		/loadCityList/:country_id	ajax.AjaxSignUp.loadCityList(country_id: Integer)
+GET		/loadCityList/:country_id	ajax.AjaxSignUp.loadCityList(country_id: String)
 
 POST	/addSchool/:name/:city_id	ajax.AjaxSignUp.addSchool(name: String, city_id: Integer)
 

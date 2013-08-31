@@ -1,6 +1,7 @@
 @(personList : List[Person])
 @main("Liste"){
 @logOut()
+<div id="worldmap" style="width: 600px; height: 400px"></div>
 <form action="/search" method="POST">
 	Search by: <ul>
 			<li>first name <input type="text" name="name"></li>
@@ -36,4 +37,12 @@
 	</tr>}
 	</table>
 @if(scala.Util.signedIn()){<form action=/edit><button>Edit your profile</button></form>}else{<form action="/first"><button>Sign in</button></form>}
+<link rel="stylesheet" href="/assets/stylesheets/jquery-jvectormap-1.2.2.css" type="text/css" media="screen"/>
+<script src="/assets/javascripts/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="/assets/javascripts/jquery-jvectormap-world-mill-en.js"></script>
+<script>
+$(function(){
+      $('#worldmap').vectorMap();
+    });
+</script>
 }

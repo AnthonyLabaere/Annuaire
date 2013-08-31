@@ -13,7 +13,7 @@ import models.Person;
 public class Ebean {
 	
 	public static List<Country> findAllCountries(){
-		return Country.find.all();
+		return Country.find.orderBy("name").findList();
 	}
 	
 	public static List<Person> getPersonList(DynamicForm info){

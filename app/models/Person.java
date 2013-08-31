@@ -45,7 +45,7 @@ public class Person extends Model{
 		phone=phone_;
 		skype=skype_;
 		schoolOfOrigin=School.find.byId(Parse.parseIntSchool(school_));
-		nationality=Country.find.byId(Integer.parseInt(nationality_));
+		nationality=Country.find.byId(nationality_);
 		save();
 	}
 }

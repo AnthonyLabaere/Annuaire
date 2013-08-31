@@ -9,10 +9,10 @@ import play.db.ebean.Model;
 @Entity
 public class Country extends Model{
 	@Id
-	public Integer id;
+	public String id;
 	
 	public String name;
 	public String nationality;
 	
-	public static Finder<Integer,Country> find = new Finder<Integer,Country>(Integer.class, Country.class);
+	public static Finder<String,Country> find = new Finder<String,Country>(String.class, Country.class);
 }
