@@ -20,8 +20,7 @@ public class City extends Model{
 	
 	public static Finder<Integer,City> find = new Finder<Integer,City>(Integer.class, City.class);
 	
-	public City(Integer city_id, String name_, Integer country_id){
-		id=city_id;
+	public City(String name_, Integer country_id){
 		name=name_;
 		country=Country.find.ref(country_id);
 		save();

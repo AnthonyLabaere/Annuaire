@@ -79,32 +79,23 @@ function showNewCity(){
 		$('#newCity').attr('style','display:none');
 	}
 }
-@* This is bullshit, I've chosen the id for nothing. Delete that as soon as you can, moron!*@
 function addCity(){
-	var id;
-	$.ajax({
-            type : 'GET',
-            url : '/unusedCityID',
-            success: function(data, textStatus, jqXHR) {
-				id = data;
-				var name = $('#newCityName').val();
-				var country = $('#country').val();
-				if(country=='')	alert('Please select a country first');
-				else{
-					if(name=='') alert('Please enter a name for your city');
-					else{
-						$.ajax({
-            				type : 'POST',
-            				url : '/addCity/'+id+'/'+name+'/'+country,
-            				success: function(data, textStatus, jqXHR) {
-            					loadCityList();
-            					showNewCity();
-            				}
-        				});
-       				}
-    			}
-			}
-	});
+	var name = $('#newCityName').val();
+	var country = $('#country').val();
+	if(country=='')	alert('Please select a country first');
+	else{
+		if(name=='') alert('Please enter a name for your city');
+		else{
+			$.ajax({
+				type : 'POST',
+				url : '/addCity/'+name+'/'+country,
+				success: function(data, textStatus, jqXHR) {
+					loadCityList();
+					showNewCity();
+				}
+			});
+		}
+	}
 }
 function addSchool(){
 	var name = $('#newSchoolName').val();

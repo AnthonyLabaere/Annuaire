@@ -13,7 +13,7 @@ POST	/signup						controllers.SignUp.newMember()
 
 GET		/first						controllers.Application.showFirst()
 
-POST	/addCity/:city_id/:name/:country_id	controllers.Ajax.addCity(city_id: Integer,name: String, country_id: Integer)
+POST	/addCity/:name/:country_id	controllers.Ajax.addCity(name: String, country_id: Integer)
 
 GET		/unusedCityID				controllers.Ajax.unusedCityID()
 

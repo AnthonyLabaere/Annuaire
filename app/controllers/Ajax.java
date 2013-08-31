@@ -15,8 +15,8 @@ public class Ajax extends Controller{
 		return ok(school.toString());
 	}
 	
-	public static Result addCity(Integer city_id, String name, Integer country_id){
-		new City(city_id,name,country_id);
+	public static Result addCity(String name, Integer country_id){
+		new City(name,country_id);
 		return ok("City added with success");
 	}
 	
