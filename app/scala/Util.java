@@ -31,8 +31,17 @@ import models.Country;
 import models.Person;
 import models.School;
 
+/**
+ * Some method used in scala templates
+ * @author malik
+ *
+ */
 public class Util extends Controller{
 
+	/**
+	 * Get school list
+	 * @return
+	 */
 	public static String getSchools(){
 		String liste = "";
 		List<School> schools = School.find.all();
@@ -45,14 +54,27 @@ public class Util extends Controller{
 		}
 	}
 	
+	/**
+	 * Returns true if the user has signed up, else returns false
+	 * @return true or false
+	 */
 	public static boolean signedIn(){
 		return Person.find.byId(session("uid"))!=null;
 	}
 	
+	/**
+	 * Adds escape character to strings used in Javascripts
+	 * @param str
+	 * @return string in argument with escape characters added
+	 */
 	public static String addEscChar(String str){
 		return str.replace("'", "\'");
 	}
 	
+	/**
+	 * Gets how many students there are in each country in the world.
+	 * @return A string used in Javascript (for the world map).
+	 */
 	public static String getStudentData(){
 		String data = "";
 		List<Country> countries = Country.find.all();

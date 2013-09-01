@@ -30,6 +30,11 @@ import javax.persistence.OneToOne;
 
 import play.db.ebean.Model;
 
+/**
+ * Where is the user now
+ * @author malik
+ *
+ */
 @SuppressWarnings("serial")
 @Entity
 public class Whereabouts extends Model{

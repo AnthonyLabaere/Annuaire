@@ -59,6 +59,18 @@ public class Person extends Model{
 	
 	public static Finder<String,Person> find = new Finder<String,Person>(String.class, Person.class);
 	
+	/**
+	 * Add a new person to the database
+	 * @param uid_
+	 * @param name_
+	 * @param surname_
+	 * @param birthday_
+	 * @param mail_
+	 * @param phone_
+	 * @param skype_
+	 * @param school_
+	 * @param nationality_
+	 */
 	public Person(String uid_,String name_,String surname_,String birthday_,String mail_,String phone_,String skype_,String school_,String nationality_){
 		uid=uid_;
 		name=name_;

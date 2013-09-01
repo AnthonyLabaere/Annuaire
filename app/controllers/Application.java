@@ -38,14 +38,14 @@ import views.html.list;
 import views.html.editProfile;
 
 /**
- * Application
+ * Application class. Contains basic display.
  * @author malik
  *
  */
 public class Application extends Controller {
 	
 	/**
-	 * Affiche l'index
+	 * Display index
 	 * @return Index
 	 */
     public static Result index() {
@@ -54,7 +54,7 @@ public class Application extends Controller {
     }
     
     /**
-     * Login pour se connecter
+     * Manage logging in
      * @return
      */
     public static Result login(){
@@ -68,24 +68,45 @@ public class Application extends Controller {
     		return index();
     	}
     }
-  
+    
+    /**
+     * returns true of you have no profile, else returns false
+     * @param login
+     * @return true or false
+     */
     public static boolean firstTime(String login){
     	return Person.find.byId(login)==null;
     }
     
+    /**
+     * log out the user
+     * @return display login page
+     */
     public static Result logOut(){
     	session().clear();
     	return redirect("/");
     }
     
+    /**
+     * Show list template but with an empty person list
+     * @return display list template
+     */
     public static Result showList(){
     	return ok(list.render(new ArrayList<Person>()));
     }
     
+    /**
+     * Display firstTime template
+     * @return display firstTime template
+     */
     public static Result showFirst(){
     	return ok(firstTime.render());
     }
     
+    /**
+     * Display edit profile page
+     * @return edit profile page
+     */
     public static Result editProfile(){
     	Person profile = Person.find.byId(session("uid"));
     	if(profile!=null)	return ok(editProfile.render(profile));

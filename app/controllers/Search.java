@@ -34,8 +34,17 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.list;
 
+/**
+ * Manage searches
+ * @author malik
+ *
+ */
 public class Search extends Controller{
-
+	
+	/**
+	 * Display list template with queried person list.
+	 * @return list template
+	 */
 	public static Result search(){
 		DynamicForm info = Form.form().bindFromRequest();
 		List<Person> persons = Ebean.getPersonList(info);

@@ -28,8 +28,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Some parsing useful methods
+ * @author malik
+ *
+ */
 public class Parse {
 	
+	/**
+	 * Standard French date parsing
+	 * @param date : the string to parse
+	 * @return parsed Date
+	 */
 	public static Date parseDate(String date){
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		Date date_ = null;
@@ -42,6 +52,12 @@ public class Parse {
 		return date_;
 	}
 	
+	/**
+	 * Standard French date parsing with hyphens ("/" cannot
+	 * be used with ajax)
+	 * @param date : string to parse
+	 * @return parsed Date
+	 */
 	public static Date parseDateHyphen(String date){
 		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		Date date_ = null;
@@ -54,6 +70,11 @@ public class Parse {
 		return date_;
 	}
 	
+	/**
+	 * From a school string, returns the school ID
+	 * @param school to parse
+	 * @return school ID
+	 */
 	public static Integer parseIntSchool(String school){
 		return Integer.parseInt(school.substring(0,school.indexOf('.')));
 	}

@@ -49,6 +49,10 @@ public class City extends Model{
 		save();
 	}
 	
+	/**
+	 * Useless method
+	 * @return
+	 */
 	public static Integer unusedID(){
 		List<City> cities = find.orderBy("id desc").setMaxRows(1).findList();
 		if(cities.isEmpty())	return 1;

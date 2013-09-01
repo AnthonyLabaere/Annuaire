@@ -33,12 +33,26 @@ import play.data.DynamicForm;
 import models.Country;
 import models.Person;
 
+/**
+ * Manage some ebean queries
+ * @author malik
+ *
+ */
 public class Ebean {
 	
+	/**
+	 * Get country list
+	 * @return country list ordered by name
+	 */
 	public static List<Country> findAllCountries(){
 		return Country.find.orderBy("name").findList();
 	}
 	
+	/**
+	 * Get person list depending on the user input.
+	 * @param info : a dynamic form containing the input
+	 * @return the person list
+	 */
 	public static List<Person> getPersonList(DynamicForm info){
 		ExpressionList<Person> query = Person.find.where();
 		query = query.like("name", "%"+info.get("name")+"%");

@@ -41,12 +41,20 @@ public class School extends Model{
 	
 	public static Finder<Integer,School> find = new Finder<Integer,School>(Integer.class, School.class);
 	
+	/**
+	 * Adds a school to the database
+	 * @param name_
+	 * @param city_id
+	 */
 	public School(String name_, Integer city_id){
 		name=name_;
 		city=City.find.ref(city_id);
 		save();
 	}
 	
+	/**
+	 * Overrides the toString method for the School class
+	 */
 	@Override
 	public String toString(){
 		return id + ". " + name + " in " + city.name;

@@ -40,6 +40,7 @@ import play.Play;
  *
  */
 public class LDAP{
+	
 	private static String serveur = Play.application().configuration().getString("ldap.url");
 	
 	/**
