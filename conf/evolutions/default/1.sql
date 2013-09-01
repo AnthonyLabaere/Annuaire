@@ -92,13 +92,6 @@ create table travelled (
   constraint pk_travelled primary key (id))
 ;
 
-create table university (
-  id                        integer auto_increment not null,
-  name                      varchar(255),
-  city_id                   integer,
-  constraint pk_university primary key (id))
-;
-
 create table whereabouts (
   id                        integer auto_increment not null,
   person_uid                varchar(255),
@@ -140,12 +133,10 @@ alter table travelled add constraint fk_travelled_country_16 foreign key (countr
 create index ix_travelled_country_16 on travelled (country_id);
 alter table travelled add constraint fk_travelled_city_17 foreign key (city_id) references city (id) on delete restrict on update restrict;
 create index ix_travelled_city_17 on travelled (city_id);
-alter table university add constraint fk_university_city_18 foreign key (city_id) references city (id) on delete restrict on update restrict;
-create index ix_university_city_18 on university (city_id);
-alter table whereabouts add constraint fk_whereabouts_person_19 foreign key (person_uid) references person (uid) on delete restrict on update restrict;
-create index ix_whereabouts_person_19 on whereabouts (person_uid);
-alter table whereabouts add constraint fk_whereabouts_city_20 foreign key (city_id) references city (id) on delete restrict on update restrict;
-create index ix_whereabouts_city_20 on whereabouts (city_id);
+alter table whereabouts add constraint fk_whereabouts_person_18 foreign key (person_uid) references person (uid) on delete restrict on update restrict;
+create index ix_whereabouts_person_18 on whereabouts (person_uid);
+alter table whereabouts add constraint fk_whereabouts_city_19 foreign key (city_id) references city (id) on delete restrict on update restrict;
+create index ix_whereabouts_city_19 on whereabouts (city_id);
 
 
 
@@ -174,8 +165,6 @@ drop table plan;
 drop table school;
 
 drop table travelled;
-
-drop table university;
 
 drop table whereabouts;
 
