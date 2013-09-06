@@ -31,5 +31,16 @@
     </head>
     <body>
         @content
+		@Html(langs.T.displayLanguages())
+		<script>
+		function changeLocale(lang){
+			$.ajax({
+				url: 'changelocale/'+lang,
+				success : function(data, textStatus, jqXHR){
+					window.location.reload();
+				}
+			});
+		}
+		</script>
     </body>
 </html>

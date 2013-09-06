@@ -22,31 +22,31 @@
 ******************************************************************************@
 @(profile: Person)
 @main(profile.name+" "+profile.surname+", here you can edit your profile"){
-@logOut()<a href="/">Back to searching</a>
+@logOut()<a href="/">@langs.T.ranslate("Back to searching")</a>
 <table>
 <tr>
-	<td>First name</td>
-	<td id="name">@profile.name<button onClick="edit('name')">Edit</button></td>
+	<td>@langs.T.ranslate("First name")</td>
+	<td id="name">@profile.name<button onClick="edit('name')">@langs.T.ranslate("Edit")</button></td>
 </tr><tr>
-	<td>Surname</td>
-	<td id="surname">@profile.surname<button onClick="edit('surname')">Edit</button></td>
+	<td>@langs.T.ranslate("Surname")</td>
+	<td id="surname">@profile.surname<button onClick="edit('surname')">@langs.T.ranslate("Edit")</button></td>
 </tr><tr>
-	<td>Birthday</td>
-	<td id="birthday">@profile.birthday.format("dd/MM/yyyy")<button onClick="edit('birthday')">Edit</button></td>
+	<td>@langs.T.ranslate("Birthday")</td>
+	<td id="birthday">@profile.birthday.format("dd/MM/yyyy")<button onClick="edit('birthday')">@langs.T.ranslate("Edit")</button></td>
 </tr><tr>
-	<td>E-mail</td>
-	<td id="mail">@profile.mail<button onClick="edit('mail')">Edit</button></td>
+	<td>@langs.T.ranslate("E-mail")</td>
+	<td id="mail">@profile.mail<button onClick="edit('mail')">@langs.T.ranslate("Edit")</button></td>
 </tr><tr>
-	<td>Phone number</td>
-	<td id="phone">@profile.phone<button onClick="edit('phone')">Edit</button></td>
+	<td>@langs.T.ranslate("Phone number")</td>
+	<td id="phone">@profile.phone<button onClick="edit('phone')">@langs.T.ranslate("Edit")</button></td>
 </tr><tr>
-	<td>Skype ID</td>
-	<td id="skype">@profile.skype<button onClick="edit('skype')">Edit</button></td>
+	<td>@langs.T.ranslate("Skype ID")</td>
+	<td id="skype">@profile.skype<button onClick="edit('skype')">@langs.T.ranslate("Edit")</button></td>
 </tr><tr>
-	<td>School/University of origin</td>
-	<td id="school">@profile.schoolOfOrigin<button onClick="edit('school')">Edit</button></td>
+	<td>@langs.T.ranslate("School/University of origin")</td>
+	<td id="school">@profile.schoolOfOrigin<button onClick="edit('school')">@langs.T.ranslate("Edit")</button></td>
 </tr><tr>
-	<td>Nationality</td>
+	<td>@langs.T.ranslate("Nationality")</td>
 	<td id="nationality">
 		<select disabled>
 		@for(country <- connections.Ebean.findAllCountries()){<option value="@country.id" @if(profile.nationality.id==country.id){selected}>@country.name</option>}

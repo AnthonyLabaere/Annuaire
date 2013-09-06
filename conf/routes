@@ -7,9 +7,12 @@ GET     /                           controllers.Application.index()
 
 POST	/							controllers.Application.login()
 
+GET		/changelocale/:lang			langs.T.setLanguage(lang: String)
+
 GET		/logout						controllers.Application.logOut()
 
 POST	/signup						controllers.SignUp.newMember()
+
 
 GET		/first						controllers.Application.showFirst()
 

@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import play.Play;
 import play.mvc.Controller;
+import play.mvc.Result;
 
 public class T extends Controller{
 	
@@ -29,5 +30,21 @@ public class T extends Controller{
 		String language = session().get("language");
 		if(language==null)	return langList.get("en").get(str);
 		else				return langList.get(language).get(str);
+	}
+	
+	public static Result setLanguage(String language){
+		if(langList.containsValue(language)){
+			session("language",language);
+			return ok("Local set to: "+language);
+		}
+		else	return badRequest("The local wasn't changed as this language does not exist: "+language);
+	}
+	
+	public static String displayLanguages(){
+		String disp = "";
+		for(String key : langList.keySet()){
+			disp+="<span class=\"button\" onClick=\"changeLocale('"+key+"')\">"+key.toUpperCase()+"</span> ";
+		}
+		return disp;
 	}
 }
