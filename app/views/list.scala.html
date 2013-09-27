@@ -25,27 +25,27 @@
 @logOut()
 <div id="worldmap" style="width: 600px; height: 400px"></div>
 <form action="/search" method="POST">
-	@langs.T.ranslate("Search by:") <ul>
-			<li>@langs.T.ranslate("first name") <input type="text" name="name"></li>
-			<li>@langs.T.ranslate("surname") <input type="text" name="surname"></li>
-			<li>@langs.T.ranslate("year of travel") <input type="text" disabled></li>
-			<li>@langs.T.ranslate("nationality") <input type="text" name="nationality"></li>
-			<li>@langs.T.ranslate("destination") <input type="text" disabled></li>
-			<li>@langs.T.ranslate("school") <input type="text" name="school"></li>
-			<li>@langs.T.ranslate("company") <input type="text" disabled></li>
+	@Html(langs.T.ranslate("Search by:")) <ul>
+			<li>@Html(langs.T.ranslate("first name")) <input type="text" name="name"></li>
+			<li>@Html(langs.T.ranslate("surname")) <input type="text" name="surname"></li>
+			<li>@Html(langs.T.ranslate("year of travel")) <input type="text" disabled></li>
+			<li>@Html(langs.T.ranslate("nationality")) <input type="text" name="nationality"></li>
+			<li>@Html(langs.T.ranslate("destination")) <input type="text" disabled></li>
+			<li>@Html(langs.T.ranslate("school")) <input type="text" name="school"></li>
+			<li>@Html(langs.T.ranslate("company")) <input type="text" disabled></li>
 			   </ul>
-	<button>@langs.T.ranslate("Search")</button>
+	<button>@Html(langs.T.ranslate("Search"))</button>
 </form>
-@if(personList.isEmpty()){<p>@langs.T.ranslate("You can do a research to find any international student who signed in")</p>}else{<table>
+@if(personList.isEmpty()){<p>@Html(langs.T.ranslate("You can do a research to find any international student who signed in"))</p>}else{<table>
 	<tr>
-		<th>@langs.T.ranslate("First name")</th>
-		<th>@langs.T.ranslate("Surname")</th>
-		<th>@langs.T.ranslate("Birthday")</th>
-		<th>@langs.T.ranslate("E-mail")</th>
-		<th>@langs.T.ranslate("Phone number")</th>
-		<th>@langs.T.ranslate("Skype ID")</th>
-		<th>@langs.T.ranslate("School of origin")</th>
-		<th>@langs.T.ranslate("Nationality")</th>
+		<th>@Html(langs.T.ranslate("First name"))</th>
+		<th>@Html(langs.T.ranslate("Surname"))</th>
+		<th>@Html(langs.T.ranslate("Birthday"))</th>
+		<th>@Html(langs.T.ranslate("E-mail"))</th>
+		<th>@Html(langs.T.ranslate("Phone number"))</th>
+		<th>@Html(langs.T.ranslate("Skype ID"))</th>
+		<th>@Html(langs.T.ranslate("School of origin"))</th>
+		<th>@Html(langs.T.ranslate("Nationality"))</th>
 	</tr>
 	@for(person <- personList){<tr>
 		<td>@person.name</td>
@@ -58,7 +58,7 @@
 		<td>@if(person.nationality.nationality.equals("")){@person.nationality.name}else{@person.nationality.nationality}</td>
 	</tr>}
 	</table>}
-@if(scala.Util.signedIn()){<form action=/edit><button>@langs.T.ranslate("Edit your profile")</button></form>}else{<form action="/first"><button>@langs.T.ranslate("Sign in")</button></form>}
+@if(scala.Util.signedIn()){<form action=/edit><button>@Html(langs.T.ranslate("Edit your profile"))</button></form>}else{<form action="/first"><button>@Html(langs.T.ranslate("Sign in"))</button></form>}
 <link rel="stylesheet" href="/assets/stylesheets/jquery-jvectormap-1.2.2.css" type="text/css" media="screen"/>
 <script src="/assets/javascripts/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="/assets/javascripts/jquery-jvectormap-world-mill-en.js"></script>

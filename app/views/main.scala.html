@@ -37,7 +37,11 @@
 			$.ajax({
 				url: 'changelocale/'+lang,
 				success : function(data, textStatus, jqXHR){
-					window.location.reload();
+					//window.location.reload();
+					$('.translation').each(function() {
+						var id = $(this).attr("id");
+						$('#'+id).load('/ #'+id);
+					});
 				}
 			});
 		}

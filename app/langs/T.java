@@ -31,6 +31,7 @@ import java.util.Arrays;
 import play.Play;
 import play.mvc.Controller;
 import play.mvc.Result;
+import scala.Util;
 
 /**
  * Major class that manages translation processes.
@@ -71,6 +72,12 @@ public class T extends Controller{
 	 * @return translated string
 	 */
 	public static String ranslate(String str){
+		String language = session().get("language");
+		if(language==null)	return "<span class=\"translation\" id=\""+Util.removeUnwantedChar(str)+"\">"+langList.get("en").get(str)+"</span>";
+		else				return "<span class=\"translation\" id=\""+Util.removeUnwantedChar(str)+"\">"+langList.get(language).get(str)+"</span>";
+	}
+	
+	public static String ranslateNoHTML(String str){
 		String language = session().get("language");
 		if(language==null)	return langList.get("en").get(str);
 		else				return langList.get(language).get(str);

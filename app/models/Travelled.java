@@ -39,8 +39,6 @@ public class Travelled extends Model{
 	@ManyToOne
 	public Person person;
 	@ManyToOne
-	public Country country;
-	@ManyToOne
 	public City city;
 	
 	@Column(columnDefinition = "TEXT")

@@ -20,3 +20,6 @@ dist
 #gedit dump
 *~
 /bin
+
+#MySQL Workbench back-up files
+*.mwb.bak

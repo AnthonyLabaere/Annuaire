@@ -25,27 +25,27 @@
 	@logOut()
 	<p>Either fill the following form to sign up :</p>
 <form id="newForm" action="/signup" method="POST">
-	*<input type="text" id="name" name="name" placeholder="@langs.T.ranslate("First Name")"><br>
-	*<input type="text" id="surname" name="surname" placeholder="@langs.T.ranslate("Surname")"><br>
-	*<input type="text" id="birthday" name="birthday" placeholder="@langs.T.ranslate("dd/mm/yyyy")"><br>
-	*<input type="text" id="mail" name="mail" placeholder="@langs.T.ranslate("E-mail")"><br>
-	<input type="text" id="phone" name="phone" placeholder="@langs.T.ranslate("Phone number")"><br>
-	<input type="text" id="skype" name="skype" placeholder="@langs.T.ranslate("Skype ID")"><br>
-	*<input type="text" id="school" name="school" placeholder="School of origin"> @langs.T.ranslate("Can't find your school?") <span class="button" onClick="showNewSchool()">@langs.T.ranslate("Click here to add your school")</span><br>
+	*<input type="text" id="name" name="name" placeholder="@langs.T.ranslateNoHTML("First Name")"><br>
+	*<input type="text" id="surname" name="surname" placeholder="@langs.T.ranslateNoHTML("Surname")"><br>
+	*<input type="text" id="birthday" name="birthday" placeholder="@langs.T.ranslateNoHTML("dd/mm/yyyy")"><br>
+	*<input type="text" id="mail" name="mail" placeholder="@langs.T.ranslateNoHTML("E-mail")"><br>
+	<input type="text" id="phone" name="phone" placeholder="@langs.T.ranslateNoHTML("Phone number")"><br>
+	<input type="text" id="skype" name="skype" placeholder="@langs.T.ranslateNoHTML("Skype ID")"><br>
+	*<input type="text" id="school" name="school" placeholder="School of origin"> @Html(langs.T.ranslate("Can't find your school?")) <span class="button" onClick="showNewSchool()">@Html(langs.T.ranslate("Click here to add your school"))</span><br>
 	<div id="newSchool" style="display:none">
-		<input id="newSchoolName" placeholder="@langs.T.ranslate("Name of your school")">
+		<input id="newSchoolName" placeholder="@langs.T.ranslateNoHTML("Name of your school")">
 		<select id="country" onClick="loadCityList()">>
 			<option value="">&nbsp;</option>
 			@for(country <- connections.Ebean.findAllCountries()){<option value="@country.id">@country.name</option>}
 		</select>
 		<select id="cityList">
 			<option value="" id="noCity">&nbsp;</option>
-		</select> @langs.T.ranslate("Can't find your city?") <span class="button" onClick="showNewCity()">@langs.T.ranslate("Click here to add your city")</span><br>
+		</select> @Html(langs.T.ranslate("Can't find your city?")) <span class="button" onClick="showNewCity()">@Html(langs.T.ranslate("Click here to add your city"))</span><br>
 		<div id="newCity" style="display:none">
-			<input id="newCityName" placeholder="@langs.T.ranslate("Name of your city")">
-			<span class="button" onClick="addCity()">@langs.T.ranslate("Add the city to our database")</span>
+			<input id="newCityName" placeholder="@langs.T.ranslateNoHTML("Name of your city")">
+			<span class="button" onClick="addCity()">@Html(langs.T.ranslate("Add the city to our database"))</span>
 		</div>
-		<span class="button" onClick="addSchool()">@langs.T.ranslate("Add the school to our database")</span>
+		<span class="button" onClick="addSchool()">@Html(langs.T.ranslate("Add the school to our database"))</span>
 	</div>
 	*<select name="nationality" id="nationality">
 		<option value="">&nbsp;</option>
@@ -53,7 +53,7 @@
 	</select>
 </form>
 	<button onCLick="send()">Send</button>
-	<p>@langs.T.ranslate("Or consult the directory:")</p><form action="/" method="GET"><button>@langs.T.ranslate("Go to directory")</button></form>
+	<p>@Html(langs.T.ranslate("Or consult the directory:"))</p><form action="/" method="GET"><button>@Html(langs.T.ranslate("Go to directory"))</button></form>
 <link rel="stylesheet" href="/assets/stylesheets/jquery-ui.css">
 <script src="/assets/javascripts/jquery-ui.js" type="text/javascript"></script>
 <script>

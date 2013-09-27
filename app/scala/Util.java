@@ -84,4 +84,13 @@ public class Util extends Controller{
 		}
 		return data.substring(0, data.length()-1);
 	}
+	
+	/**
+	 * No space in IDs. Used in translations
+	 * @param str
+	 * @return
+	 */
+	public static String removeUnwantedChar(String str){
+		return str.replace(":", "_");
+	}
 }
