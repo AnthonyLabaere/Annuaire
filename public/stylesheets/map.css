@@ -1,0 +1,46 @@
+#carte {
+	position:absolute;
+	width:100%;
+	height:100%;
+}
+
+#panneau {
+	position:absolute;
+	left:0;
+	top:0;
+	margin-left:1%;
+	width:430px;
+	max-height:100%;
+	transition: 1s left;
+	-webkit-transition: 1s left;
+}
+
+#panneau.ferme {
+	left:-450px;
+	transition: 1s left;
+	-webkit-transition: 1s left;
+}
+
+#bouton_fermeture_panneau{
+	position:absolute;
+	top:6px;
+	right:6px;
+	height:18px;
+	cursor:pointer;	
+	z-index:2;
+	background-color:#559821;
+	padding:5px;
+	border-radius:5px;
+	border:solid 1px white;
+	transition:1s right;
+	-webkit-transition: 1s right;
+}
+
+#bouton_fermeture_panneau.ferme{
+	right:-40px;
+}
+
+#titre_panneau{
+	margin-top:0px;
+	text-align:center;
+}

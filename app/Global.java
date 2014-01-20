@@ -19,30 +19,30 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see http://www.gnu.org/licenses/.
 
-******************************************************************************/
+ ******************************************************************************/
 
 import java.io.IOException;
 
-import langs.T;
 import play.Application;
 import play.GlobalSettings;
 
 /**
  * Tells what the server must do at some points
+ * 
  * @author malik
- *
+ * 
  */
-public class Global extends GlobalSettings{
+public class Global extends GlobalSettings {
 	/**
 	 * Tells what the server must do on start
 	 */
 	@Override
 	public void onStart(Application app) {
-		try {
-			T.init();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	} 
+		// try {
+		// T.init();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+	}
 }
