@@ -34,7 +34,7 @@ import play.mvc.Result;
 
 import views.html.index;
 import views.html.firstTime;
-import views.html.list;
+import views.html.map;
 import views.html.editProfile;
 
 /**
@@ -50,7 +50,7 @@ public class Application extends Controller {
 	 */
     public static Result index() {
     	if(session("uid")==null)	return ok(index.render());
-    	else						return	showList();
+    	else						return	showMap();
     }
     
     /**
@@ -63,7 +63,7 @@ public class Application extends Controller {
     	if(LDAP.check(login, info.get("passw"))){
     		session("uid",login);
     		if(firstTime(login))	return showFirst();
-    		else					return showList();
+    		else					return showMap();
     	}else{
     		return index();
     	}
@@ -91,8 +91,8 @@ public class Application extends Controller {
      * Show list template but with an empty person list
      * @return display list template
      */
-    public static Result showList(){
-    	return ok(list.render(new ArrayList<Person>()));
+    public static Result showMap(){
+    	return ok(map.render(new ArrayList<Person>()));
     }
     
     /**

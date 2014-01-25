@@ -1,0 +1,108 @@
+/* Generalites */
+
+h2 {
+	margin-top:00px;
+	text-align:center;
+	color:white;
+	width:100%;
+}
+
+table{
+	
+}
+
+th{
+	
+}
+
+tr{
+	
+}
+
+/* Carte */
+
+#carte {
+	position:absolute;
+	width:100%;
+	height:100%;
+	left:0;
+	top:0;
+	z-index:0;
+}
+
+/* Panneau */
+
+#panneau {
+	position:absolute;
+	left:0;
+	top:0;
+	z-index:1;
+	margin-left:1%;
+	margin-top:1%;
+	width:430px;
+	max-height:500px;
+    background-color:white;
+	border-radius:10px;
+	border:solid 1px black;	
+    transition: top 2s, left 2s;
+    -webkit-transition: top 2s, left 2s; /* Safari */
+}
+
+#panneau.ferme {
+	left:-450px;
+	top:-520px;
+	transition: top 2s, left 2s ;
+	-webkit-transition: top 2s, left 2s ; /* Safari */
+}
+
+/* Son entête */
+
+#entete_panneau{
+	width:430px;
+	height:50px;
+	z-index:2;
+	border-bottom:solid 1px black;
+	border-radius:9px 9px 0 0;
+    background-color:#f05133;
+}
+
+/* Ses boutons */
+
+#bouton_fermeture_panneau{
+	position:absolute;
+	top:6px;
+	right:6px;
+	height:18px;
+	z-index:3;
+	cursor:pointer;	
+    background-color:#f05133;
+	padding:5px;
+	border-radius:5px;
+	border:solid 1px black;
+	transition: 2s top, 2s right;
+	-webkit-transition: 2s top, 2s right; /* Safari */
+}
+
+#bouton_fermeture_panneau.ferme{
+	right:-40px;
+    top:520px; 
+	transition: 2s top, 2s right;
+	-webkit-transition: 2s top, 12 right; /* Safari */
+}
+
+#bouton_logout {
+	position:absolute;
+	top:6px;
+	right:50px;
+	height:18px;
+	padding:5px;
+	z-index:3;
+	cursor:pointer;
+    background-color:#f05133;
+	border-radius:5px;
+	border:solid 1px black;	
+}
+
+/* Son tableau de critère de recherche */
+
+
