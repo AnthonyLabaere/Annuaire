@@ -11,9 +11,6 @@ GET		/logout						controllers.Application.logOut()
 
 POST	/signup						controllers.SignUp.newMember()
 
-
-GET		/first						controllers.Application.showFirst()
-
 POST	/addCity/:name/:country_id	ajax.AjaxSignUp.addCity(name: String, country_id: String)
 
 GET		/loadCityList/:country_id	ajax.AjaxSignUp.loadCityList(country_id: String)

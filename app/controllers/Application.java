@@ -26,16 +26,14 @@ package controllers;
 import java.util.ArrayList;
 
 import models.Person;
-import connections.LDAP;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import views.html.index;
-import views.html.firstTime;
-import views.html.map;
 import views.html.editProfile;
+import views.html.index;
+import views.html.map;
+import connections.LDAP;
 
 /**
  * Application class. Contains basic display.
@@ -61,9 +59,8 @@ public class Application extends Controller {
     	DynamicForm info = Form.form().bindFromRequest();
     	String login = info.get("login");
     	if(LDAP.check(login, info.get("passw"))){
-    		session("uid",login);
-    		if(firstTime(login))	return showFirst();
-    		else					return showMap();
+    		session("uid",login);				
+    		return showMap();
     	}else{
     		return index();
     	}
@@ -94,15 +91,7 @@ public class Application extends Controller {
     public static Result showMap(){
     	return ok(map.render(new ArrayList<Person>()));
     }
-    
-    /**
-     * Display firstTime template
-     * @return display firstTime template
-     */
-    public static Result showFirst(){
-    	return ok(firstTime.render());
-    }
-    
+   
     /**
      * Display edit profile page
      * @return edit profile page

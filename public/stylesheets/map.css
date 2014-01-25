@@ -65,7 +65,8 @@ p{
 	margin-top:1%;
 	width:430px;
 	max-height:500px;
-    background-color:white;
+	color:white;
+    background-color:#1f1919;
 	border-radius:10px;
 	border:solid 1px black;	
     transition: top 2s, left 2s;
@@ -87,7 +88,7 @@ p{
 	z-index:2;
 	border-bottom:solid 1px black;
 	border-radius:9px 9px 0 0;
-    background-color:#f05133;
+    background-color:#e65c00;
 }
 
 /* Ses boutons */
@@ -99,22 +100,25 @@ p{
 	height:18px;
 	z-index:3;
 	cursor:pointer;	
-    background-color:#f05133;
+    background-color:#e65c00;
 	padding:5px;
 	border-radius:5px;
 	border:solid 1px black;
 	transition: 2s top, 2s right;
-	-webkit-transition: 2s top, 2s right; /* Safari */
+	-webkit-transition: 2s top, 2s right;
 }
 
 #bouton_fermeture_panneau.ferme{
 	right:-40px;
     top:520px; 
 	transition: 2s top, 2s right;
-	-webkit-transition: 2s top, 12 right; /* Safari */
+	-webkit-transition: 2s top, 12 right;	
+	transform: rotate(-135deg);
+	-ms-transform: rotate(-135deg);
+	-webkit-transform: rotate(-135deg);
 }
 
-#bouton_logout {
+#bouton_deconnexion {
 	position:absolute;
 	top:6px;
 	right:50px;
@@ -122,11 +126,14 @@ p{
 	padding:5px;
 	z-index:3;
 	cursor:pointer;
-    background-color:#f05133;
+    background-color:#e65c00;
 	border-radius:5px;
 	border:solid 1px black;	
 }
 
 /* Son tableau de crit�re de recherche */
 
-
+#tableau_critere {
+	align:center;
+	
+}

@@ -1,3 +1,4 @@
+var CARTE;
 var ZOOM_INITIAL = 6;
 var POSITION_NANTES = new OpenLayers.LonLat(-1.583,47.233);
 
@@ -10,7 +11,11 @@ function map_init(div_nom){
 	 
 	/*---------------- Initialisation de la carte -------------------*/
 	
-	window.map = new OpenLayers.Map(div_nom);      
+	// Create a map Object
+	var carte_tmp = new OpenLayers.Map(div_nom);
+	CARTE = carte_tmp;
+	window.map = carte_tmp;
+  
 	window.map.addLayer(new OpenLayers.Layer.OSM());
     window.map.setCenter(getPositionCarte(POSITION_NANTES),ZOOM_INITIAL);
 	//window.map.zoomToMaxExtent();
