@@ -1,6 +1,6 @@
 /****************************************************************************
 
-	This is a web application developed for the ACCENTS club from the
+	This is a web application developed for the ACCENTS club from the 
 	Ecole Centrale de Nantes aiming to facilitate contact between travelling
 	students.
 	
