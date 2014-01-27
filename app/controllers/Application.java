@@ -30,7 +30,6 @@ import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.editProfile;
 import views.html.index;
 import views.html.map;
 import connections.LDAP;
@@ -65,16 +64,7 @@ public class Application extends Controller {
     		return index();
     	}
     }
-    
-    /**
-     * returns true of you have no profile, else returns false
-     * @param login
-     * @return true or false
-     */
-    public static boolean firstTime(String login){
-    	return Person.find.byId(login)==null;
-    }
-    
+
     /**
      * log out the user
      * @return display login page
@@ -91,14 +81,5 @@ public class Application extends Controller {
     public static Result showMap(){
     	return ok(map.render(new ArrayList<Person>()));
     }
-   
-    /**
-     * Display edit profile page
-     * @return edit profile page
-     */
-    public static Result editProfile(){
-    	Person profile = Person.find.byId(session("uid"));
-    	if(profile!=null)	return ok(editProfile.render(profile));
-    	else				return index();
-    }
+
 }

@@ -23,13 +23,7 @@
 
 package scala;
 
-import java.util.List;
-
 import play.mvc.Controller;
-
-import models.Country;
-import models.Person;
-import models.School;
 
 /**
  * Some method used in scala templates
@@ -37,30 +31,6 @@ import models.School;
  *
  */
 public class Util extends Controller{
-
-	/**
-	 * Get school list
-	 * @return
-	 */
-	public static String getSchools(){
-		String liste = "";
-		List<School> schools = School.find.all();
-		if(schools.isEmpty())	return "";
-		else{
-			for(School s : schools){
-				liste+="'"+s+"',";
-			}
-			return liste.substring(0, liste.length()-1);
-		}
-	}
-	
-	/**
-	 * Returns true if the user has signed up, else returns false
-	 * @return true or false
-	 */
-	public static boolean signedIn(){
-		return Person.find.byId(session("uid"))!=null;
-	}
 	
 	/**
 	 * Adds escape character to strings used in Javascripts
@@ -69,20 +39,6 @@ public class Util extends Controller{
 	 */
 	public static String addEscChar(String str){
 		return str.replace("'", "\'");
-	}
-	
-	/**
-	 * Gets how many students there are in each country in the world.
-	 * @return A string used in Javascript (for the world map).
-	 */
-	public static String getStudentData(){
-		String data = "";
-		List<Country> countries = Country.find.all();
-		for(Country country : countries){
-			Integer howMany = Person.find.where().eq("nationality",country).findList().size();
-			data+="\""+country.id+"\":"+howMany+",";
-		}
-		return data.substring(0, data.length()-1);
 	}
 	
 	/**
