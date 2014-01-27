@@ -25,7 +25,6 @@ package controllers;
 
 import java.util.ArrayList;
 
-import models.Person;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
@@ -79,7 +78,7 @@ public class Application extends Controller {
      * @return display list template
      */
     public static Result showMap(){
-    	return ok(map.render(new ArrayList<Person>()));
+    	return ok(map.render());
     }
 
 }
