@@ -1,260 +1,90 @@
+------------------------------------------------------------------------------------------------------------------------------
+-- Ce script crée les tables suivantes :
+------------------------------------------------------------------------------------------------------------------------------
+-- AnneePromotion
+-- Personne
+-- Entreprise
+-- PersonneEntreprise
+-- Secteur
+-- EntrepriseSecteur
+-- Pays
+-- Ville
+-- EntrepriseVille
+-- Ecole
+------------------------------------------------------------------------------------------------------------------------------
+
 # --- Created by Ebean DDL
 # To stop Ebean DDL generation, remove this comment and start using Evolutions
 
 # --- !Ups
 
-INSERT INTO country(id,name,nationality) VALUES
-('AF','Afghanistan','Afghan'),
-('AL','Albania',''),
-('DZ','Algeria','Algerian'),
-('AS','American Samoa',''),
-('AD','Andorra',''),
-('AO','Angola',''),
-('AI','Anguilla',''),
-('AQ','Antartica',''),
-('AG','Antigua & Barbuda',''),
-('AR','Argentina',''),
-('AM','Armenia','Armenian'),
-('AW','Aruba',''),
-('AU','Australia','Australian'),
-('AT','Austria','Austrian'),
-('AZ','Azerbaijan',''),
-('BS','Bahamas, The',''),
-('BH','Bahrain',''),
-('BD','Bangladesh',''),
-('BB','Barbados',''),
-('BY','Belarus',''),
-('BE','Belgium',''),
-('BZ','Belize',''),
-('BJ','Benin',''),
-('BM','Bermuda',''),
-('BT','Bhutan',''),
-('BO','Bolivia',''),
-('BQ','Bonaire, St.Eustat, Saba',''),
-('BA','Bosnia and Herzegovina',''),
-('BW','Botswana',''),
-('BV','Bouvet Island',''),
-('BR','Brazil',''),
-('IO','British Indian Ocean Territories',''),
-('BN','Brunel Darussalam',''),
-('BG','Bulgaria',''),
-('BF','Burkina Faso',''),
-('BI','Burundi',''),
-('KH','Cambodia',''),
-('CM','Cameroon',''),
-('CA','Canada',''),
-('CV','Cape Verde',''),
-('KY','Cayman Islands',''),
-('CF','Central African Republic',''),
-('TD','Chad',''),
-('CL','Chile',''),
-('CN','China',''),
-('CX','Christmas Ismand',''),
-('CC','Cocos (Keeling) Islands',''),
-('CO','Colombia',''),
-('KM','Comoros',''),
-('CG','Congo',''),
-('CD','Congo, Dem. Rep. of the',''),
-('CK','Cook Islands',''),
-('CR','Costa Rica',''),
-('CI','Cote D''Ivoire',''),
-('HR','Croatia',''),
-('CU','Cuba',''),
-('CY','Cyprus',''),
-('CZ','Czech Republic',''),
-('DK','Denmark',''),
-('DJ','Djibouti',''),
-('DM','Dominica',''),
-('DO','Dominican Republic',''),
-('TP','East Timor (Timor-Leste)',''),
-('EC','Ecuador',''),
-('EG','Egypt',''),
-('SV','El Salvador',''),
-('ER','Eritrea',''),
-('EE','Estonia',''),
-('ET','Ethiopia',''),
-('FK','Falkland Islands (Malvinas)',''),
-('FO','Faroe Islands',''),
-('FJ','Fiji',''),
-('FI','Finland',''),
-('FR','France','French'),
-('GF','French Guiana',''),
-('PF','French Polynesia',''),
-('TF','French Southern Terr.',''),
-('GA','Gabon',''),
-('GM','Gambia, the',''),
-('GE','Georgia',''),
-('DE','Germany',''),
-('GH','Ghana',''),
-('GI','Gibraltar',''),
-('GR','Greece',''),
-('GL','Greenland',''),
-('GD','Grenada',''),
-('GP','Guadeloupe',''),
-('GU','Guam',''),
-('GT','Guatemala',''),
-('GG','Guernesey and Aldernesey',''),
-('GN','Guiana',''),
-('GW','Guiana-Bissau',''),
-('GQ','Guiana, Equatorial',''),
-('GY','Guyana',''),
-('HT','Heard & McDonald Is.(AU)',''),
-('HN','Honduras',''),
-('HK','Hong Kong, (China)',''),
-('HU','Hungary',''),
-('IS','Iceland',''),
-('IN','India',''),
-('ID','Indonesia',''),
-('IR','Iran, Islamic Republic of',''),
-('IQ','Iraq',''),
-('IE','Ireland',''),
-('IL','Israel',''),
-('IT','Italy',''),
-('JM','Jamaica',''),
-('JP','Japan',''),
-('JE','Jersey',''),
-('JO','Jordan',''),
-('KZ','Kazakhstan',''),
-('KE','Kenya',''),
-('KI','Kiribati',''),
-('KP','Korea Dem. People''s Rep.',''),
-('KR','Korea, (South) Republic of',''),
-('KV','Kosovo',''),
-('KW','Kuwait',''),
-('KG','Kyrgyzstan',''),
-('LA','Lao People''s Democ. Rep.',''),
-('LV','Latvia',''),
-('LB','Lebanon',''),
-('LS','Lesotho',''),
-('LR','Liberia',''),
-('LY','Libyan Arab Jamahiriya','Libyan'),
-('LI','Liechtenstein',''),
-('LT','Lithuania',''),
-('LU','Luxemburg',''),
-('MO','Macao, (China)',''),
-('MK','Macedonia, TFYR',''),
-('MG','Madagascar',''),
-('MW','Malawi',''),
-('MY','Malaysia',''),
-('MV','Maldives',''),
-('ML','Mali',''),
-('MT','Malta',''),
-('IM','Man, Isle of',''),
-('MH','Marshall Islands',''),
-('MQ','Martinique (FR)',''),
-('MR','Mauritania',''),
-('MU','Mauritius',''),
-('YT','Mayotte (FR)',''),
-('MX','Mexico',''),
-('FM','Micronesia, Fed. States of',''),
-('MD','Moldove, Republic of',''),
-('MC','Monaco',''),
-('MN','Mongolia',''),
-('CS','Montenegro',''),
-('MS','Montserrat',''),
-('MA','Morocco',''),
-('MZ','Mozambique',''),
-('MM','Myanmar',''),
-('NA','Namibia',''),
-('NR','Nauru',''),
-('NP','Nepal',''),
-('NL','Netherlands',''),
-('AN','Nethelands Antilles',''),
-('NC','New Caledonia',''),
-('NZ','New Zealand',''),
-('NI','Nicaragua',''),
-('NE','Niger',''),
-('NG','Nigeria',''),
-('NF','Norfolk Island',''),
-('MP','Northern Mariana Islands',''),
-('NO','Norway',''),
-('OM','Oman',''),
-('PK','Pakistan',''),
-('PW','Palau',''),
-('PS','Palestinian Territory',''),
-('PA','Panama',''),
-('PG','Papua New Guinea',''),
-('PY','Paraguay',''),
-('PE','Peru',''),
-('PH','Philippines',''),
-('PN','Pitcairn Island',''),
-('PL','Poland',''),
-('PT','Portugal',''),
-('PR','Puerto Rico',''),
-('QA','Qatar',''),
-('RE','Reunion (FR)',''),
-('RO','Romania',''),
-('RU','Russia (Russian Fed.)',''),
-('RW','Rwanda',''),
-('EH','Sahara, Western',''),
-('BL','Saint Barthelemy (FR)',''),
-('SH','Saint Helena (UK)',''),
-('KN','Saint Kitts and Nevis',''),
-('LC','Saint Lucia',''),
-('MF','Saint Martin (FR)',''),
-('PM','Saint Pierre & Miquelon (FR)',''),
-('VC','Saint Vincent & Grenadines',''),
-('WS','Samoa',''),
-('SM','San Marino',''),
-('ST','Sao Tome and Principe',''),
-('SA','Saudi Arabia',''),
-('SN','Senegal',''),
-('RS','Serbia',''),
-('SC','Seychelles',''),
-('SL','Sierra Leone',''),
-('SG','Singapore',''),
-('SK','Slovakia',''),
-('SI','Slovenia',''),
-('SB','Solomon Islands',''),
-('SO','Somalia',''),
-('ZA','South Africa',''),
-('GS','Saint George & Saint Sandwich',''),
-('SS','South Sudan',''),
-('ES','Spain',''),
-('LK','Sri Lanka',''),
-('SD','Sudan',''),
-('SR','Suriname',''),
-('SJ','Svalbard & Jan Mayen Islands',''),
-('SZ','Swaziland',''),
-('SE','Sweden',''),
-('CH','Switzerland',''),
-('SY','Syrian Arab Republic',''),
-('TW','Taiwan',''),
-('TJ','Tajikistan',''),
-('TZ','Tanzania, United Rep. of',''),
-('TH','Thailand',''),
-('TG','Togo',''),
-('TK','Tokelau',''),
-('TO','Tonga',''),
-('TT','Trinidad & Tobago',''),
-('TN','Tunisia',''),
-('TR','Turkey',''),
-('TM','Turkmenistan',''),
-('TC','Turks and Caicos Islands',''),
-('TV','Tuvalu',''),
-('UG','Uganda',''),
-('UA','Ukraine',''),
-('AE','United Arab Emirates',''),
-('GB','United Kingdom',''),
-('US','United States',''),
-('UM','US Minor Outlying Islands',''),
-('UY','Uruguay',''),
-('UZ','Uzbekistan',''),
-('VU','Vanuatu',''),
-('VA','Vatican (Holy See)',''),
-('VE','Venezuela',''),
-('VN','Viet Nam',''),
-('VG','Virgin Islands, British',''),
-('VI','Virgin Islands, U.S.',''),
-('WF','Wallis and Futuna',''),
-('YE','Yemen',''),
-('ZM','Zambia',''),
-('ZW','Zimbabwe','');
+CREATE TABLE AnneePromotion (
+  anneePromotion_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('AnneePromotionSequence'),
+  anneePromotion_libelle VARCHAR(50) NOT NULL 
+);
+
+CREATE TABLE Personne (
+  personne_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PersonneSequence'),
+  personne_nom VARCHAR(50) NOT NULL,
+  personne_prenom VARCHAR(50) NOT NULL,
+  personne_annee_promotion_ID INTEGER REFERENCES AnneePromotion (anneePromotion_ID) NOT NULL
+);
+
+CREATE TABLE Entreprise (
+  entreprise_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EntrepriseSequence'),
+  entreprise_nom VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE PersonneEntreprise (
+  personneEntreprise_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PersonneEntrepriseSequence'),
+  personneEntreprise_personne_ID INTEGER REFERENCES Personne (personne_ID) NOT NULL,
+  personneEntreprise_entreprise_ID INTEGER REFERENCES Entreprise (entreprise_ID) NOT NULL
+);
+
+CREATE TABLE Secteur (
+  secteur_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('SecteurSequence'),
+  secteur_nom VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE EntrepriseSecteur (
+  entrepriseSecteur_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EntrepriseSecteurSequence'),
+  entrepriseSecteur_entreprise_ID INTEGER REFERENCES Entreprise (entreprise_ID) NOT NULL,
+  entrepriseSecteur_secteur_ID INTEGER REFERENCES Secteur (secteur_ID) NOT NULL
+);
+
+CREATE TABLE Pays (
+  pays_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PaysSequence'),
+  pays_nom VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Ville (
+  ville_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('VilleSequence'),
+  ville_nom VARCHAR(50) NOT NULL,
+  ville_pays_ID INTEGER REFERENCES Pays (pays_ID) NOT NULL
+);
+
+CREATE TABLE EntrepriseVille (
+  entrepriseVille_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EntrepriseVilleSequence'),
+  entrepriseVille_entreprise_ID INTEGER REFERENCES Entreprise (entreprise_ID) NOT NULL,
+  entrepriseVille_ville_ID INTEGER REFERENCES Ville (ville_ID) NOT NULL
+);
+
+CREATE TABLE Ecole (
+  ecole_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EcoleSequence'),
+  ecole_nom VARCHAR(50) NOT NULL,
+  ecole_ville_ID INTEGER REFERENCES Entreprise (entreprise_ID) NOT NULL
+);
 
 # --- !Downs
 
-SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS AnneePromotion CASCADE;
+DROP TABLE IF EXISTS Personne CASCADE;
+DROP TABLE IF EXISTS Entreprise CASCADE;
+DROP TABLE IF EXISTS PersonneEntreprise CASCADE;
+DROP TABLE IF EXISTS Secteur CASCADE;
+DROP TABLE IF EXISTS EntrepriseSecteur CASCADE;
+DROP TABLE IF EXISTS Pays CASCADE;
+DROP TABLE IF EXISTS Ville CASCADE;
+DROP TABLE IF EXISTS EntrepriseVille CASCADE;
+DROP TABLE IF EXISTS Ecole CASCADE; 
 
-DELETE FROM country;
-
-SET FOREIGN_KEY_CHECKS=1;

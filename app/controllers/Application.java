@@ -23,15 +23,13 @@
 
 package controllers;
 
-import java.util.ArrayList;
-
+import connections.LDAP;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
 import views.html.map;
-import connections.LDAP;
 
 /**
  * Application class. Contains basic display.
