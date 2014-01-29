@@ -23,13 +23,17 @@
 
 package controllers;
 
-import connections.LDAP;
+import java.util.List;
+
+import models.Pays;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import service.PaysService;
 import views.html.index;
 import views.html.map;
+import connections.LDAP;
 
 /**
  * Application class. Contains basic display.
@@ -43,8 +47,11 @@ public class Application extends Controller {
 	 * @return Index
 	 */
     public static Result index() {
-    	if(session("uid")==null)	return ok(index.render());
-    	else						return	showMap();
+    	if(session("uid")==null) {
+    		return ok(index.render());
+    	} else {
+    		return	showMap();
+    	}
     }
     
     /**
@@ -76,7 +83,9 @@ public class Application extends Controller {
      * @return display list template
      */
     public static Result showMap(){
-    	return ok(map.render());
+    	List<Pays> listePays = PaysService.listeDesPays();
+    	
+    	return ok(map.render(listePays));
     }
 
 }

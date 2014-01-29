@@ -1,5 +1,5 @@
 /** Cette variable est nécessaire à l'utilisation de OpenLayers */
-var ATTRIBUTION = 'This app is using <a href="http://openlayers.org/" target="_blank">OpenLayers</a> for display of <a href="http://www.openstreetmap.org/" target="_blank">Openstreet Maps</a>, under data license attribution ODbL';
+var ATTRIBUTION = 'Ce site utilise <a href="http://openlayers.org/" target="_blank">OpenLayers</a> pour l\'affichage d\' <a href="http://www.openstreetmap.org/" target="_blank">Openstreet Maps</a>, sous license ODbL';
 
 /**
  * Cette fonction simplifie le code de récupération d'une balise HTML

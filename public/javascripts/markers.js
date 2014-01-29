@@ -26,6 +26,7 @@ function ajout_marqueur(coordonnees){
 	var position=getPositionCarte(coordonnees);	
     var point = new OpenLayers.Geometry.Point(position.lon,position.lat);
 	
+    // TODO Mettre les drapeaux du monde au lieu de balises classiques
 	var feature = new OpenLayers.Feature.Vector(
 	  point,
 	 {some:'data'},

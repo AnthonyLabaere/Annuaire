@@ -20,14 +20,13 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 
 ******************************************************************************@
+@(paysList : List[Pays])
 @main("Centralosphere"){
 
 <div id="carte"></div>
 
 <script src="/assets/javascripts/services.js" type="text/javascript"></script>
 <script src="/assets/javascripts/OpenLayers/OpenLayers.js" type="text/javascript"></script>
-<script src="/assets/javascripts/map.js" type="text/javascript"></script>
-<script src="/assets/javascripts/markers.js" type="text/javascript"></script>
 
 <div id="panneau">
 	<div id="entete_panneau">	
@@ -76,8 +75,7 @@
 		<tr>
 			<td>Pays</td>
 			<td>
-				<select name="Pays">
-					<option>test</option>
+				<select name="Pays" id="pays_filtre">
 				</select>
 			</td>
 		</tr>
@@ -91,5 +89,17 @@
 		</tr>
 	</table>
 </div>
+
+
+<script src="/assets/javascripts/map.js" type="text/javascript"></script>
+<script src="/assets/javascripts/markers.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	var filtre_pays = HTML('pays_filtre');
+	
+	@for(pays <- paysList){
+	    filtre_pays.options[filtre_pays.options.length] = new Option('@pays.getNom()');
+	  }
+</script>
 
 }
