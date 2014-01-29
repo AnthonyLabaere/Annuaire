@@ -9,7 +9,7 @@ public class PaysService {
 	
     // TODO trier par ordre alphabétique
 	public static List<Pays> listeDesPays(){
-		return PaysDao.find.all();
+		return PaysDao.find.orderBy("id desc").findList();
 	}
 
 }
