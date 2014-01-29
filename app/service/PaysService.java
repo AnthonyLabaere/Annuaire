@@ -7,9 +7,8 @@ import dao.PaysDao;
 
 public class PaysService {
 	
-    // TODO trier par ordre alphabétique
 	public static List<Pays> listeDesPays(){
-		return PaysDao.find.orderBy("id desc").findList();
+		return PaysDao.find.orderBy("nom asc").findList();
 	}
 
 }

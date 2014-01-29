@@ -19,73 +19,82 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see http://www.gnu.org/licenses/.
 
-******************************************************************************/
+ ******************************************************************************/
 
 package controllers;
 
 import java.util.List;
 
 import models.Pays;
+import models.Ville;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import service.PaysService;
+import service.VilleService;
 import views.html.index;
 import views.html.map;
 import connections.LDAP;
 
 /**
  * Application class. Contains basic display.
+ * 
  * @author malik
- *
+ * 
  */
 public class Application extends Controller {
-	
+
 	/**
 	 * Display index
+	 * 
 	 * @return Index
 	 */
-    public static Result index() {
-    	if(session("uid")==null) {
-    		return ok(index.render());
-    	} else {
-    		return	showMap();
-    	}
-    }
-    
-    /**
-     * Manage logging in
-     * @return
-     */
-    public static Result login(){
-    	DynamicForm info = Form.form().bindFromRequest();
-    	String login = info.get("login");
-    	if(LDAP.check(login, info.get("passw"))){
-    		session("uid",login);				
-    		return showMap();
-    	}else{
-    		return index();
-    	}
-    }
+	public static Result index() {
+		if (session("uid") == null) {
+			return ok(index.render());
+		} else {
+			return showMap();
+		}
+	}
 
-    /**
-     * log out the user
-     * @return display login page
-     */
-    public static Result logOut(){
-    	session().clear();
-    	return redirect("/");
-    }
-    
-    /**
-     * Show list template but with an empty person list
-     * @return display list template
-     */
-    public static Result showMap(){
-    	List<Pays> listePays = PaysService.listeDesPays();
-    	
-    	return ok(map.render(listePays));
-    }
+	/**
+	 * Manage logging in
+	 * 
+	 * @return
+	 */
+	public static Result login() {
+		DynamicForm info = Form.form().bindFromRequest();
+		String login = info.get("login");
+		if (LDAP.check(login, info.get("passw"))) {
+			session("uid", login);
+			return showMap();
+		} else {
+			return index();
+		}
+	}
+
+	/**
+	 * log out the user
+	 * 
+	 * @return display login page
+	 */
+	public static Result logOut() {
+		session().clear();
+		return redirect("/");
+	}
+
+	/**
+	 * Show list template but with an empty person list
+	 * 
+	 * @return display list template
+	 */
+	public static Result showMap() {
+		List<Pays> listePays = PaysService.listeDesPays();
+//		 List<Ville> listeVille = VilleService.listeDesVilles();
+		List<Ville> listeVille = new ArrayList<Ville>();
+
+		return ok(map.render(listePays, listeVille));
+	}
 
 }
