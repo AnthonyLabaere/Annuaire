@@ -20,7 +20,6 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 
 ******************************************************************************@
-@(listePays : List[Pays], listeVille : List[Ville])
 @main("Centralosphere"){
 
 <div id="carte"></div>
@@ -75,16 +74,13 @@
 		<tr>
 			<td>Pays</td>
 			<td>
-				<select name="Pays" id="filtre_pays">
-				</select>
+				<select name="Pays" id="filtre_pays"></select>
 			</td>
 		</tr>
 		<tr>
 			<td>Ville</td>
 			<td>
-				<select name="Ville" id="filtre_ville">
-					<option>test</option>
-				</select>
+				<select name="Ville" id="filtre_ville"></select>
 			</td>
 		</tr>
 	</table>
@@ -98,16 +94,12 @@
 	var filtre_pays = HTML('filtre_pays');
 	var filtre_ville = HTML('filtre_ville');
 	
-	@for(pays <- listePays){
+	@for(pays <- service.PaysService.listeDesPays()){
 	    filtre_pays.options[filtre_pays.options.length] = new Option('@pays.getNom()');
 	}	
-	@for(ville <- listeVille){
+	@for(ville <- service.VilleService.listeDesVillesDuPays(service.PaysService.PaysDeNom("France"))){
 	    filtre_ville.options[filtre_ville.options.length] = new Option('@ville.getNom()');
 	}
-  
-  
-	
-	
 
 </script>
 

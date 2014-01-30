@@ -52,7 +52,7 @@ public class Ville extends Model {
 
 	@ManyToOne
 	@Column(name = "ville_pays_ID")
-	private Pays pays;
+	private Pays ville;
 
 	public Integer getId() {
 		return id;
@@ -67,11 +67,11 @@ public class Ville extends Model {
 	}
 
 	public Pays getPays() {
-		return pays;
+		return ville;
 	}
 
 	public void setPays(Pays pays) {
-		this.pays = pays;
+		this.ville = pays;
 	}
 
 }

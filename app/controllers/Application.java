@@ -90,11 +90,7 @@ public class Application extends Controller {
 	 * @return display list template
 	 */
 	public static Result showMap() {
-		List<Pays> listePays = PaysService.listeDesPays();
-		List<Ville> listeVille = VilleService.listeDesVilles();
-		//List<Ville> listeVille = new ArrayList<Ville>();
-
-		return ok(map.render(listePays, listeVille));
+		return ok(map.render());
 	}
 
 }
