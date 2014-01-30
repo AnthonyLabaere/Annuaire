@@ -28,61 +28,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import play.db.ebean.Model;
 
 @Entity
-@Table(name = "Personne")
-@SequenceGenerator(name = "PersonneSequenceGenerator", sequenceName = "PersonneSequence")
-public class Personne extends Model {
+@Table(name = "AnneePromotion")
+@SequenceGenerator(name = "AnneePromotionSequenceGenerator", sequenceName = "AnneePromotionSequence")
+public class AnneePromotion extends Model {
 
 	/** serial ID */
 	private static final long serialVersionUID = -2300238816036696530L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PersonneSequenceGenerator")
-	@Column(name = "personne_ID")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AnneePromotionSequenceGenerator")
+	@Column(name = "anneePromotion_ID")
 	private Integer id;
 
-	@Column(name = "personne_nom")
-	private String nom;
-
-	@Column(name = "personne_prenom")
-	private String prenom;
-
-	@ManyToOne
-	@Column(name = "personne_annee_promotion_ID")
-	private AnneePromotion anneePromotion;
+	@Column(name = "anneePromotion_libelle")
+	private String libelle;
 
 	public Integer getId() {
 		return id;
-	}
-
-	public String getNom() {
-		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public String getPrenom() {
-		return prenom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-	public AnneePromotion getAnneePromotion() {
-		return anneePromotion;
-	}
-
-	public void setAnneePromotion(AnneePromotion anneePromotion) {
-		this.anneePromotion = anneePromotion;
 	}
 
 }

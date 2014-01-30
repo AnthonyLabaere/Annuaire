@@ -91,8 +91,8 @@ public class Application extends Controller {
 	 */
 	public static Result showMap() {
 		List<Pays> listePays = PaysService.listeDesPays();
-//		 List<Ville> listeVille = VilleService.listeDesVilles();
-		List<Ville> listeVille = new ArrayList<Ville>();
+		List<Ville> listeVille = VilleService.listeDesVilles();
+		//List<Ville> listeVille = new ArrayList<Ville>();
 
 		return ok(map.render(listePays, listeVille));
 	}
