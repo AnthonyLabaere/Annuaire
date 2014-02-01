@@ -23,6 +23,7 @@
 
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Pays;
@@ -33,8 +34,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import service.PaysService;
 import service.VilleService;
-import views.html.index;
-import views.html.map;
 import connections.LDAP;
 
 /**
@@ -52,9 +51,9 @@ public class Application extends Controller {
 	 */
 	public static Result index() {
 		if (session("uid") == null) {
-			return ok(index.render());
+			return ok(views.html.index.render());
 		} else {
-			return showMap();
+			return showCarte(null, null, null, null, null);
 		}
 	}
 
@@ -68,7 +67,7 @@ public class Application extends Controller {
 		String login = info.get("login");
 		if (LDAP.check(login, info.get("passw"))) {
 			session("uid", login);
-			return showMap();
+			return showCarte(null, null, null, null, null);
 		} else {
 			return index();
 		}
@@ -89,8 +88,15 @@ public class Application extends Controller {
 	 * 
 	 * @return display list template
 	 */
-	public static Result showMap() {
-		return ok(map.render());
+	public static Result showCarte(String annee_de_promotion, String ecole, String entreprise, String secteur, String nomPays) {
+		List<Ville> villes = new ArrayList<Ville>();
+		
+		if (nomPays != null && !nomPays.isEmpty()){
+			Pays pays = PaysService.PaysDeNom(nomPays);
+			villes = VilleService.listeDesVillesDuPays(pays);
+		}		
+		
+		return ok(views.html.carte.render(villes));
 	}
 
 }

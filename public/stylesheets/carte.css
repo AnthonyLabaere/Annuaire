@@ -131,6 +131,19 @@ p{
 	border:solid 1px black;	
 }
 
+#bouton_recherche {
+	position:absolute;
+/* 	top:6px; */
+/* 	right:50px; */
+	height:18px;
+	padding:5px;
+	z-index:3;
+	cursor:pointer;
+    background-color:#e65c00;
+	border-radius:5px;
+	border:solid 1px black;	
+}
+
 /* Son tableau de crit�re de recherche */
 
 #tableau_critere {

@@ -20,6 +20,7 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 
 ******************************************************************************@
+@(listeVille : List[Ville])
 @main("Centralosphere"){
 
 <div id="carte"></div>
@@ -27,67 +28,70 @@
 <script src="/assets/javascripts/services.js" type="text/javascript"></script>
 <script src="/assets/javascripts/OpenLayers/OpenLayers.js" type="text/javascript"></script>
 
+
 <div id="panneau">
 	<div id="entete_panneau">	
 		<h2> Recherche </h2>
 		@logOut()
 	    <img src="/assets/images/fleche_panneau.png" id="bouton_fermeture_panneau" alt="bouton_fermeture_panneau" onClick="glisserPanneau()" class="ouvert"/>
 	</div>
-
-	<table id="tableau_critere">
-		<tr>
-			<th>Crit&egrave;re</th>
-			<th>Liste de valeurs</th>
-		</tr>
-		<tr>
-			<td>Ann&eacute;e de promotion</td>
-			<td>
-				<select name="Annee_de_promotion" id="filtre_annee_de_promotion">
+	<form action="/carte" method="GET" >
+		<table id="tableau_critere">
+			<tr>
+				<th>Crit&egrave;re</th>
+				<th>Liste de valeurs</th>
+			</tr>
+			<tr>
+				<td>Ann&eacute;e de promotion</td>
+				<td>
+					<select name="Annee_de_promotion" id="filtre_annee_de_promotion">
 					<option>test</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>&Eacute;cole</td>
-			<td>
-				<select name="Ecole" id="filtre_ecole">
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>&Eacute;cole</td>
+				<td>
+					<select name="Ecole" id="filtre_ecole">
 					<option>test</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>Entreprise</td>
-			<td>
-				<select name="Entreprise" id="filtre_entreprise">
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Entreprise</td>
+				<td>
+					<select name="Entreprise" id="filtre_entreprise">
 					<option>test</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>Secteur</td>
-			<td>
-				<select name="Secteur" id="filtre_secteur">
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Secteur</td>
+				<td>
+					<select name="Secteur" id="filtre_secteur">
 					<option>test</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>Pays</td>
-			<td>
-				<select name="Pays" id="filtre_pays"></select>
-			</td>
-		</tr>
-		<tr>
-			<td>Ville</td>
-			<td>
-				<select name="Ville" id="filtre_ville"></select>
-			</td>
-		</tr>
-	</table>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Pays</td>
+				<td>
+					<select name="Pays" id="filtre_pays" onChange="HTML('bouton_recherche').click()"></select>
+				</td>
+			</tr>
+			<tr>
+				<td>Ville</td>
+				<td>
+					<select name="Ville" id="filtre_ville"></select>
+				</td>
+			</tr>
+		</table>
+		<input type="image" src="/assets/images/deconnexion.png" id="bouton_recherche" alt="bouton_recherche" />
+	</form>
 </div>
 
 
-<script src="/assets/javascripts/map.js" type="text/javascript"></script>
+<script src="/assets/javascripts/carte.js" type="text/javascript"></script>
 <script src="/assets/javascripts/markers.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -97,7 +101,7 @@
 	@for(pays <- service.PaysService.listeDesPays()){
 	    filtre_pays.options[filtre_pays.options.length] = new Option('@pays.getNom()');
 	}	
-	@for(ville <- service.VilleService.listeDesVillesDuPays(service.PaysService.PaysDeNom("France"))){
+	@for(ville <- listeVille){
 	    filtre_ville.options[filtre_ville.options.length] = new Option('@ville.getNom()');
 	}
 
