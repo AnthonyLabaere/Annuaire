@@ -53,7 +53,7 @@ public class Application extends Controller {
 		if (session("uid") == null) {
 			return ok(views.html.index.render());
 		} else {
-			return showCarte(null, null, null, null, null);
+			return showCarte(null);
 		}
 	}
 
@@ -67,7 +67,7 @@ public class Application extends Controller {
 		String login = info.get("login");
 		if (LDAP.check(login, info.get("passw"))) {
 			session("uid", login);
-			return showCarte(null, null, null, null, null);
+			return showCarte(null);
 		} else {
 			return index();
 		}
@@ -88,8 +88,8 @@ public class Application extends Controller {
 	 * 
 	 * @return display list template
 	 */
-	public static Result showCarte(String annee_de_promotion, String ecole, String entreprise, String secteur, String nomPays) {
-		List<Ville> villes = new ArrayList<Ville>();
+	public static Result showCarte(String nomPays) {
+		List<Ville> villes = null;
 		
 		if (nomPays != null && !nomPays.isEmpty()){
 			Pays pays = PaysService.PaysDeNom(nomPays);

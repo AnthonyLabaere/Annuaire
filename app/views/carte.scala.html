@@ -35,59 +35,54 @@
 		@logOut()
 	    <img src="/assets/images/fleche_panneau.png" id="bouton_fermeture_panneau" alt="bouton_fermeture_panneau" onClick="glisserPanneau()" class="ouvert"/>
 	</div>
-	<form action="/carte" method="GET" >
-		<table id="tableau_critere">
-			<tr>
-				<th>Crit&egrave;re</th>
-				<th>Liste de valeurs</th>
-			</tr>
-			<tr>
-				<td>Ann&eacute;e de promotion</td>
-				<td>
-					<select name="Annee_de_promotion" id="filtre_annee_de_promotion">
-					<option>test</option>
+	<table id="tableau_critere">
+		<tr>
+			<th>Crit&egrave;re</th>
+			<th>Liste de valeurs</th>
+		</tr>
+		<tr>
+			<td>Ann&eacute;e de promotion</td>
+			<td>
+				<select name="Annee_de_promotion" id="filtre_annee_de_promotion">
+					<option id="annee_de_promotion_par-defaut">S&eacute;lectionnez l'Ann&eacute;e de promotion recherch&eacute;e</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>&Eacute;cole</td>
+			<td>
+				<select name="Ecole" id="filtre_ecole">
+					<option id="ecole_par-defaut">S&eacute;lectionnez l'&Eacute;cole recherch&eacute;e</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Entreprise</td>
+			<td>
+				<select name="Entreprise" id="filtre_entreprise">
+					<option id="entreprise_par-defaut">S&eacute;lectionnez l'Entreprise recherch&eacute;e</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Secteur</td>
+			<td>
+				<select name="Secteur" id="filtre_secteur">
+					<option id="secteur_par-defaut">S&eacute;lectionnez le Secteur recherch&eacute;</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Pays</td>
+			<td>
+				<form action="/pays" method="GET" id="form_pays">
+					<select name="Pays" id="filtre_pays" onChange="onChangeFiltrePays()">
+						<option id="secteur_par-defaut">S&eacute;lectionnez le Pays recherch&eacute;</option>
 					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>&Eacute;cole</td>
-				<td>
-					<select name="Ecole" id="filtre_ecole">
-					<option>test</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>Entreprise</td>
-				<td>
-					<select name="Entreprise" id="filtre_entreprise">
-					<option>test</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>Secteur</td>
-				<td>
-					<select name="Secteur" id="filtre_secteur">
-					<option>test</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>Pays</td>
-				<td>
-					<select name="Pays" id="filtre_pays" onChange="HTML('bouton_recherche').click()"></select>
-				</td>
-			</tr>
-			<tr>
-				<td>Ville</td>
-				<td>
-					<select name="Ville" id="filtre_ville"></select>
-				</td>
-			</tr>
-		</table>
-		<input type="image" src="/assets/images/deconnexion.png" id="bouton_recherche" alt="bouton_recherche" />
-	</form>
+				</form>
+			</td>
+		</tr>
+	</table>
 </div>
 
 
@@ -100,9 +95,35 @@
 	
 	@for(pays <- service.PaysService.listeDesPays()){
 	    filtre_pays.options[filtre_pays.options.length] = new Option('@pays.getNom()');
-	}	
-	@for(ville <- listeVille){
-	    filtre_ville.options[filtre_ville.options.length] = new Option('@ville.getNom()');
+	}
+	
+	@if(listeVille != null){
+		villeTd1=document.createElement('td'); 
+		villeTd1.innerHTML = 'Ville';		 
+	
+		filtre_ville=document.createElement('select');
+		filtre_ville.setAttribute('name','Ville'); 		
+		filtre_ville.setAttribute('id','filtre_ville');		
+		
+		villeTd2=document.createElement('td');
+		villeTd2.appendChild(filtre_ville);
+	
+		villeTr=document.createElement('tr'); 
+		villeTr.appendChild(villeTd1);
+		villeTr.appendChild(villeTd2);
+			
+		HTML('tableau_critere').appendChild(villeTr);
+	
+		@for(ville <- listeVille){
+	  	  filtre_ville.options[filtre_ville.options.length] = new Option('@ville.getNom()');
+		}
+	}
+
+	
+	function onChangeFiltrePays(){	
+		if (HTML('filtre_pays').selectedIndex != 0){
+			HTML('form_pays').submit();
+		}		
 	}
 
 </script>
