@@ -44,7 +44,7 @@
 			<td>Ann&eacute;e de promotion</td>
 			<td>
 				<select name="Annee_de_promotion" id="filtre_annee_de_promotion">
-					<option id="annee_de_promotion_par-defaut">S&eacute;lectionnez l'Ann&eacute;e de promotion recherch&eacute;e</option>
+					<option>S&eacute;lectionnez l'Ann&eacute;e de promotion recherch&eacute;e</option>
 				</select>
 			</td>
 		</tr>
@@ -52,7 +52,7 @@
 			<td>&Eacute;cole</td>
 			<td>
 				<select name="Ecole" id="filtre_ecole">
-					<option id="ecole_par-defaut">S&eacute;lectionnez l'&Eacute;cole recherch&eacute;e</option>
+					<option>S&eacute;lectionnez l'&Eacute;cole recherch&eacute;e</option>
 				</select>
 			</td>
 		</tr>
@@ -60,7 +60,7 @@
 			<td>Entreprise</td>
 			<td>
 				<select name="Entreprise" id="filtre_entreprise">
-					<option id="entreprise_par-defaut">S&eacute;lectionnez l'Entreprise recherch&eacute;e</option>
+					<option>S&eacute;lectionnez l'Entreprise recherch&eacute;e</option>
 				</select>
 			</td>
 		</tr>
@@ -68,7 +68,7 @@
 			<td>Secteur</td>
 			<td>
 				<select name="Secteur" id="filtre_secteur">
-					<option id="secteur_par-defaut">S&eacute;lectionnez le Secteur recherch&eacute;</option>
+					<option>S&eacute;lectionnez le Secteur recherch&eacute;</option>
 				</select>
 			</td>
 		</tr>
@@ -77,7 +77,7 @@
 			<td>
 				<form action="/pays" method="GET" id="form_pays">
 					<select name="Pays" id="filtre_pays" onChange="onChangeFiltrePays()">
-						<option id="secteur_par-defaut">S&eacute;lectionnez le Pays recherch&eacute;</option>
+						<option>S&eacute;lectionnez le Pays recherch&eacute;</option>
 					</select>
 				</form>
 			</td>
@@ -90,11 +90,16 @@
 <script src="/assets/javascripts/markers.js" type="text/javascript"></script>
 
 <script type="text/javascript">
+	var filtre_annee_de_promotion = HTML('filtre_annee_de_promotion');
 	var filtre_pays = HTML('filtre_pays');
 	var filtre_ville = HTML('filtre_ville');
 	
-	@for(pays <- service.PaysService.listeDesPays()){
+		@for(pays <- service.PaysService.listeDesPays()){
 	    filtre_pays.options[filtre_pays.options.length] = new Option('@pays.getNom()');
+	}
+	
+	@for(anneePromotion <- service.AnneePromotionService.listeDesAnneesdePromotion()){
+	    filtre_annee_de_promotion.options[filtre_annee_de_promotion.options.length] = new Option('@anneePromotion.getLibelle()');
 	}
 	
 	@if(listeVille != null){

@@ -53,4 +53,12 @@ public class AnneePromotion extends Model {
 		return id;
 	}
 
+	public String getLibelle() {
+		return libelle;
+	}
+
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
+	}
+
 }
