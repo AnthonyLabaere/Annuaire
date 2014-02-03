@@ -52,7 +52,7 @@ public class Ecole extends Model {
 
 	@ManyToOne
 	@Column(name = "ecole_ville_ID")
-	private Ville ville;
+	private Ville ecole;
 
 	public String getNom() {
 		return nom;
@@ -67,11 +67,11 @@ public class Ecole extends Model {
 	}
 
 	public Ville getVille() {
-		return ville;
+		return ecole;
 	}
 
 	public void setVille(Ville ville) {
-		this.ville = ville;
+		this.ecole = ville;
 	}
 
 }

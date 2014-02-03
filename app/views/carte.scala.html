@@ -91,15 +91,30 @@
 
 <script type="text/javascript">
 	var filtre_annee_de_promotion = HTML('filtre_annee_de_promotion');
+	var filtre_ecole = HTML('filtre_ecole');
+	var filtre_entreprise = HTML('filtre_entreprise');
+	var filtre_secteur = HTML('filtre_secteur');
 	var filtre_pays = HTML('filtre_pays');
 	var filtre_ville = HTML('filtre_ville');
 	
-		@for(pays <- service.PaysService.listeDesPays()){
-	    filtre_pays.options[filtre_pays.options.length] = new Option('@pays.getNom()');
-	}
-	
 	@for(anneePromotion <- service.AnneePromotionService.listeDesAnneesdePromotion()){
 	    filtre_annee_de_promotion.options[filtre_annee_de_promotion.options.length] = new Option('@anneePromotion.getLibelle()');
+	}
+	
+	@for(ecole <- service.EcoleService.listeDesEcoles()){
+	    filtre_ecole.options[filtre_ecole.options.length] = new Option('@ecole.getNom()');
+	}
+	
+	@for(entreprise <- service.EntrepriseService.listeDesEntreprises()){
+	    filtre_entreprise.options[filtre_entreprise.options.length] = new Option('@entreprise.getNom()');
+	}
+	
+	@for(secteur <- service.SecteurService.listeDesSecteurs()){
+	    filtre_secteur.options[filtre_secteur.options.length] = new Option('@secteur.getNom()');
+	}
+	
+	@for(pays <- service.PaysService.listeDesPays()){
+	    filtre_pays.options[filtre_pays.options.length] = new Option('@pays.getNom()');
 	}
 	
 	@if(listeVille != null){
