@@ -28,6 +28,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -39,7 +40,7 @@ import play.db.ebean.Model;
 public class Ecole extends Model {
 
 	/** serial ID */
-	private static final long serialVersionUID = -2300238816036696530L;
+	private static final long serialVersionUID = -2411102137782016895L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EcoleSequenceGenerator")
@@ -48,6 +49,10 @@ public class Ecole extends Model {
 
 	@Column(name = "ecole_nom")
 	private String nom;
+
+	@ManyToOne
+	@Column(name = "ecole_ville_ID")
+	private Ville ville;
 
 	public String getNom() {
 		return nom;
@@ -59,6 +64,14 @@ public class Ecole extends Model {
 
 	public Integer getId() {
 		return id;
+	}
+
+	public Ville getVille() {
+		return ville;
+	}
+
+	public void setVille(Ville ville) {
+		this.ville = ville;
 	}
 
 }

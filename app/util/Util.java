@@ -21,16 +21,14 @@
 
 ******************************************************************************/
 
-package scala;
-
-import play.mvc.Controller;
+package util;
 
 /**
  * Some method used in scala templates
  * @author malik
  *
  */
-public class Util extends Controller{
+public class Util {
 	
 	/**
 	 * Adds escape character to strings used in Javascripts

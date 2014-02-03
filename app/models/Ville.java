@@ -23,11 +23,15 @@
 
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -54,6 +58,10 @@ public class Ville extends Model {
 	@Column(name = "ville_pays_ID")
 	private Pays ville;
 
+	@ManyToMany(mappedBy = "villes")
+	private List<Entreprise> entreprises = new ArrayList<Entreprise>();
+
+
 	public Integer getId() {
 		return id;
 	}
@@ -73,5 +81,15 @@ public class Ville extends Model {
 	public void setPays(Pays pays) {
 		this.ville = pays;
 	}
+
+	public List<Entreprise> getEntreprises() {
+		return entreprises;
+	}
+
+	public void setEntreprises(List<Entreprise> entreprises) {
+		this.entreprises = entreprises;
+	}
+	
+	
 
 }

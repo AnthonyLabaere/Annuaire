@@ -47,7 +47,7 @@
 CREATE SEQUENCE AnneePromotionSequence;
 CREATE SEQUENCE PersonneSequence;
 CREATE SEQUENCE EntrepriseSequence;
-CREATE SEQUENCE PersonneEntrepriseSequence;
+CREATE SEQUENCE EntreprisePersonneSequence;
 CREATE SEQUENCE SecteurSequence;
 CREATE SEQUENCE EntrepriseSecteurSequence;
 CREATE SEQUENCE PaysSequence;
@@ -73,10 +73,10 @@ CREATE TABLE Entreprise (
   entreprise_nom VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE PersonneEntreprise (
-  personneEntreprise_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PersonneEntrepriseSequence'),
-  personneEntreprise_personne_ID INTEGER REFERENCES Personne (personne_ID) NOT NULL,
-  personneEntreprise_entreprise_ID INTEGER REFERENCES Entreprise (entreprise_ID) NOT NULL
+CREATE TABLE EntreprisePersonne (
+  entreprisePersonne_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EntreprisePersonneSequence'),
+  entreprisePersonne_personne_ID INTEGER REFERENCES Personne (personne_ID) NOT NULL,
+  entreprisePersonne_entreprise_ID INTEGER REFERENCES Entreprise (entreprise_ID) NOT NULL
 );
 
 CREATE TABLE Secteur (
@@ -125,7 +125,8 @@ INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (n
 INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2012);
 INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2013);
 INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2014);
-INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2015);--13
+INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2015);
+INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2016);--14
 
 INSERT INTO Personne (personne_ID, personne_nom, personne_prenom, personne_annee_promotion_ID) VALUES (nextval('PersonneSequence'), 'Dupont', 'Dupond', 9);
 INSERT INTO Personne (personne_ID, personne_nom, personne_prenom, personne_annee_promotion_ID) VALUES (nextval('PersonneSequence'), 'Robert', 'Dupond', 10);
@@ -142,13 +143,13 @@ INSERT INTO Entreprise (entreprise_ID, entreprise_nom) VALUES (nextval('Entrepri
 INSERT INTO Entreprise (entreprise_ID, entreprise_nom) VALUES (nextval('EntrepriseSequence'), 'Centrale Nantes Lab');
 INSERT INTO Entreprise (entreprise_ID, entreprise_nom) VALUES (nextval('EntrepriseSequence'), 'Café du coin');--6
 
-INSERT INTO PersonneEntreprise (personneEntreprise_ID, personneEntreprise_personne_ID, personneEntreprise_entreprise_ID) VALUES (nextval('PersonneEntrepriseSequence'), 1, 1);
-INSERT INTO PersonneEntreprise (personneEntreprise_ID, personneEntreprise_personne_ID, personneEntreprise_entreprise_ID) VALUES (nextval('PersonneEntrepriseSequence'), 2, 2);
-INSERT INTO PersonneEntreprise (personneEntreprise_ID, personneEntreprise_personne_ID, personneEntreprise_entreprise_ID) VALUES (nextval('PersonneEntrepriseSequence'), 3, 2);
-INSERT INTO PersonneEntreprise (personneEntreprise_ID, personneEntreprise_personne_ID, personneEntreprise_entreprise_ID) VALUES (nextval('PersonneEntrepriseSequence'), 4, 3);
-INSERT INTO PersonneEntreprise (personneEntreprise_ID, personneEntreprise_personne_ID, personneEntreprise_entreprise_ID) VALUES (nextval('PersonneEntrepriseSequence'), 5, 3);
-INSERT INTO PersonneEntreprise (personneEntreprise_ID, personneEntreprise_personne_ID, personneEntreprise_entreprise_ID) VALUES (nextval('PersonneEntrepriseSequence'), 6, 4);
-INSERT INTO PersonneEntreprise (personneEntreprise_ID, personneEntreprise_personne_ID, personneEntreprise_entreprise_ID) VALUES (nextval('PersonneEntrepriseSequence'), 7, 6);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID) VALUES (nextval('EntreprisePersonneSequence'), 1, 1);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID) VALUES (nextval('EntreprisePersonneSequence'), 2, 2);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID) VALUES (nextval('EntreprisePersonneSequence'), 3, 2);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID) VALUES (nextval('EntreprisePersonneSequence'), 4, 3);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID) VALUES (nextval('EntreprisePersonneSequence'), 5, 3);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID) VALUES (nextval('EntreprisePersonneSequence'), 6, 4);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID) VALUES (nextval('EntreprisePersonneSequence'), 7, 6);
 
 INSERT INTO Secteur (secteur_ID, secteur_nom) VALUES (nextval('SecteurSequence'), 'Système d''information');
 INSERT INTO Secteur (secteur_ID, secteur_nom) VALUES (nextval('SecteurSequence'), 'Consulting');
@@ -217,7 +218,7 @@ INSERT INTO Ecole (ecole_ID, ecole_nom, ecole_ville_ID) VALUES (nextval('EcoleSe
 DROP SEQUENCE IF EXISTS AnneePromotionSequence CASCADE;
 DROP SEQUENCE IF EXISTS PersonneSequence CASCADE;
 DROP SEQUENCE IF EXISTS EntrepriseSequence CASCADE;
-DROP SEQUENCE IF EXISTS PersonneEntrepriseSequence CASCADE;
+DROP SEQUENCE IF EXISTS EntreprisePersonneSequence CASCADE;
 DROP SEQUENCE IF EXISTS SecteurSequence CASCADE;
 DROP SEQUENCE IF EXISTS EntrepriseSecteurSequence CASCADE;
 DROP SEQUENCE IF EXISTS PaysSequence CASCADE;
@@ -228,7 +229,7 @@ DROP SEQUENCE IF EXISTS EcoleSequence CASCADE;
 DROP TABLE IF EXISTS AnneePromotion CASCADE;
 DROP TABLE IF EXISTS Personne CASCADE;
 DROP TABLE IF EXISTS Entreprise CASCADE;
-DROP TABLE IF EXISTS PersonneEntreprise CASCADE;
+DROP TABLE IF EXISTS EntreprisePersonne CASCADE;
 DROP TABLE IF EXISTS Secteur CASCADE;
 DROP TABLE IF EXISTS EntrepriseSecteur CASCADE;
 DROP TABLE IF EXISTS Pays CASCADE;

@@ -23,11 +23,15 @@
 
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -40,7 +44,7 @@ import play.db.ebean.Model;
 public class Personne extends Model {
 
 	/** serial ID */
-	private static final long serialVersionUID = -2300238816036696530L;
+    private static final long serialVersionUID = 3323426835413150186L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PersonneSequenceGenerator")
@@ -56,6 +60,9 @@ public class Personne extends Model {
 	@ManyToOne
 	@Column(name = "personne_annee_promotion_ID")
 	private AnneePromotion anneePromotion;
+
+	@ManyToMany(mappedBy = "personnes")
+	private List<Entreprise> entreprises = new ArrayList<Entreprise>();
 
 	public Integer getId() {
 		return id;
@@ -83,6 +90,14 @@ public class Personne extends Model {
 
 	public void setAnneePromotion(AnneePromotion anneePromotion) {
 		this.anneePromotion = anneePromotion;
+	}
+
+	public List<Entreprise> getEntreprises() {
+		return entreprises;
+	}
+
+	public void setEntreprises(List<Entreprise> entreprises) {
+		this.entreprises = entreprises;
 	}
 
 }

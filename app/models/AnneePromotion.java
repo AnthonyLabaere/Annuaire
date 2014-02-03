@@ -39,7 +39,7 @@ import play.db.ebean.Model;
 public class AnneePromotion extends Model {
 
 	/** serial ID */
-	private static final long serialVersionUID = -2300238816036696530L;
+    private static final long serialVersionUID = -2072489268439045171L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AnneePromotionSequenceGenerator")
