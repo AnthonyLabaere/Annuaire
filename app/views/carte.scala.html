@@ -88,6 +88,7 @@
 
 <script src="/assets/javascripts/carte.js" type="text/javascript"></script>
 <script src="/assets/javascripts/markers.js" type="text/javascript"></script>
+<script src="/assets/javascripts/filtres.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 	var filtre_annee_de_promotion = HTML('filtre_annee_de_promotion');
@@ -114,7 +115,12 @@
 	}
 	
 	@for(pays <- service.PaysService.listeDesPays()){
-	    filtre_pays.options[filtre_pays.options.length] = new Option('@pays.getNom()');
+		option_pays=document.createElement('option');
+		option_pays.innerHTML = '@pays.getNom()';
+	    if (FILTRE_PAYS_SELECTIONNE == '@pays.getNom()'){
+			option_pays.setAttribute('selected','selected');
+		}		
+	    filtre_pays.appendChild(option_pays);
 	}
 	
 	@if(listeVille != null){
@@ -138,9 +144,9 @@
 	  	  filtre_ville.options[filtre_ville.options.length] = new Option('@ville.getNom()');
 		}
 	}
-
 	
 	function onChangeFiltrePays(){	
+		FILTRE_PAYS_SELECTIONNE = HTML('filtre_pays').value;
 		if (HTML('filtre_pays').selectedIndex != 0){
 			HTML('form_pays').submit();
 		}		
