@@ -144,6 +144,17 @@ p{
 	border:solid 1px black;	
 }
 
+#bouton_test {
+	position:absolute;
+	height:18px;
+	padding:5px;
+	z-index:3;
+	cursor:pointer;
+    background-color:#e65c00;
+	border-radius:5px;
+	border:solid 1px black;	
+}
+
 /* Son tableau de crit�re de recherche */
 
 #tableau_critere {

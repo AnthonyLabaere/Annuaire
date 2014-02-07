@@ -83,6 +83,9 @@
 			</td>
 		</tr>
 	</table>
+	
+<!-- 	<img src="/assets/images/fleche_panneau.png" id="bouton_test" alt="bouton_test" onClick="testAjax('France');"/> -->
+	<img src="/assets/images/fleche_panneau.png" id="bouton_test" alt="bouton_test" onClick="testAjaxEnvoyer();"/>
 </div>
 
 
@@ -90,17 +93,15 @@
 <script src="/assets/javascripts/markers.js" type="text/javascript"></script>
 <script src="/assets/javascripts/filtres.js" type="text/javascript"></script>
 
+<script src="@routes.Ajax.javascriptRoutes" type="text/javascript" ></script>
+<script src="/assets/javascripts/ajax.js" type="text/javascript"></script>
+
 <script type="text/javascript">
-	var filtre_annee_de_promotion = HTML('filtre_annee_de_promotion');
 	var filtre_ecole = HTML('filtre_ecole');
 	var filtre_entreprise = HTML('filtre_entreprise');
 	var filtre_secteur = HTML('filtre_secteur');
 	var filtre_pays = HTML('filtre_pays');
 	var filtre_ville = HTML('filtre_ville');
-	
-	@for(anneePromotion <- service.AnneePromotionService.listeDesAnneesdePromotion()){
-	    filtre_annee_de_promotion.options[filtre_annee_de_promotion.options.length] = new Option('@anneePromotion.getLibelle()');
-	}
 	
 	@for(ecole <- service.EcoleService.listeDesEcoles()){
 	    filtre_ecole.options[filtre_ecole.options.length] = new Option('@ecole.getNom()');
@@ -151,6 +152,7 @@
 			HTML('form_pays').submit();
 		}		
 	}
+	
 
 </script>
 
