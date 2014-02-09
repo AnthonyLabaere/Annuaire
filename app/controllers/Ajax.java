@@ -42,16 +42,6 @@ public class Ajax extends Controller {
 		result.put("taille_du_nom", nom.length());
 		return ok(result);
 	}
-	
-	public static Result demandeAJAX_listeDesAnneesdePromotion() {
-		return envoiAJAX_listeDesAnneesdePromotion();
-	}
-
-	public static Result envoiAJAX_listeDesAnneesdePromotion() {
-		List<AnneePromotion> listeDesAnneesdePromotion = AnneePromotionDao.find
-		        .orderBy("libelle asc").findList();
-		return ok(Json.toJson(listeDesAnneesdePromotion));
-	}
 
 	// Javascript routing
 	public static Result javascriptRoutes() {
@@ -63,6 +53,14 @@ public class Ajax extends Controller {
 		        controllers.routes.javascript.ServiceAnneePromotion.demandeAJAX_listeDesAnneesdePromotion(),
 		        controllers.routes.javascript.ServiceAnneePromotion.envoiAJAX_listeDesAnneesdePromotion(),
 		        controllers.routes.javascript.ServiceEcole.demandeAJAX_listeDesEcoles(),
-		        controllers.routes.javascript.ServiceEcole.envoiAJAX_listeDesEcoles()));
+		        controllers.routes.javascript.ServiceEcole.envoiAJAX_listeDesEcoles(),
+		        controllers.routes.javascript.ServiceEntreprise.demandeAJAX_listeDesEntreprises(),
+		        controllers.routes.javascript.ServiceEntreprise.envoiAJAX_listeDesEntreprises(),
+		        controllers.routes.javascript.ServiceSecteur.demandeAJAX_listeDesSecteurs(),
+		        controllers.routes.javascript.ServiceSecteur.envoiAJAX_listeDesSecteurs(),
+		        controllers.routes.javascript.ServicePays.demandeAJAX_listeDesPays(),
+		        controllers.routes.javascript.ServicePays.envoiAJAX_listeDesPays(),
+		        controllers.routes.javascript.ServiceVille.demandeAJAX_listeDesVillesDuPays(),
+		        controllers.routes.javascript.ServiceVille.envoiAJAX_listeDesVillesDuPays()));
 	}
 }

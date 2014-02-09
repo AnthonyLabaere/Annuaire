@@ -13,14 +13,22 @@ GET		/logout						controllers.Application.logOut()
 GET   /pays                         controllers.Application.showCarte(Pays: String) 
 
 #Methodes AJAX
-POST    /testAjax                   controllers.Ajax.testAjax(name: String)
-POST    /testAjaxEnvoyer                   controllers.Ajax.testAjaxEnvoyer()
-POST    /testAjaxRecevoir                  controllers.Ajax.testAjaxRecevoir(name: String)
+POST    /testAjax                                controllers.Ajax.testAjax(name: String)
+POST    /testAjaxEnvoyer                         controllers.Ajax.testAjaxEnvoyer()
+POST    /testAjaxRecevoir                        controllers.Ajax.testAjaxRecevoir(name: String)
 
-POST    /demandeAJAX_listeDesAnneesdePromotion              controllers.ServiceAnneePromotion.demandeAJAX_listeDesAnneesdePromotion()
-POST    /envoiAJAX_listeDesAnneesdePromotion                  controllers.ServiceAnneePromotion.envoiAJAX_listeDesAnneesdePromotion()
+POST    /demandeAJAX_listeDesAnneesdePromotion   controllers.ServiceAnneePromotion.demandeAJAX_listeDesAnneesdePromotion()
+POST    /envoiAJAX_listeDesAnneesdePromotion     controllers.ServiceAnneePromotion.envoiAJAX_listeDesAnneesdePromotion()
 POST    /demandeAJAX_listeDesEcoles              controllers.ServiceEcole.demandeAJAX_listeDesEcoles()
-POST    /envoiAJAX_listeDesEcoles                  controllers.ServiceEcole.envoiAJAX_listeDesEcoles()
+POST    /envoiAJAX_listeDesEcoles                controllers.ServiceEcole.envoiAJAX_listeDesEcoles()
+POST    /demandeAJAX_listeDesEntreprises         controllers.ServiceEntreprise.demandeAJAX_listeDesEntreprises()
+POST    /envoiAJAX_listeDesEntreprises           controllers.ServiceEntreprise.envoiAJAX_listeDesEntreprises()
+POST    /demandeAJAX_listeDesSecteurs            controllers.ServiceSecteur.demandeAJAX_listeDesSecteurs()
+POST    /envoiAJAX_listeDesSecteurs              controllers.ServiceSecteur.envoiAJAX_listeDesSecteurs()
+POST    /demandeAJAX_listeDesPays                controllers.ServicePays.demandeAJAX_listeDesPays()
+POST    /envoiAJAX_listeDesPays                  controllers.ServicePays.envoiAJAX_listeDesPays()
+POST    /demandeAJAX_listeDesVillesDuPays        controllers.ServiceVille.demandeAJAX_listeDesVillesDuPays(pays_nom: String)
+POST    /envoiAJAX_listeDesVillesDuPays          controllers.ServiceVille.envoiAJAX_listeDesVillesDuPays(pays_nom: String)
 
 # Routing Javascript 
 GET     /assets/javascripts/routes  controllers.Ajax.javascriptRoutes()

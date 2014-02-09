@@ -25,18 +25,19 @@ public class ServiceAnneePromotion extends Controller {
 	}
 
 	public static Result envoiAJAX_listeDesAnneesdePromotion() {
-		String sql = "SELECT anneePromotion_libelle FROM AnneePromotion";
-		 
-		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);		 
+		String sql = "SELECT anneePromotion_libelle FROM AnneePromotion ORDER BY anneePromotion_libelle DESC";
+
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> listSqlRow = sqlQuery.findList();
 		List<String> listeDesAnneesdePromotion = new ArrayList<String>();
-		for (SqlRow sqlRow : listSqlRow){
-			listeDesAnneesdePromotion.add(sqlRow.get("anneePromotion_libelle").toString());
+		for (SqlRow sqlRow : listSqlRow) {
+			listeDesAnneesdePromotion.add(sqlRow.get("anneePromotion_libelle")
+			        .toString());
 		}
-		
-		
-//		List<AnneePromotion> listeDesAnneesdePromotion = AnneePromotionDao.find
-//		        .select("libelle")/*.orderBy("libelle asc")*/.findList();
+
+		// List<AnneePromotion> listeDesAnneesdePromotion =
+		// AnneePromotionDao.find
+		// .select("libelle")/*.orderBy("libelle asc")*/.findList();
 		return ok(Json.toJson(listeDesAnneesdePromotion));
 	}
 

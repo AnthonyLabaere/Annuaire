@@ -26,7 +26,7 @@ public class ServiceEcole extends Controller {
 	public static Result envoiAJAX_listeDesEcoles() {
 //		List<Ecole> listeDesEcoles = EcoleDao.find.select("nom").orderBy("nom asc")
 //		        .findList();
-		String sql = "SELECT ecole_nom FROM Ecole";
+		String sql = "SELECT ecole_nom FROM Ecole ORDER BY ecole_nom ASC";
 		 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);		 
 		List<SqlRow> listSqlRow = sqlQuery.findList();

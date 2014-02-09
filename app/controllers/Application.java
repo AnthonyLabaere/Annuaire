@@ -31,7 +31,6 @@ import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import service.ServicePays;
 import service.ServiceVille;
 import connections.LDAP;
 
