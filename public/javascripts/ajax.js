@@ -1,14 +1,30 @@
 // Alimentation du filtre des annees de promotion
-jsRoutes.controllers.Ajax
+jsRoutes.controllers.ServiceAnneePromotion
 		.demandeAJAX_listeDesAnneesdePromotion()
 		.ajax(
 				{
 					success : function(data, textStatus, jqXHR) {
+						// console.log(data);
 						var filtre_annee_de_promotion = HTML('filtre_annee_de_promotion');
 
 						for ( var element in data) {
 							filtre_annee_de_promotion.options[filtre_annee_de_promotion.options.length] = new Option(
-									data[element].libelle);
+									data[element]);
+						}
+					}
+				});
+
+// Alimentation du filtre des ecoles
+jsRoutes.controllers.ServiceEcole
+		.demandeAJAX_listeDesEcoles()
+		.ajax(
+				{
+					success : function(data, textStatus, jqXHR) {
+						var filtre_ecole = HTML('filtre_ecole');
+
+						for ( var element in data) {
+							filtre_ecole.options[filtre_ecole.options.length] = new Option(
+									data[element]);
 						}
 					}
 				});

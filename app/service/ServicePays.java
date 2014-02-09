@@ -8,7 +8,7 @@ import models.Pays;
 import dao.PaysDao;
 import dao.VilleDao;
 
-public class PaysService {
+public class ServicePays {
 	
 	public static List<Pays> listeDesPays(){
 		return PaysDao.find.orderBy("nom asc").findList();

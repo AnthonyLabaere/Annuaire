@@ -29,6 +29,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,7 +57,7 @@ public class Entreprise extends Model {
 	@Column(name = "entreprise_nom")
 	private String nom;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "EntreprisePersonne", joinColumns = { @JoinColumn(name = "entreprisePersonne_personne_ID", referencedColumnName = "entreprise_ID") }, inverseJoinColumns = { @JoinColumn(name = "entreprisePersonne_entreprise_ID", referencedColumnName = "personne_ID") })
 	private List<Personne> personnes = new ArrayList<Personne>();
 

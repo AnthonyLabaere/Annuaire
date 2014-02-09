@@ -17,9 +17,10 @@ POST    /testAjax                   controllers.Ajax.testAjax(name: String)
 POST    /testAjaxEnvoyer                   controllers.Ajax.testAjaxEnvoyer()
 POST    /testAjaxRecevoir                  controllers.Ajax.testAjaxRecevoir(name: String)
 
-POST    /demandeAJAX_listeDesAnneesdePromotion              controllers.Ajax.demandeAJAX_listeDesAnneesdePromotion()
-POST    /envoiAJAX_listeDesAnneesdePromotion                  controllers.Ajax.envoiAJAX_listeDesAnneesdePromotion()
-
+POST    /demandeAJAX_listeDesAnneesdePromotion              controllers.ServiceAnneePromotion.demandeAJAX_listeDesAnneesdePromotion()
+POST    /envoiAJAX_listeDesAnneesdePromotion                  controllers.ServiceAnneePromotion.envoiAJAX_listeDesAnneesdePromotion()
+POST    /demandeAJAX_listeDesEcoles              controllers.ServiceEcole.demandeAJAX_listeDesEcoles()
+POST    /envoiAJAX_listeDesEcoles                  controllers.ServiceEcole.envoiAJAX_listeDesEcoles()
 
 # Routing Javascript 
 GET     /assets/javascripts/routes  controllers.Ajax.javascriptRoutes()

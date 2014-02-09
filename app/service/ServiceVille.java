@@ -9,7 +9,7 @@ import com.avaje.ebean.Expr;
 
 import dao.VilleDao;
 
-public class VilleService {
+public class ServiceVille {
 	
 	public static List<Ville> listeDesVilles(){
 		return VilleDao.find.orderBy("nom desc").findList();

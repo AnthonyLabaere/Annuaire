@@ -26,8 +26,10 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,9 +61,9 @@ public class Personne extends Model {
 
 	@ManyToOne
 	@Column(name = "personne_annee_promotion_ID")
-	private AnneePromotion anneePromotion;
+	private AnneePromotion personne;
 
-	@ManyToMany(mappedBy = "personnes")
+	@ManyToMany(mappedBy = "personnes", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Entreprise> entreprises = new ArrayList<Entreprise>();
 
 	public Integer getId() {
@@ -85,11 +87,11 @@ public class Personne extends Model {
 	}
 
 	public AnneePromotion getAnneePromotion() {
-		return anneePromotion;
+		return personne;
 	}
 
 	public void setAnneePromotion(AnneePromotion anneePromotion) {
-		this.anneePromotion = anneePromotion;
+		this.personne = anneePromotion;
 	}
 
 	public List<Entreprise> getEntreprises() {

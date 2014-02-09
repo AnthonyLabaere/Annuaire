@@ -31,8 +31,8 @@ import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import service.PaysService;
-import service.VilleService;
+import service.ServicePays;
+import service.ServiceVille;
 import connections.LDAP;
 
 /**
@@ -91,8 +91,8 @@ public class Application extends Controller {
 		List<Ville> villes = null;
 		
 		if (nomPays != null && !nomPays.isEmpty()){
-			Pays pays = PaysService.PaysDeNom(nomPays);
-			villes = VilleService.listeDesVillesDuPays(pays);
+			Pays pays = ServicePays.PaysDeNom(nomPays);
+			villes = ServiceVille.listeDesVillesDuPays(pays);
 		}		
 		
 		return ok(views.html.carte.render(villes));

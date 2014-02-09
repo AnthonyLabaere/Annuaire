@@ -57,10 +57,12 @@ public class Ajax extends Controller {
 	public static Result javascriptRoutes() {
 		response().setContentType("text/javascript");
 		return ok(Routes.javascriptRouter("jsRoutes",
-		        routes.javascript.Ajax.testAjax(),
-		        routes.javascript.Ajax.testAjaxEnvoyer(),
-		        routes.javascript.Ajax.testAjaxRecevoir(),
-		        routes.javascript.Ajax.demandeAJAX_listeDesAnneesdePromotion(),
-		        routes.javascript.Ajax.envoiAJAX_listeDesAnneesdePromotion()));
+		        controllers.routes.javascript.Ajax.testAjax(),
+		        controllers.routes.javascript.Ajax.testAjaxEnvoyer(),
+		        controllers.routes.javascript.Ajax.testAjaxRecevoir(),
+		        controllers.routes.javascript.ServiceAnneePromotion.demandeAJAX_listeDesAnneesdePromotion(),
+		        controllers.routes.javascript.ServiceAnneePromotion.envoiAJAX_listeDesAnneesdePromotion(),
+		        controllers.routes.javascript.ServiceEcole.demandeAJAX_listeDesEcoles(),
+		        controllers.routes.javascript.ServiceEcole.envoiAJAX_listeDesEcoles()));
 	}
 }
