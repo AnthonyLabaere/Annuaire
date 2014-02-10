@@ -1,18 +1,12 @@
 package controllers;
 
-import java.util.List;
-
-import models.AnneePromotion;
 import play.Routes;
-import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import dao.AnneePromotionDao;
 
 public class Ajax extends Controller {
 
@@ -50,17 +44,11 @@ public class Ajax extends Controller {
 		        controllers.routes.javascript.Ajax.testAjax(),
 		        controllers.routes.javascript.Ajax.testAjaxEnvoyer(),
 		        controllers.routes.javascript.Ajax.testAjaxRecevoir(),
-		        controllers.routes.javascript.ServiceAnneePromotion.demandeAJAX_listeDesAnneesdePromotion(),
-		        controllers.routes.javascript.ServiceAnneePromotion.envoiAJAX_listeDesAnneesdePromotion(),
-		        controllers.routes.javascript.ServiceEcole.demandeAJAX_listeDesEcoles(),
-		        controllers.routes.javascript.ServiceEcole.envoiAJAX_listeDesEcoles(),
-		        controllers.routes.javascript.ServiceEntreprise.demandeAJAX_listeDesEntreprises(),
-		        controllers.routes.javascript.ServiceEntreprise.envoiAJAX_listeDesEntreprises(),
-		        controllers.routes.javascript.ServiceSecteur.demandeAJAX_listeDesSecteurs(),
-		        controllers.routes.javascript.ServiceSecteur.envoiAJAX_listeDesSecteurs(),
-		        controllers.routes.javascript.ServicePays.demandeAJAX_listeDesPays(),
-		        controllers.routes.javascript.ServicePays.envoiAJAX_listeDesPays(),
-		        controllers.routes.javascript.ServiceVille.demandeAJAX_listeDesVillesDuPays(),
-		        controllers.routes.javascript.ServiceVille.envoiAJAX_listeDesVillesDuPays()));
+		        controllers.routes.javascript.ServiceAnneePromotion.AJAX_listeDesAnneesdePromotion(),
+		        controllers.routes.javascript.ServiceEcole.AJAX_listeDesEcoles(),
+		        controllers.routes.javascript.ServiceEntreprise.AJAX_listeDesEntreprises(),
+		        controllers.routes.javascript.ServiceSecteur.AJAX_listeDesSecteurs(),
+		        controllers.routes.javascript.ServicePays.AJAX_listeDesPays(),
+		        controllers.routes.javascript.ServiceVille.AJAX_listeDesVillesDuPays()));
 	}
 }

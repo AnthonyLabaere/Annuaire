@@ -1,6 +1,6 @@
 //Alimentation du filtre des annees de promotion
 jsRoutes.controllers.ServiceAnneePromotion
-		.demandeAJAX_listeDesAnneesdePromotion()
+		.AJAX_listeDesAnneesdePromotion()
 		.ajax(
 				{
 					success : function(data, textStatus, jqXHR) {
@@ -16,7 +16,7 @@ jsRoutes.controllers.ServiceAnneePromotion
 
 // Alimentation du filtre des ecoles
 jsRoutes.controllers.ServiceEcole
-		.demandeAJAX_listeDesEcoles()
+		.AJAX_listeDesEcoles()
 		.ajax(
 				{
 					success : function(data, textStatus, jqXHR) {
@@ -31,7 +31,7 @@ jsRoutes.controllers.ServiceEcole
 
 // Alimentation du filtre des entreprises
 jsRoutes.controllers.ServiceEntreprise
-		.demandeAJAX_listeDesEntreprises()
+		.AJAX_listeDesEntreprises()
 		.ajax(
 				{
 					success : function(data, textStatus, jqXHR) {
@@ -46,7 +46,7 @@ jsRoutes.controllers.ServiceEntreprise
 
 // Alimentation du filtre des secteurs
 jsRoutes.controllers.ServiceSecteur
-		.demandeAJAX_listeDesSecteurs()
+		.AJAX_listeDesSecteurs()
 		.ajax(
 				{
 					success : function(data, textStatus, jqXHR) {
@@ -61,7 +61,7 @@ jsRoutes.controllers.ServiceSecteur
 
 // Alimentation du filtre des pays
 jsRoutes.controllers.ServicePays
-		.demandeAJAX_listeDesPays()
+		.AJAX_listeDesPays()
 		.ajax(
 				{
 					success : function(data, textStatus, jqXHR) {
@@ -77,7 +77,7 @@ jsRoutes.controllers.ServicePays
 // Alimentation du filtre des villes en considérant le pays
 function alimentation_filtreVille(pays_nom) {
 	jsRoutes.controllers.ServiceVille
-			.demandeAJAX_listeDesVillesDuPays(pays_nom)
+			.AJAX_listeDesVillesDuPays(pays_nom)
 			.ajax(
 					{
 						success : function(data, textStatus, jqXHR) {

@@ -6,7 +6,6 @@
  * presents apparaissent
  */
 function onChangeFiltrePays() {
-	console.log("onChangeFiltrePays");
 
 	if (! HTML('filtre_ville')) {
 		villeTd1 = document.createElement('td');

@@ -20,11 +20,7 @@ public class ServiceAnneePromotion extends Controller {
 		return AnneePromotionDao.find.orderBy("libelle asc").findList();
 	}
 
-	public static Result demandeAJAX_listeDesAnneesdePromotion() {
-		return envoiAJAX_listeDesAnneesdePromotion();
-	}
-
-	public static Result envoiAJAX_listeDesAnneesdePromotion() {
+	public static Result AJAX_listeDesAnneesdePromotion() {
 		String sql = "SELECT anneePromotion_libelle FROM AnneePromotion ORDER BY anneePromotion_libelle DESC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);

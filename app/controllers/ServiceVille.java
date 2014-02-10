@@ -26,11 +26,7 @@ public class ServiceVille extends Controller {
 		return VilleDao.find.where(Expr.eq("ville", pays)).findList();
 	}
 
-	public static Result demandeAJAX_listeDesVillesDuPays(String pays_nom) {
-		return envoiAJAX_listeDesVillesDuPays(pays_nom);
-	}
-
-	public static Result envoiAJAX_listeDesVillesDuPays(String pays_nom) {
+	public static Result AJAX_listeDesVillesDuPays(String pays_nom) {
 		String sqlPays = "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
 
 		SqlQuery sqlQueryPays = Ebean.createSqlQuery(sqlPays);
