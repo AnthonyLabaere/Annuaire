@@ -47,9 +47,10 @@ public class Ajax extends Controller {
 		        controllers.routes.javascript.ServiceAnneePromotion.AJAX_listeDesAnneesdePromotion(),
 		        controllers.routes.javascript.ServiceEcole.AJAX_listeDesEcoles(),
 		        controllers.routes.javascript.ServiceEntreprise.AJAX_listeDesEntreprises(),
+		        controllers.routes.javascript.ServiceEntreprise.AJAX_listeDesEntreprisesSelonCriteres(),
 		        controllers.routes.javascript.ServiceSecteur.AJAX_listeDesSecteurs(),
 		        controllers.routes.javascript.ServicePays.AJAX_listeDesPays(),
 		        controllers.routes.javascript.ServiceVille.AJAX_listeDesVillesDuPays(),
-		        controllers.routes.javascript.ServiceEntreprise.AJAX_listeDesEntreprisesSelonCriteres()));
+		        controllers.routes.javascript.ServiceVille.AJAX_listeDesVillesSelonCriteres()));
 	}
 }

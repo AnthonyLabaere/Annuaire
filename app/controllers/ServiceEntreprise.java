@@ -42,23 +42,29 @@ public class ServiceEntreprise extends Controller {
 	// Petite légende pour préciser que les filtres sont dynamiques (dans un
 	// bouton aide "?")
 	public static Result AJAX_listeDesEntreprisesSelonCriteres(
-			String anneePromotion_libelle, String secteur_nom, String pays_nom,
-			String ville_nom) {
+	        String anneePromotion_libelle, String secteur_nom, String pays_nom,
+	        String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
-				anneePromotion_libelle != null
-						&& !anneePromotion_libelle.isEmpty(),
-				secteur_nom != null && !secteur_nom.isEmpty(),
-				pays_nom != null && !pays_nom.isEmpty(),
-				ville_nom != null && !ville_nom.isEmpty() };
+		        anneePromotion_libelle != null
+		                && !anneePromotion_libelle.isEmpty(),
+		        secteur_nom != null && !secteur_nom.isEmpty(),
+		        pays_nom != null && !pays_nom.isEmpty(),
+		        ville_nom != null && !ville_nom.isEmpty() };
+
 		Boolean wherePlace = false;
 
-		String sql = IConstanteSQL.SQL_SELECT;
-		sql += "e.entreprise_nom FROM Entreprise e";
+		String sql = "SELECT entreprise_nom FROM Entreprise";
 
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
-			sql += "e.entreprise_ID IN (SELECT es.entrepriseSecteur_entreprise_ID FROM EntrepriseSecteur es, Secteur s WHERE s.secteur_nom = :secteur_nom AND s.secteur_ID = es.entrepriseSecteur_secteur_ID)";
+			sql += "entreprise_ID IN (";
+			sql += "SELECT entreprisePersonne_entreprise_ID FROM EntreprisePersonne, Personne WHERE personne_anneePromotion_ID IN (";
+			sql += "SELECT anneePromotion_ID FROM anneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
+			sql += ")";
+			sql += " AND "; 
+			sql += "personne_ID = entreprisePersonne_personne_ID";
+			sql += ")";
 		}
 
 		if (parametresPresents[1]) {
@@ -68,7 +74,7 @@ public class ServiceEntreprise extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			sql += "e.entreprise_ID IN (SELECT ep.entreprisePersonne_entreprise_ID FROM EntreprisePersonne ep, Personne p WHERE p.personne_anneePromotion_ID IN (SELECT a.anneePromotion_ID FROM anneePromotion a WHERE a.anneePromotion_libelle = :anneePromotion_libelle) AND p.personne_ID = ep.entreprisePersonne_personne_ID)";
+			sql += "entreprise_ID IN (SELECT entrepriseSecteur_entreprise_ID FROM EntrepriseSecteur, Secteur WHERE secteur_nom = :secteur_nom AND secteur_ID = entrepriseSecteur_secteur_ID)";
 		}
 
 		if (parametresPresents[2] && !parametresPresents[3]) {
@@ -78,7 +84,7 @@ public class ServiceEntreprise extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			sql += "e.entreprise_ID IN (SELECT ev.entrepriseVille_entreprise_ID FROM EntrepriseVille ev, Ville v WHERE v.ville_pays_ID = (SELECT p.pays_ID FROM Pays p WHERE p.pays_nom = :pays_nom) AND v.ville_ID = ev.entrepriseVille_ville_ID)";
+			sql += "entreprise_ID IN (SELECT entrepriseVille_entreprise_ID FROM EntrepriseVille, Ville WHERE ville_pays_ID = (SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom) AND ville_ID = entrepriseVille_ville_ID)";
 		}
 
 		if (parametresPresents[3]) {
@@ -88,17 +94,15 @@ public class ServiceEntreprise extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			sql += "e.entreprise_ID IN (SELECT ev.entrepriseVille_entreprise_ID FROM EntrepriseVille ev, Ville v WHERE v.ville_nom = :ville_nom AND v.ville_ID = ev.entrepriseVille_ville_ID)";
+			sql += "entreprise_ID IN (SELECT entrepriseVille_entreprise_ID FROM EntrepriseVille, Ville WHERE ville_nom = :ville_nom AND ville_ID = entrepriseVille_ville_ID)";
 		}
 
 		sql += " ORDER BY entreprise_nom ASC";
-		
-		System.out.println(sql);
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
 			sqlQuery.setParameter("anneePromotion_libelle",
-					anneePromotion_libelle);
+			        Integer.parseInt(anneePromotion_libelle));
 		}
 		if (parametresPresents[1]) {
 			sqlQuery.setParameter("secteur_nom", secteur_nom);
@@ -114,7 +118,7 @@ public class ServiceEntreprise extends Controller {
 		List<String> listeDesEntreprisesParCriteres = new ArrayList<String>();
 		for (SqlRow sqlRow : listSqlRow) {
 			listeDesEntreprisesParCriteres.add(sqlRow.get("entreprise_nom")
-					.toString());
+			        .toString());
 		}
 
 		return ok(Json.toJson(listeDesEntreprisesParCriteres));

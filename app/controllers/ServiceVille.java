@@ -27,25 +27,115 @@ public class ServiceVille extends Controller {
 	}
 
 	public static Result AJAX_listeDesVillesDuPays(String pays_nom) {
-		String sqlPays = "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
 
-		SqlQuery sqlQueryPays = Ebean.createSqlQuery(sqlPays);
-		sqlQueryPays.setParameter("pays_nom", pays_nom);
-		SqlRow sqlRowPays = sqlQueryPays.findUnique();
-		Integer pays_ID = Integer
-		        .parseInt(sqlRowPays.get("pays_ID").toString());
+		String sql = "SELECT ville_nom FROM Ville WHERE ville_pays_ID = (";
+		sql += "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
+		sql += ") ";
+		sql += "ORDER BY ville_nom ASC";
+		
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		sqlQuery.setParameter("pays_nom", pays_nom);
 
-		String sqlVille = "SELECT ville_nom FROM Ville WHERE ville_pays_ID = :pays_ID ORDER BY ville_nom ASC";
-
-		SqlQuery sqlQueryVille = Ebean.createSqlQuery(sqlVille);
-		sqlQueryVille.setParameter("pays_ID", pays_ID);
-
-		List<SqlRow> listSqlRowVille = sqlQueryVille.findList();
+		List<SqlRow> listSqlRowVille = sqlQuery.findList();
 		List<String> listeDesVilles = new ArrayList<String>();
 		for (SqlRow sqlRow : listSqlRowVille) {
 			listeDesVilles.add(sqlRow.get("ville_nom").toString());
 		}
 
 		return ok(Json.toJson(listeDesVilles));
+	}
+
+	// pays_nom est forcement present
+	public static Result AJAX_listeDesVillesSelonCriteres(
+	        String anneePromotion_libelle, String entreprise_nom,
+	        String secteur_nom, String pays_nom) {
+		System.out.println("--------------------AJAX_listeDesVillesSelonCriteres--------------------");
+		
+		Boolean[] parametresPresents = new Boolean[] {
+		        anneePromotion_libelle != null
+		                && !anneePromotion_libelle.isEmpty(),
+		        entreprise_nom != null && !entreprise_nom.isEmpty(),
+		        secteur_nom != null && !secteur_nom.isEmpty() };
+
+		Boolean wherePlace = false;
+
+		String sql = "SELECT ville_nom FROM Ville";
+
+		if (parametresPresents[0]) {
+			wherePlace = true;
+			sql += " WHERE ";
+			// TODO : ajouter l'ecole !
+			sql += "ville_ID IN (";
+			sql += "SELECT entreprisePersonne_ville_ID FROM entreprisePersonne WHERE entreprisePersonne_personne_ID IN (";
+			sql += "SELECT personne_ID FROM Personne WHERE personne_anneePromotion_ID IN (";
+			sql += "SELECT anneePromotion_ID FROM AnneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
+			sql += ")))";
+		}
+
+		if (parametresPresents[1]) {
+			if (wherePlace) {
+				sql += " AND ";
+			} else {
+				sql += " WHERE ";
+				wherePlace = true;
+			}
+			sql += "ville_ID IN (";
+			sql += "SELECT entrepriseVille_ville_ID FROM entrepriseVille WHERE entrepriseVille_entreprise_ID = (";
+			sql += "SELECT entreprise_ID FROM Entreprise WHERE entreprise_nom = :entreprise_nom";
+			sql += "))";
+		}
+
+		if (parametresPresents[2]) {
+			if (wherePlace) {
+				sql += " AND ";
+			} else {
+				sql += " WHERE ";
+				wherePlace = true;
+			}
+			sql += "ville_ID IN (";
+			sql += "SELECT entrepriseVille_ville_ID FROM EntrepriseVille WHERE entrepriseVille_entreprise_ID IN (";
+			sql += "SELECT entrepriseSecteur_entreprise_ID FROM EntrepriseSecteur WHERE entrepriseSecteur_secteur_ID IN (";
+			sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
+			sql += ")))";
+		}
+
+		if (wherePlace) {
+			sql += " AND ";
+		} else {
+			sql += " WHERE ";
+			wherePlace = true;
+		}
+		sql += "ville_pays_ID = (";
+		sql += "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
+		sql += ") ";
+
+		sql += "ORDER BY ville_nom ASC";
+
+		System.out.println(sql);
+
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		if (parametresPresents[0]) {
+			sqlQuery.setParameter("anneePromotion_libelle",
+			        Integer.parseInt(anneePromotion_libelle));
+		}
+		if (parametresPresents[1]) {
+			sqlQuery.setParameter("entreprise_nom", secteur_nom);
+		}
+		if (parametresPresents[2]) {
+			sqlQuery.setParameter("secteur_nom", secteur_nom);
+		}
+		sqlQuery.setParameter("pays_nom", pays_nom);
+		
+		System.out.println("PARAMETERS");
+
+		List<SqlRow> listSqlRow = sqlQuery.findList();
+		List<String> listeDesEntreprisesParCriteres = new ArrayList<String>();
+		for (SqlRow sqlRow : listSqlRow) {
+			listeDesEntreprisesParCriteres.add(sqlRow.get("ville_nom")
+			        .toString());
+		}
+		System.out.println("/-------------------AJAX_listeDesVillesSelonCriteres--------------------");
+
+		return ok(Json.toJson(listeDesEntreprisesParCriteres));
 	}
 }

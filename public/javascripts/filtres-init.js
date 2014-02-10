@@ -1,3 +1,12 @@
+var FILTRE_VILLE_OPTION_PAR_DEFAUT_TEXTE;
+var FILTRE_ANNEEPROMOTION_OPTION_PAR_DEFAUT_TEXTE;
+var FILTRE_ECOLE_OPTION_PAR_DEFAUT_TEXTE;
+var FILTRE_ENTREPRISE_OPTION_PAR_DEFAUT_TEXTE = 'S&eacute;lectionnez l\'Entreprise recherch&eacute;e';
+var FILTRE_SECTEUR_OPTION_PAR_DEFAUT_TEXTE;
+var FILTRE_PAYS_OPTION_PAR_DEFAUT_TEXTE;
+var FILTRE_VILLE_OPTION_PAR_DEFAUT_TEXTE = 'S&eacute;lectionnez le Ville recherch&eacute;e';
+
+
 //Alimentation du filtre des annees de promotion
 jsRoutes.controllers.ServiceAnneePromotion
 		.AJAX_listeDesAnneesdePromotion()
@@ -5,10 +14,10 @@ jsRoutes.controllers.ServiceAnneePromotion
 				{
 					success : function(data, textStatus, jqXHR) {
 						// console.log(data);
-						var filtre_annee_de_promotion = HTML('filtre_anneePromotion');
+						var filtre_anneePromotion = HTML('filtre_anneePromotion');
 
 						for ( var element in data) {
-							filtre_annee_de_promotion.options[filtre_annee_de_promotion.options.length] = new Option(
+							filtre_anneePromotion.options[filtre_anneePromotion.options.length] = new Option(
 									data[element]);
 						}
 					}
@@ -74,8 +83,33 @@ jsRoutes.controllers.ServicePays
 					}
 				});
 
-// Alimentation du filtre des villes en considérant le pays
-function alimentation_filtreVille(pays_nom) {
+// Creation et alimentation du filtre des villes en considérant le pays selectionne
+function creationAlimentation_filtreVille(pays_nom) {
+	// Creation du filtre
+	villeTd1 = document.createElement('td');
+	villeTd1.innerHTML = 'Ville';
+
+	filtre_ville = document.createElement('select');
+	filtre_ville.setAttribute('name', 'Ville');
+	filtre_ville.setAttribute('id', 'filtre_ville');
+	filtre_ville.setAttribute('onChange', 'miseAJourDesFiltres()');
+
+	filtre_ville_option_par_defaut = document.createElement('option');
+	filtre_ville_option_par_defaut.innerHTML = 'S&eacute;lectionnez le Ville recherch&eacute;e';
+
+	filtre_ville.appendChild(filtre_ville_option_par_defaut);
+
+	villeTd2 = document.createElement('td');
+	villeTd2.appendChild(filtre_ville);
+
+	villeTr = document.createElement('tr');
+	villeTr.setAttribute('id', 'tr_ville');
+	villeTr.appendChild(villeTd1);
+	villeTr.appendChild(villeTd2);
+
+	HTML('tableau_critere').appendChild(villeTr);
+	
+	// Alimentation du filtre	
 	jsRoutes.controllers.ServiceVille
 			.AJAX_listeDesVillesDuPays(pays_nom)
 			.ajax(
@@ -87,7 +121,7 @@ function alimentation_filtreVille(pays_nom) {
 							filtre_ville.innerHTML = "";
 							filtre_ville_option_par_defaut = document
 									.createElement('option');
-							filtre_ville_option_par_defaut.innerHTML = 'S&eacute;lectionnez la Ville recherch&eacute;e';
+							filtre_ville_option_par_defaut.innerHTML = FILTRE_VILLE_OPTION_PAR_DEFAUT_TEXTE;
 							filtre_ville
 									.appendChild(filtre_ville_option_par_defaut);
 
@@ -99,4 +133,8 @@ function alimentation_filtreVille(pays_nom) {
 
 						}
 					});
+}
+
+function suppression_filtreVille(){
+	HTML('tableau_critere').removeChild(HTML('tr_ville'));	
 }

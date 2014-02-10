@@ -17,13 +17,14 @@ POST    /testAjax                                controllers.Ajax.testAjax(name:
 POST    /testAjaxEnvoyer                         controllers.Ajax.testAjaxEnvoyer()
 POST    /testAjaxRecevoir                        controllers.Ajax.testAjaxRecevoir(name: String)
 
-POST    /AJAX_listeDesAnneesdePromotion     controllers.ServiceAnneePromotion.AJAX_listeDesAnneesdePromotion()
-POST    /AJAX_listeDesEcoles                controllers.ServiceEcole.AJAX_listeDesEcoles()
-POST    /AJAX_listeDesEntreprises           controllers.ServiceEntreprise.AJAX_listeDesEntreprises()
-POST    /AJAX_listeDesSecteurs              controllers.ServiceSecteur.AJAX_listeDesSecteurs()
-POST    /AJAX_listeDesPays                  controllers.ServicePays.AJAX_listeDesPays()
-POST    /AJAX_listeDesVillesDuPays                       controllers.ServiceVille.AJAX_listeDesVillesDuPays(pays_nom: String)
+POST    /AJAX_listeDesAnneesdePromotion                  controllers.ServiceAnneePromotion.AJAX_listeDesAnneesdePromotion()
+POST    /AJAX_listeDesEcoles                             controllers.ServiceEcole.AJAX_listeDesEcoles()
+POST    /AJAX_listeDesEntreprises                        controllers.ServiceEntreprise.AJAX_listeDesEntreprises()
 POST    /AJAX_listeDesEntreprisesSelonCriteres           controllers.ServiceEntreprise.AJAX_listeDesEntreprisesSelonCriteres(anneePromotion_libelle: String, secteur_nom: String, pays_nom: String, ville_nom: String)
+POST    /AJAX_listeDesSecteurs                           controllers.ServiceSecteur.AJAX_listeDesSecteurs()
+POST    /AJAX_listeDesPays                               controllers.ServicePays.AJAX_listeDesPays()
+POST    /AJAX_listeDesVillesDuPays                       controllers.ServiceVille.AJAX_listeDesVillesDuPays(pays_nom: String)
+POST    /AJAX_listeDesVillesSelonCriteres                controllers.ServiceVille.AJAX_listeDesVillesSelonCriteres(anneePromotion_libelle: String, entreprise_nom: String, secteur_nom: String, pays_nom: String)
 
 # Routing Javascript 
 GET     /assets/javascripts/routes  controllers.Ajax.javascriptRoutes()

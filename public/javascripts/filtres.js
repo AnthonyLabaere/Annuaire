@@ -6,31 +6,6 @@
  * presents apparaissent
  */
 function onChangeFiltrePays() {
-
-	if (!HTML('filtre_ville')) {
-		villeTd1 = document.createElement('td');
-		villeTd1.innerHTML = 'Ville';
-
-		filtre_ville = document.createElement('select');
-		filtre_ville.setAttribute('name', 'Ville');
-		filtre_ville.setAttribute('id', 'filtre_ville');
-
-		filtre_ville_option_par_defaut = document.createElement('option');
-		filtre_ville_option_par_defaut.innerHTML = 'S&eacute;lectionnez le Ville recherch&eacute;e';
-
-		filtre_ville.appendChild(filtre_ville_option_par_defaut);
-
-		villeTd2 = document.createElement('td');
-		villeTd2.appendChild(filtre_ville);
-
-		villeTr = document.createElement('tr');
-		villeTr.appendChild(villeTd1);
-		villeTr.appendChild(villeTd2);
-
-		HTML('tableau_critere').appendChild(villeTr);
-	}
-
-	miseAJourDesFiltres();
 }
 
 /**
@@ -38,12 +13,6 @@ function onChangeFiltrePays() {
  * filtres sont mis a jour en consequence apres requetage de la BDD
  */
 function miseAJourDesFiltres() {
-
-	alimentation_filtreVille(HTML('filtre_pays').value);
-	
-	
-	
-	
 	var anneePromotion_libelle = "";
 	var entreprise_nom = "";
 	var secteur_nom = "";
@@ -62,12 +31,22 @@ function miseAJourDesFiltres() {
 	if (HTML('filtre_pays').selectedIndex != '0') {
 		pays_nom = HTML('filtre_pays').value;
 	}
-	if (HTML('filtre_ville').selectedIndex != '0') {
+	if (HTML('filtre_ville') && HTML('filtre_ville').selectedIndex != '0') {
 		ville_nom = HTML('filtre_ville').value;
 	}
 
+	miseAJourDuFiltreAnneePromotion();
+	miseAJourDuFiltreEcole();
 	miseAJourDuFiltreEntreprise(anneePromotion_libelle, secteur_nom, pays_nom,
 			ville_nom);
+	miseAJourDuFiltreSecteur();
+	miseAJourDuFiltrePays();
+	miseAJourDuFiltreVille(anneePromotion_libelle, entreprise_nom, secteur_nom,
+			pays_nom);
+
+}
+
+function miseAJourDuFiltreAnneePromotion() {
 
 }
 
@@ -85,18 +64,72 @@ function miseAJourDuFiltreEntreprise(anneePromotion_libelle, secteur_nom,
 							filtre_entreprise.innerHTML = "";
 							filtre_entreprise_option_par_defaut = document
 									.createElement('option');
-							filtre_entreprise_option_par_defaut.innerHTML = 'S&eacute;lectionnez l\'Entreprise recherch&eacute;e';
+							filtre_entreprise_option_par_defaut.innerHTML = FILTRE_ENTREPRISE_OPTION_PAR_DEFAUT_TEXTE;
 							filtre_entreprise
 									.appendChild(filtre_entreprise_option_par_defaut);
 
 							// Ajout des nouveaux elements
 							for ( var element in data) {
-								console.log(data[element]);
 								filtre_entreprise.options[filtre_entreprise.options.length] = new Option(
 										data[element]);
 							}
 
 						}
 					});
+}
 
+function miseAJourDuFiltreEcole() {
+
+}
+
+function miseAJourDuFiltreSecteur() {
+
+}
+
+function miseAJourDuFiltrePays() {
+
+}
+
+function miseAJourDuFiltreVille(anneePromotion_libelle, entreprise_nom,
+		secteur_nom, pays_nom) {
+
+	if (!HTML('filtre_ville')){
+		// Si le filtre ville n'existe pas et qu'un un pays a ete selectionne,
+		// ce premier est cree avec les informations du pays
+		if (HTML('filtre_pays').selectedIndex != 0){
+			creationAlimentation_filtreVille(pays_nom);
+		}
+	} else {
+		// Si le filtre pays est desactive alors le filtre ville est retire du
+		// panneau
+		if (HTML('filtre_pays').selectedIndex == 0){
+			suppression_filtreVille();
+		}
+		
+		jsRoutes.controllers.ServiceVille
+		.AJAX_listeDesVillesSelonCriteres(anneePromotion_libelle,
+				entreprise_nom, secteur_nom, pays_nom)
+		.ajax(
+				{
+					success : function(data, textStatus, jqXHR) {
+						var filtre_ville = HTML('filtre_ville');
+
+						// Suppression des elements existants dans le
+						// filtre
+						filtre_ville.innerHTML = "";
+						filtre_ville_option_par_defaut = document
+								.createElement('option');
+						filtre_ville_option_par_defaut.innerHTML = FILTRE_VILLE_OPTION_PAR_DEFAUT_TEXTE;
+						filtre_ville
+								.appendChild(filtre_ville_option_par_defaut);
+
+						// Ajout des nouveaux elements
+						for ( var element in data) {
+							filtre_ville.options[filtre_ville.options.length] = new Option(
+									data[element]);
+						}
+
+					}
+				});
+	}
 }
