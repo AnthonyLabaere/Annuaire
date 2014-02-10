@@ -22,7 +22,8 @@ POST    /AJAX_listeDesEcoles                controllers.ServiceEcole.AJAX_listeD
 POST    /AJAX_listeDesEntreprises           controllers.ServiceEntreprise.AJAX_listeDesEntreprises()
 POST    /AJAX_listeDesSecteurs              controllers.ServiceSecteur.AJAX_listeDesSecteurs()
 POST    /AJAX_listeDesPays                  controllers.ServicePays.AJAX_listeDesPays()
-POST    /AJAX_listeDesVillesDuPays          controllers.ServiceVille.AJAX_listeDesVillesDuPays(pays_nom: String)
+POST    /AJAX_listeDesVillesDuPays                       controllers.ServiceVille.AJAX_listeDesVillesDuPays(pays_nom: String)
+POST    /AJAX_listeDesEntreprisesSelonCriteres           controllers.ServiceEntreprise.AJAX_listeDesEntreprisesSelonCriteres(anneePromotion_libelle: String, secteur_nom: String, pays_nom: String, ville_nom: String)
 
 # Routing Javascript 
 GET     /assets/javascripts/routes  controllers.Ajax.javascriptRoutes()

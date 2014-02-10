@@ -5,7 +5,7 @@ jsRoutes.controllers.ServiceAnneePromotion
 				{
 					success : function(data, textStatus, jqXHR) {
 						// console.log(data);
-						var filtre_annee_de_promotion = HTML('filtre_annee_de_promotion');
+						var filtre_annee_de_promotion = HTML('filtre_anneePromotion');
 
 						for ( var element in data) {
 							filtre_annee_de_promotion.options[filtre_annee_de_promotion.options.length] = new Option(
@@ -87,7 +87,7 @@ function alimentation_filtreVille(pays_nom) {
 							filtre_ville.innerHTML = "";
 							filtre_ville_option_par_defaut = document
 									.createElement('option');
-							filtre_ville_option_par_defaut.innerHTML = 'S&eacute;lectionnez le Ville recherch&eacute;e';
+							filtre_ville_option_par_defaut.innerHTML = 'S&eacute;lectionnez la Ville recherch&eacute;e';
 							filtre_ville
 									.appendChild(filtre_ville_option_par_defaut);
 
