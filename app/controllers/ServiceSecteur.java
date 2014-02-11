@@ -51,11 +51,13 @@ public class ServiceSecteur extends Controller {
 			wherePlace = true;
 			sql += " WHERE ";
 			sql += "secteur_ID IN (";
-			sql += "SELECT entreprisePersonne_secteur_ID FROM EntreprisePersonne, Personne WHERE personne_anneePromotion_ID IN (";
+			sql += "SELECT entrepriseVilleSecteur_secteur_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurPersonne, Personne WHERE personne_anneePromotion_ID IN (";
 			sql += "SELECT anneePromotion_ID FROM anneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
 			sql += ")";
-			sql += " AND ";
-			sql += "personne_ID = entreprisePersonne_personne_ID";
+			sql += " AND "; 
+			sql += "personne_ID = entrepriseVilleSecteurPersonne_personne_ID";
+			sql += " AND "; 
+			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
 			sql += ")";
 		}
 
@@ -67,7 +69,7 @@ public class ServiceSecteur extends Controller {
 				wherePlace = true;
 			}
 			sql += "secteur_ID IN (";
-			sql += "SELECT entrepriseSecteur_secteur_ID FROM EntrepriseSecteur, Entreprise WHERE entrepriseSecteur_entreprise_ID = entreprise_ID";
+			sql += "SELECT entrepriseVilleSecteur_secteur_ID FROM EntrepriseVilleSecteur, Entreprise WHERE entrepriseVilleSecteur_entreprise_ID = entreprise_ID";
 			sql += " AND ";
 			sql += "entreprise_nom = :entreprise_nom";
 			sql += ")";
@@ -81,6 +83,12 @@ public class ServiceSecteur extends Controller {
 				wherePlace = true;
 			}
 			sql += "secteur_ID IN (";
+			sql += "SELECT entrepriseVilleSecteur_secteur_ID FROM EntrepriseVilleSecteur, Ville WHERE ville_pays_ID = (";
+			sql += "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
+			sql += ")";
+			sql += " AND ";
+			sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
+			sql += ")";
 		}
 
 		if (parametresPresents[3]) {
@@ -91,6 +99,10 @@ public class ServiceSecteur extends Controller {
 				wherePlace = true;
 			}
 			sql += "secteur_ID IN (";
+			sql += "SELECT entrepriseVilleSecteur_secteur FROM EntrepriseVilleSecteur, Ville WHERE ville_nom = :ville_nom";
+			sql += " AND ";
+			sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
+			sql += ")";
 		}
 
 		sql += " ORDER BY secteur_nom ASC";

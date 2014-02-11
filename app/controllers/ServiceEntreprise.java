@@ -56,11 +56,13 @@ public class ServiceEntreprise extends Controller {
 			wherePlace = true;
 			sql += " WHERE ";
 			sql += "entreprise_ID IN (";
-			sql += "SELECT entreprisePersonne_entreprise_ID FROM EntreprisePersonne, Personne WHERE personne_anneePromotion_ID IN (";
+			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurPersonne, Personne WHERE personne_anneePromotion_ID IN (";
 			sql += "SELECT anneePromotion_ID FROM anneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
 			sql += ")";
 			sql += " AND "; 
-			sql += "personne_ID = entreprisePersonne_personne_ID";
+			sql += "personne_ID = entrepriseVilleSecteurPersonne_personne_ID";
+			sql += " AND "; 
+			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
 			sql += ")";
 		}
 
@@ -72,9 +74,9 @@ public class ServiceEntreprise extends Controller {
 				wherePlace = true;
 			}
 			sql += "entreprise_ID IN (";
-			sql += "SELECT entrepriseSecteur_entreprise_ID FROM EntrepriseSecteur, Secteur WHERE secteur_nom = :secteur_nom";
+			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, Secteur WHERE secteur_nom = :secteur_nom";
 			sql += " AND ";
-			sql += "secteur_ID = entrepriseSecteur_secteur_ID";
+			sql += "secteur_ID = entrepriseVilleSecteur_secteur_ID";
 			sql += ")";
 		}
 
@@ -86,11 +88,11 @@ public class ServiceEntreprise extends Controller {
 				wherePlace = true;
 			}
 			sql += "entreprise_ID IN (";
-			sql += "SELECT entrepriseVille_entreprise_ID FROM EntrepriseVille, Ville WHERE ville_pays_ID = (";
+			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, Ville WHERE ville_pays_ID = (";
 			sql += "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
 			sql += ")";
 			sql += " AND ";
-			sql += "ville_ID = entrepriseVille_ville_ID";
+			sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
 			sql += ")";
 		}
 
@@ -102,9 +104,9 @@ public class ServiceEntreprise extends Controller {
 				wherePlace = true;
 			}
 			sql += "entreprise_ID IN (";
-			sql += "SELECT entrepriseVille_entreprise_ID FROM EntrepriseVille, Ville WHERE ville_nom = :ville_nom";
+			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, Ville WHERE ville_nom = :ville_nom";
 			sql += " AND ";
-			sql += "ville_ID = entrepriseVille_ville_ID";
+			sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
 			sql += ")";
 		}
 

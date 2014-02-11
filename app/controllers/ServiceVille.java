@@ -65,10 +65,13 @@ public class ServiceVille extends Controller {
 			sql += " WHERE ";
 			// TODO : ajouter l'ecole !
 			sql += "ville_ID IN (";
-			sql += "SELECT entreprisePersonne_ville_ID FROM EntreprisePersonne WHERE entreprisePersonne_personne_ID IN (";
+			sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurPersonne WHERE entrepriseVilleSecteurPersonne_personne_ID IN (";
 			sql += "SELECT personne_ID FROM Personne WHERE personne_anneePromotion_ID IN (";
 			sql += "SELECT anneePromotion_ID FROM AnneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
-			sql += ")))";
+			sql += ")";
+			sql += " AND "; 
+			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
+			sql += "))";
 		}
 
 		if (parametresPresents[1]) {
@@ -79,7 +82,7 @@ public class ServiceVille extends Controller {
 				wherePlace = true;
 			}
 			sql += "ville_ID IN (";
-			sql += "SELECT entrepriseVille_ville_ID FROM entrepriseVille WHERE entrepriseVille_entreprise_ID = (";
+			sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_entreprise_ID = (";
 			sql += "SELECT entreprise_ID FROM Entreprise WHERE entreprise_nom = :entreprise_nom";
 			sql += "))";
 		}
@@ -92,10 +95,9 @@ public class ServiceVille extends Controller {
 				wherePlace = true;
 			}
 			sql += "ville_ID IN (";
-			sql += "SELECT entrepriseVille_ville_ID FROM EntrepriseVille WHERE entrepriseVille_entreprise_ID IN (";
-			sql += "SELECT entrepriseSecteur_entreprise_ID FROM EntrepriseSecteur WHERE entrepriseSecteur_secteur_ID IN (";
+			sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
 			sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
-			sql += ")))";
+			sql += "))";
 		}
 
 		if (wherePlace) {

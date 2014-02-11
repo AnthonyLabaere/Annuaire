@@ -53,9 +53,12 @@ public class ServiceAnneePromotion extends Controller {
 			// TODO : ajouter l'ecole !
 			sql += "anneePromotion_ID IN (";
 			sql += "SELECT personne_anneePromotion_ID FROM Personne WHERE personne_ID IN (";
-			sql += "SELECT entreprisePersonne_ID FROM EntreprisePersonne WHERE entreprisePersonne_entreprise_ID = (";
+			sql += "SELECT entrepriseVilleSecteurPersonne_ID FROM EntrepriseVilleSecteurPersonne, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_entreprise_ID = (";
 			sql += "SELECT entreprise_ID FROM Entreprise WHERE entreprise_nom = :entreprise_nom";
-			sql += ")))";
+			sql += ")";
+			sql += " AND ";
+			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
+			sql += "))";
 		}
 
 		if (parametresPresents[1]) {
@@ -67,10 +70,12 @@ public class ServiceAnneePromotion extends Controller {
 			}
 			sql += "anneePromotion_ID IN (";
 			sql += "SELECT personne_anneePromotion_ID FROM Personne WHERE personne_ID IN (";
-			sql += "SELECT entreprisePersonne_ID FROM EntreprisePersonne WHERE entreprisePersonne_entreprise_ID IN (";
-			sql += "SELECT entrepriseSecteur_entreprise_ID FROM EntrepriseSecteur WHERE entrepriseSecteur_secteur_ID = (";
+			sql += "SELECT entrepriseVilleSecteurPersonne_ID FROM EntrepriseVilleSecteurPersonne, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
 			sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
-			sql += "))))";
+			sql += ")";
+			sql += " AND ";
+			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
+			sql += "))";
 		}
 
 		if (parametresPresents[2] && !parametresPresents[3]) {
@@ -82,11 +87,11 @@ public class ServiceAnneePromotion extends Controller {
 			}
 			sql += "anneePromotion_ID IN (";
 			sql += "SELECT personne_anneePromotion_ID FROM Personne WHERE personne_ID IN (";
-			sql += "SELECT entreprisePersonne_ID FROM EntreprisePersonne, Ville WHERE entreprisePersonne_ville_ID = (";
-			sql += "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
+			sql += "SELECT entrepriseVilleSecteurPersonne_ID FROM EntrepriseVilleSecteurPersonne, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID IN (";
+			sql += "SELECT ville_ID FROM Ville, Pays WHERE ville_pays_ID = pays_ID AND pays_nom = :pays_nom";
 			sql += ")";
 			sql += " AND ";
-			sql += "ville_ID = entreprisePersonne_ville_ID";
+			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
 			sql += "))";
 		}
 
@@ -97,11 +102,15 @@ public class ServiceAnneePromotion extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
+			
 			sql += "anneePromotion_ID IN (";
 			sql += "SELECT personne_anneePromotion_ID FROM Personne WHERE personne_ID IN (";
-			sql += "SELECT entreprisePersonne_ID FROM EntreprisePersonne WHERE entreprisePersonne_ville_ID IN (";
+			sql += "SELECT entrepriseVilleSecteurPersonne_ID FROM EntrepriseVilleSecteurPersonne, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID = (";
 			sql += "SELECT ville_ID FROM Ville WHERE ville_nom = :ville_nom";
-			sql += ")))";
+			sql += ")";
+			sql += " AND ";
+			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
+			sql += "))";
 		}
 
 		sql += " ORDER BY anneePromotion_libelle ASC";
