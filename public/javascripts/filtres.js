@@ -128,7 +128,31 @@ function miseAJourDuFiltreEcole() {
 
 function miseAJourDuFiltreSecteur(anneePromotion_libelle, entreprise_nom,
 		pays_nom, ville_nom) {
+	jsRoutes.controllers.ServiceSecteur
+	.AJAX_listeDesSecteursSelonCriteres(anneePromotion_libelle,
+			entreprise_nom, pays_nom, ville_nom)
+	.ajax(
+			{
+				success : function(data, textStatus, jqXHR) {
+					var filtre_secteur = HTML('filtre_secteur');
 
+					// Suppression des elements existants dans le filtre
+					filtre_secteur.innerHTML = "";
+					filtre_secteur_option_par_defaut = document
+							.createElement('option');
+					filtre_secteur_option_par_defaut.innerHTML = FILTRE_SECTEUR_OPTION_PAR_DEFAUT_TEXTE;
+					filtre_secteur
+							.appendChild(filtre_secteur_option_par_defaut);
+
+					// Ajout des nouveaux elements
+					for ( var element in data) {
+						console.log(data[element]);
+						filtre_secteur.options[filtre_secteur.options.length] = new Option(
+								data[element]);
+					}
+
+				}
+			});
 }
 
 function miseAJourDuFiltrePays(anneePromotion_libelle, entreprise_nom,

@@ -92,7 +92,7 @@ public class ServiceSecteur extends Controller {
 				wherePlace = true;
 			}
 			sql += "secteur_ID IN (";
-			sql += "SELECT entrepriseVilleSecteur_secteur FROM EntrepriseVilleSecteur, Ville WHERE ville_nom = :ville_nom";
+			sql += "SELECT entrepriseVilleSecteur_secteur_ID FROM EntrepriseVilleSecteur, Ville WHERE ville_nom = :ville_nom";
 			sql += " AND ";
 			sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
 			sql += ")";
