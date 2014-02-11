@@ -82,9 +82,12 @@ public class ServiceAnneePromotion extends Controller {
 			}
 			sql += "anneePromotion_ID IN (";
 			sql += "SELECT personne_anneePromotion_ID FROM Personne WHERE personne_ID IN (";
-			sql += "SELECT entreprisePersonne_ID FROM EntreprisePersonne WHERE entreprisePersonne_pays_ID IN (";
+			sql += "SELECT entreprisePersonne_ID FROM EntreprisePersonne, Ville WHERE entreprisePersonne_ville_ID = (";
 			sql += "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
-			sql += ")))";
+			sql += ")";
+			sql += " AND ";
+			sql += "ville_ID = entreprisePersonne_ville_ID";
+			sql += "))";
 		}
 
 		if (parametresPresents[3]) {

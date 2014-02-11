@@ -98,13 +98,12 @@ CREATE TABLE Secteur (
   secteur_nom VARCHAR(50) NOT NULL
 );
 
---TODO contraintes pour entreprisePersonne_secteur_ID, entreprisePersonne_pays_ID, entreprisePersonne_ville_ID
+--TODO contraintes pour entreprisePersonne_secteur_ID, entreprisePersonne_ville_ID
 CREATE TABLE EntreprisePersonne (
   entreprisePersonne_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EntreprisePersonneSequence'),
   entreprisePersonne_personne_ID INTEGER REFERENCES Personne (personne_ID) NOT NULL,
   entreprisePersonne_entreprise_ID INTEGER REFERENCES Entreprise (entreprise_ID) NOT NULL,
   entreprisePersonne_secteur_ID INTEGER REFERENCES Secteur (secteur_ID) NOT NULL,
-  entreprisePersonne_pays_ID INTEGER REFERENCES Pays (pays_ID) NOT NULL,
   entreprisePersonne_ville_ID INTEGER REFERENCES Ville (ville_ID) NOT NULL
   );
 
@@ -127,6 +126,13 @@ CREATE TABLE EntrepriseVille (
   entrepriseVille_entreprise_ID INTEGER REFERENCES Entreprise (entreprise_ID) NOT NULL,
   entrepriseVille_ville_ID INTEGER REFERENCES Ville (ville_ID) NOT NULL
 );
+
+--CREATE TABLE EntrepriseVilleSecteur (
+--  entrepriseVilleSecteur_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EntrepriseVilleSecteurSequence'),
+--  entrepriseVilleSecteur_entreprise_ID INTEGER REFERENCES Entreprise (entreprise_ID) NOT NULL,
+--  entrepriseVilleSecteur_ville_ID INTEGER REFERENCES Ville (ville_ID) NOT NULL,
+--  entrepriseVilleSecteur_secteur_ID INTEGER REFERENCES Secteur (secteur_ID) NOT NULL
+--);
 
 CREATE TABLE Ecole (
   ecole_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EcoleSequence'),
@@ -206,13 +212,13 @@ INSERT INTO Secteur (secteur_ID, secteur_nom) VALUES (nextval('SecteurSequence')
 INSERT INTO Secteur (secteur_ID, secteur_nom) VALUES (nextval('SecteurSequence'), 'Recherche');
 INSERT INTO Secteur (secteur_ID, secteur_nom) VALUES (nextval('SecteurSequence'), 'Percolation');
 
-INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_pays_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 1, 1, 1, 1, 1);
-INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_pays_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 2, 2, 1, 1, 3);
-INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_pays_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 3, 2, 1, 1, 2);
-INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_pays_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 4, 3, 1, 1, 2);
-INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_pays_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 5, 3, 1, 1, 2);
-INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_pays_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 6, 4, 1, 1, 1);
-INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_pays_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 7, 6, 4, 1, 1);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 1, 1, 1, 1);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 2, 2, 1, 3);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 3, 2, 1, 2);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 4, 3, 1, 2);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 5, 3, 1, 2);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 6, 4, 1, 1);
+INSERT INTO EntreprisePersonne (entreprisePersonne_ID, entreprisePersonne_personne_ID, entreprisePersonne_entreprise_ID, entreprisePersonne_secteur_ID, entreprisePersonne_ville_ID) VALUES (nextval('entreprisePersonneSequence'), 7, 6, 4, 1);
 
 INSERT INTO EntrepriseSecteur (entrepriseSecteur_ID, entrepriseSecteur_entreprise_ID, entrepriseSecteur_secteur_ID) VALUES (nextval('EntrepriseSecteurSequence'), 1, 1);
 INSERT INTO EntrepriseSecteur (entrepriseSecteur_ID, entrepriseSecteur_entreprise_ID, entrepriseSecteur_secteur_ID) VALUES (nextval('EntrepriseSecteurSequence'), 1, 2);

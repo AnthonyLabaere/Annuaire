@@ -34,11 +34,10 @@ public class ServiceEntreprise extends Controller {
 	}
 
 	// TODO
-	// Les filtres sont activés par l'utilisateur. Sinon un NULL est mis dans le
+	// Les filtres sont activés par l'utilisateur. Sinon un "" est mis dans le
 	// parametre et donc ce n'est pas pris en compte dans cette fonction. Et si
-	// on le prend en compte on rajoute un Where dans la requete SQL
+	// on le prend en compte on rajoute un WHERE dans la requete SQL
 	// Les memes fonctions sont a implementer pour les autres filtres !
-	// Ajouter un bouton "reinitialise les filtres"
 	public static Result AJAX_listeDesEntreprisesSelonCriteres(
 	        String anneePromotion_libelle, String secteur_nom, String pays_nom,
 	        String ville_nom) {

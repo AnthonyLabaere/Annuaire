@@ -149,21 +149,10 @@ function creationAlimentation_filtreVille(pays_nom) {
 	var villeTd2 = document.createElement('td');
 	villeTd2.appendChild(filtre_ville);
 
-	var villeTd3 = document.createElement('td');
-	var bouton_reset_ville = document.createElement('img');
-	bouton_reset_ville.setAttribute('src', '/assets/images/reset.png');
-	bouton_reset_ville.setAttribute('id', 'bouton_reset_ville');
-	bouton_reset_ville.setAttribute('alt', 'bouton_reset_ville');
-	bouton_reset_ville.setAttribute('onClick', "reset(this.id)");
-	bouton_reset_ville.setAttribute('class', 'bouton_reset');
-	bouton_reset_ville.setAttribute('title', 'R&eacute;initialiser ce filtre');
-	villeTd3.appendChild(bouton_reset_ville);
-
 	var villeTr = document.createElement('tr');
 	villeTr.setAttribute('id', 'tr_ville');
 	villeTr.appendChild(villeTd1);
 	villeTr.appendChild(villeTd2);
-	villeTr.appendChild(villeTd3);
 
 	HTML('tableau_critere').appendChild(villeTr);
 

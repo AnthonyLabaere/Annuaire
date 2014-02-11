@@ -1,5 +1,6 @@
 function resetAll() {
 	initialisationFiltres();
+	suppression_filtreVille();
 }
 
 /**
