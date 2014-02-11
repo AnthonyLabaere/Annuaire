@@ -17,6 +17,7 @@ public class RoutingAjax extends Controller {
 		        controllers.routes.javascript.ServiceEntreprise.AJAX_listeDesEntreprisesSelonCriteres(),
 		        controllers.routes.javascript.ServiceSecteur.AJAX_listeDesSecteurs(),
 		        controllers.routes.javascript.ServicePays.AJAX_listeDesPays(),
+		        controllers.routes.javascript.ServicePays.AJAX_listeDesPaysSelonCriteres(),
 		        controllers.routes.javascript.ServiceVille.AJAX_listeDesVillesDuPays(),
 		        controllers.routes.javascript.ServiceVille.AJAX_listeDesVillesSelonCriteres()));
 	}

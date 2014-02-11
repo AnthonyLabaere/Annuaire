@@ -1,6 +1,8 @@
 function resetAll() {
 	initialisationFiltres();
-	suppression_filtreVille();
+	if (HTML('filtre_ville')) {
+		suppression_filtreVille();
+	}
 }
 
 /**
@@ -8,7 +10,7 @@ function resetAll() {
  * filtres sont mis a jour en consequence apres requetage de la BDD. Si tous les
  * filtres doivent être modifies, il suffit de ne pas donner de parametre
  */
-function miseAJourDesFiltres(filtre_ID) {	
+function miseAJourDesFiltres(filtre_ID) {
 	var anneePromotion_libelle = VIDE;
 	var ecole_nom = VIDE;
 	var entreprise_nom = VIDE;
@@ -55,7 +57,7 @@ function miseAJourDesFiltres(filtre_ID) {
 	}
 	if (pays_nom == VIDE) {
 		miseAJourDuFiltrePays(anneePromotion_libelle, entreprise_nom,
-				secteur_nom, ville_nom);
+				secteur_nom);
 	}
 	if (ville_nom == VIDE) {
 		miseAJourDuFiltreVille(anneePromotion_libelle, entreprise_nom,
@@ -130,7 +132,31 @@ function miseAJourDuFiltreSecteur(anneePromotion_libelle, entreprise_nom,
 }
 
 function miseAJourDuFiltrePays(anneePromotion_libelle, entreprise_nom,
-		secteur_nom, ville_nom) {
+		secteur_nom) {
+	jsRoutes.controllers.ServicePays
+			.AJAX_listeDesPaysSelonCriteres(anneePromotion_libelle, entreprise_nom,
+					secteur_nom)
+			.ajax(
+					{
+						success : function(data, textStatus, jqXHR) {
+							var filtre_pays = HTML('filtre_pays');
+
+							// Suppression des elements existants dans le filtre
+							filtre_pays.innerHTML = "";
+							filtre_pays_option_par_defaut = document
+									.createElement('option');
+							filtre_pays_option_par_defaut.innerHTML = FILTRE_PAYS_OPTION_PAR_DEFAUT_TEXTE;
+							filtre_pays
+									.appendChild(filtre_pays_option_par_defaut);
+
+							// Ajout des nouveaux elements
+							for ( var element in data) {
+								filtre_pays.options[filtre_pays.options.length] = new Option(
+										data[element]);
+							}
+
+						}
+					});
 
 }
 
