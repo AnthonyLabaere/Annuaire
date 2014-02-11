@@ -11,7 +11,7 @@
 -- EntrepriseVilleSecteurSequence
 -- EcoleSequence
 -- EcoleSecteurSequence
--- EcolePersonneSequence
+-- EcoleSecteurPersonneSequence
 -- PosteActuelSequence
 ------------------------------------------------------------------------------------------------------------------------------
 -- et les tables suivantes :
@@ -26,7 +26,7 @@
 -- EntrepriseVilleSecteur
 -- Ecole
 -- EcoleSecteur
--- EcolePersonne
+-- EcoleSecteurPersonne
 -- PosteActuel
 ------------------------------------------------------------------------------------------------------------------------------
 -- et insere des donnees de test dans les tables suivantes :
@@ -57,7 +57,7 @@ CREATE SEQUENCE VilleSequence;
 CREATE SEQUENCE EntrepriseVilleSecteurSequence;
 CREATE SEQUENCE EcoleSequence;
 CREATE SEQUENCE EcoleSecteurSequence;
-CREATE SEQUENCE EcolePersonneSequence;
+CREATE SEQUENCE EcoleSecteurPersonneSequence;
 CREATE SEQUENCE PosteActuelSequence;
 
 
@@ -119,12 +119,10 @@ CREATE TABLE EcoleSecteur (
   ecoleSecteur_secteur_ID INTEGER REFERENCES Secteur (secteur_ID) NOT NULL
 );
 
---TODO contraintes pour ecolePersonne_secteur_ID
-CREATE TABLE EcolePersonne (
-  ecolePersonne_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EcolePersonneSequence'),
-  ecolePersonne_ecole_ID INTEGER REFERENCES Ecole (ecole_ID) NOT NULL,
-  ecolePersonne_personne_ID INTEGER REFERENCES Personne (personne_ID) NOT NULL,
-  ecolePersonne_secteur_ID INTEGER REFERENCES Secteur (secteur_ID) NOT NULL
+CREATE TABLE EcoleSecteurPersonne (
+  ecoleSecteurPersonne_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EcoleSecteurPersonneSequence'),
+  ecoleSecteurPersonne_ecoleSecteur_ID INTEGER REFERENCES Personne (personne_ID) NOT NULL,
+  ecoleSecteurPersonne_personne_ID INTEGER REFERENCES Personne (personne_ID) NOT NULL
 );
 
 -- CREATE TABLE PosteActuel (
@@ -235,7 +233,23 @@ INSERT INTO Ecole (ecole_ID, ecole_nom, ecole_ville_ID) VALUES (nextval('EcoleSe
 INSERT INTO Ecole (ecole_ID, ecole_nom, ecole_ville_ID) VALUES (nextval('EcoleSequence'), 'Oniris', 1);
 INSERT INTO Ecole (ecole_ID, ecole_nom, ecole_ville_ID) VALUES (nextval('EcoleSequence'), 'Lycée Faidherbe', 3);
 INSERT INTO Ecole (ecole_ID, ecole_nom, ecole_ville_ID) VALUES (nextval('EcoleSequence'), 'ENA', 2);
-INSERT INTO Ecole (ecole_ID, ecole_nom, ecole_ville_ID) VALUES (nextval('EcoleSequence'), 'ESB', 1);
+INSERT INTO Ecole (ecole_ID, ecole_nom, ecole_ville_ID) VALUES (nextval('EcoleSequence'), 'ESB', 1);--6
+
+INSERT INTO EcoleSecteur (ecoleSecteur_ID, ecoleSecteur_ecole_ID, ecoleSecteur_secteur_ID) VALUES (nextval('EcoleSecteurSequence'),1,1);
+INSERT INTO EcoleSecteur (ecoleSecteur_ID, ecoleSecteur_ecole_ID, ecoleSecteur_secteur_ID) VALUES (nextval('EcoleSecteurSequence'),1,3);
+INSERT INTO EcoleSecteur (ecoleSecteur_ID, ecoleSecteur_ecole_ID, ecoleSecteur_secteur_ID) VALUES (nextval('EcoleSecteurSequence'),2,3);
+INSERT INTO EcoleSecteur (ecoleSecteur_ID, ecoleSecteur_ecole_ID, ecoleSecteur_secteur_ID) VALUES (nextval('EcoleSecteurSequence'),3,3);
+INSERT INTO EcoleSecteur (ecoleSecteur_ID, ecoleSecteur_ecole_ID, ecoleSecteur_secteur_ID) VALUES (nextval('EcoleSecteurSequence'),4,1);--5
+INSERT INTO EcoleSecteur (ecoleSecteur_ID, ecoleSecteur_ecole_ID, ecoleSecteur_secteur_ID) VALUES (nextval('EcoleSecteurSequence'),4,3);
+INSERT INTO EcoleSecteur (ecoleSecteur_ID, ecoleSecteur_ecole_ID, ecoleSecteur_secteur_ID) VALUES (nextval('EcoleSecteurSequence'),5,3);
+INSERT INTO EcoleSecteur (ecoleSecteur_ID, ecoleSecteur_ecole_ID, ecoleSecteur_secteur_ID) VALUES (nextval('EcoleSecteurSequence'),6,3);
+
+INSERT INTO EcoleSecteurPersonne (ecoleSecteurPersonne_ID, ecoleSecteurPersonne_ecoleSecteur_ID, ecoleSecteurPersonne_personne_ID) VALUES (nextval('EcoleSecteurPersonneSequence'),1,1);
+INSERT INTO EcoleSecteurPersonne (ecoleSecteurPersonne_ID, ecoleSecteurPersonne_ecoleSecteur_ID, ecoleSecteurPersonne_personne_ID) VALUES (nextval('EcoleSecteurPersonneSequence'),5,1);
+INSERT INTO EcoleSecteurPersonne (ecoleSecteurPersonne_ID, ecoleSecteurPersonne_ecoleSecteur_ID, ecoleSecteurPersonne_personne_ID) VALUES (nextval('EcoleSecteurPersonneSequence'),2,4);
+INSERT INTO EcoleSecteurPersonne (ecoleSecteurPersonne_ID, ecoleSecteurPersonne_ecoleSecteur_ID, ecoleSecteurPersonne_personne_ID) VALUES (nextval('EcoleSecteurPersonneSequence'),3,5);
+INSERT INTO EcoleSecteurPersonne (ecoleSecteurPersonne_ID, ecoleSecteurPersonne_ecoleSecteur_ID, ecoleSecteurPersonne_personne_ID) VALUES (nextval('EcoleSecteurPersonneSequence'),4,6);
+
 
 # --- !Downs
 
@@ -249,7 +263,7 @@ DROP SEQUENCE IF EXISTS VilleSequence CASCADE;
 DROP SEQUENCE IF EXISTS EntrepriseVilleSecteurSequence CASCADE;
 DROP SEQUENCE IF EXISTS EcoleSequence CASCADE;
 DROP SEQUENCE IF EXISTS EcoleSecteurSequence CASCADE;
-DROP SEQUENCE IF EXISTS EcolePersonneSequence CASCADE;
+DROP SEQUENCE IF EXISTS EcoleSecteurPersonneSequence CASCADE;
 DROP SEQUENCE IF EXISTS PosteActuelSequence CASCADE;
 
 DROP TABLE IF EXISTS AnneePromotion CASCADE;
@@ -262,5 +276,5 @@ DROP TABLE IF EXISTS Ville CASCADE;
 DROP TABLE IF EXISTS EntrepriseVilleSecteur CASCADE;
 DROP TABLE IF EXISTS Ecole CASCADE; 
 DROP TABLE IF EXISTS EcoleSecteur CASCADE; 
-DROP TABLE IF EXISTS EcolePersonne CASCADE; 
+DROP TABLE IF EXISTS EcoleSecteurPersonne CASCADE; 
 DROP TABLE IF EXISTS PosteActuel CASCADE; 
