@@ -103,13 +103,13 @@ public class ServicePays extends Controller {
 
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesEntreprisesParCriteres = new ArrayList<String>();
+		List<String> listeDesPaysParCriteres = new ArrayList<String>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesEntreprisesParCriteres.add(sqlRow.get("pays_nom")
+			listeDesPaysParCriteres.add(sqlRow.get("pays_nom")
 			        .toString());
 		}
 
-		return ok(Json.toJson(listeDesEntreprisesParCriteres));
+		return ok(Json.toJson(listeDesPaysParCriteres));
 	}
 
 }

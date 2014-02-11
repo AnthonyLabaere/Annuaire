@@ -113,12 +113,12 @@ public class ServiceVille extends Controller {
 		sqlQuery.setParameter("pays_nom", pays_nom);
 		
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesEntreprisesParCriteres = new ArrayList<String>();
+		List<String> listeDesVillesParCriteres = new ArrayList<String>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesEntreprisesParCriteres.add(sqlRow.get("ville_nom")
+			listeDesVillesParCriteres.add(sqlRow.get("ville_nom")
 			        .toString());
 		}
 
-		return ok(Json.toJson(listeDesEntreprisesParCriteres));
+		return ok(Json.toJson(listeDesVillesParCriteres));
 	}
 }

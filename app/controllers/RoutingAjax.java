@@ -13,6 +13,7 @@ public class RoutingAjax extends Controller {
 		        controllers.routes.javascript.ServiceAnneePromotion.AJAX_listeDesAnneesPromotion(),
 		        controllers.routes.javascript.ServiceAnneePromotion.AJAX_listeDesAnneesPromotionSelonCriteres(),
 		        controllers.routes.javascript.ServiceEcole.AJAX_listeDesEcoles(),
+		        controllers.routes.javascript.ServiceEcole.AJAX_listeDesEcolesSelonCriteres(),
 		        controllers.routes.javascript.ServiceEntreprise.AJAX_listeDesEntreprises(),
 		        controllers.routes.javascript.ServiceEntreprise.AJAX_listeDesEntreprisesSelonCriteres(),
 		        controllers.routes.javascript.ServiceSecteur.AJAX_listeDesSecteurs(),

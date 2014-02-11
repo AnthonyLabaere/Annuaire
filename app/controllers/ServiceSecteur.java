@@ -116,13 +116,13 @@ public class ServiceSecteur extends Controller {
 		}
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesEntreprisesParCriteres = new ArrayList<String>();
+		List<String> listeDesSecteursParCriteres = new ArrayList<String>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesEntreprisesParCriteres.add(sqlRow.get("secteur_nom")
+			listeDesSecteursParCriteres.add(sqlRow.get("secteur_nom")
 			        .toString());
 		}
 
-		return ok(Json.toJson(listeDesEntreprisesParCriteres));
+		return ok(Json.toJson(listeDesSecteursParCriteres));
 	}
 
 }
