@@ -27,45 +27,32 @@ http://www.gnu.org/licenses/.
 <div id="panneau">
 	<div id="entete_panneau">
 		<h2>Recherche</h2>
+		<img src="/assets/images/reset.png" id="bouton_reset_pays" alt="bouton_reset_pays" onClick="resetAll()" class="bouton_reset" title="R&eacute;initialisation des filtres" />
 		@logOut() 
 		<img src="/assets/images/fleche_panneau.png" id="bouton_fermeture_panneau" alt="bouton_fermeture_panneau" onClick="glisserPanneau()" class="ouvert" title="R&eacute;duire"/>
-        <!-- TODO bouton help ? avec le but, les développeurs, le créateur, les tuteurs, des explications sur le fonctionnbement de l'application -->
+        <!-- TODO bouton help ? avec le but, les developpeurs, le createur, les tuteurs, des explications sur le fonctionnement de l'application -->
 	</div>
 	<table id="tableau_critere">
 		<tr>
 			<th>Crit&egrave;re</th>
 			<th>Liste de valeurs</th>
-			<th>Reset</th>
 		</tr>
 		<tr>
 			<td>Ann&eacute;e de promotion</td>
 			<td>
-				<select name="Annee_de_promotion" id="filtre_anneePromotion"
-					onChange="miseAJourDesFiltres()">
-				</select>
-			</td>
-			<td>
-				<img src="/assets/images/reset.png" id="bouton_reset_anneePromotion" alt="bouton_reset_anneePromotion" onClick="reset('filtre_anneePromotion')" class="bouton_reset" title="R&eacute;initialiser ce filtre" />
+				<select name="Annee_de_promotion" id="filtre_anneePromotion" onChange="miseAJourDesFiltres(this.id)"></select>
 			</td>
 		</tr>
 		<tr>
 			<td>&Eacute;cole</td>
 			<td>
-				<select name="Ecole" id="filtre_ecole" onChange="miseAJourDesFiltres()"></select>
-			</td>
-			<td>
-				<img src="/assets/images/reset.png" id="bouton_reset_ecole" alt="bouton_reset_ecole" onClick="reset('filtre_ecole')" class="bouton_reset" title="R&eacute;initialiser ce filtre" />
+				<select name="Ecole" id="filtre_ecole" onChange="miseAJourDesFiltres(this.id)"></select>
 			</td>
 		</tr>
 		<tr>
 			<td>Entreprise</td>
 			<td>
-				<select name="Entreprise" id="filtre_entreprise"
-				onChange="miseAJourDesFiltres()">
-				</select>
-			</td>
-			<td>
-				<img src="/assets/images/reset.png" id="bouton_reset_entreprise" alt="bouton_reset_entreprise" onClick="reset('filtre_entreprise')" class="bouton_reset" title="R&eacute;initialiser ce filtre" />
+				<select name="Entreprise" id="filtre_entreprise" onChange="miseAJourDesFiltres(this.id)"></select>
 			</td>
 		</tr>
 		<tr>
@@ -78,19 +65,13 @@ http://www.gnu.org/licenses/.
 		<tr>
 			<td>Secteur</td>
 			<td>
-				<select name="Secteur" id="filtre_secteur" onChange="miseAJourDesFiltres()"></select>
-			</td>
-			<td>
-				<img src="/assets/images/reset.png" id="bouton_reset_secteur" alt="bouton_reset_secteur" onClick="reset('filtre_secteur')" class="bouton_reset" title="R&eacute;initialiser ce filtre" />
+				<select name="Secteur" id="filtre_secteur" onChange="miseAJourDesFiltres(this.id)"></select>
 			</td>
 		</tr>
 		<tr>
 			<td>Pays</td>
 			<td>
-				<select name="Pays" id="filtre_pays" onChange="miseAJourDesFiltres()"></select>
-			</td>
-			<td>
-				<img src="/assets/images/reset.png" id="bouton_reset_pays" alt="bouton_reset_pays" onClick="reset('filtre_pays')" class="bouton_reset" title="R&eacute;initialiser ce filtre" />
+				<select name="Pays" id="filtre_pays" onChange="miseAJourDesFiltres(this.id)"></select>
 			</td>
 		</tr>
 	</table>

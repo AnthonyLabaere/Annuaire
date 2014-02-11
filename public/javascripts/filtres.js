@@ -1,21 +1,26 @@
-function reset(idFiltre) {
-	HTML(idFiltre).selectedIndex = '0';
-	miseAJourDesFiltres();
+function resetAll() {
+	initialisationFiltres();
 }
 
 /**
  * Cette fonction est appelee lorsque l'un des filtres a ete modifie. Les autres
- * filtres sont mis a jour en consequence apres requetage de la BDD
+ * filtres sont mis a jour en consequence apres requetage de la BDD. Si tous les
+ * filtres doivent être modifies, il suffit de ne pas donner de parametre
  */
-function miseAJourDesFiltres() {
-	var anneePromotion_libelle = "";
-	var entreprise_nom = "";
-	var secteur_nom = "";
-	var pays_nom = "";
-	var ville_nom = "";
+function miseAJourDesFiltres(filtre_ID) {	
+	var anneePromotion_libelle = VIDE;
+	var ecole_nom = VIDE;
+	var entreprise_nom = VIDE;
+	var secteur_nom = VIDE;
+	var pays_nom = VIDE;
+	var ville_nom = VIDE;
 
+	// Seul les filtres actifs sont pris en compte
 	if (HTML('filtre_anneePromotion').selectedIndex != '0') {
 		anneePromotion_libelle = HTML('filtre_anneePromotion').value;
+	}
+	if (HTML('filtre_ecole').selectedIndex != '0') {
+		ecole_nom = HTML('filtre_ecole').value;
 	}
 	if (HTML('filtre_entreprise').selectedIndex != '0') {
 		entreprise_nom = HTML('filtre_entreprise').value;
@@ -30,24 +35,60 @@ function miseAJourDesFiltres() {
 		ville_nom = HTML('filtre_ville').value;
 	}
 
-	miseAJourDuFiltreAnneePromotion(entreprise_nom, secteur_nom, pays_nom,
-			ville_nom);
-	// miseAJourDuFiltreEcole(anneePromotion_libelle, entreprise_nom,
-	// secteur_nom, pays_nom, ville_nom);
-	miseAJourDuFiltreEntreprise(anneePromotion_libelle, secteur_nom, pays_nom,
-			ville_nom);
-	miseAJourDuFiltreSecteur(anneePromotion_libelle, entreprise_nom, pays_nom,
-			ville_nom);
-	miseAJourDuFiltrePays(anneePromotion_libelle, entreprise_nom, secteur_nom,
-			ville_nom);
-	miseAJourDuFiltreVille(anneePromotion_libelle, entreprise_nom, secteur_nom,
-			pays_nom);
+	// Les filtres actifs ne sont pas modifies
+	if (anneePromotion_libelle == VIDE) {
+		miseAJourDuFiltreAnneePromotion(entreprise_nom, secteur_nom, pays_nom,
+				ville_nom);
+	}
+	if (ecole_nom == VIDE) {
+		miseAJourDuFiltreEcole(anneePromotion_libelle, entreprise_nom,
+				secteur_nom, pays_nom, ville_nom);
+	}
+	if (entreprise_nom == VIDE) {
+		miseAJourDuFiltreEntreprise(anneePromotion_libelle, secteur_nom,
+				pays_nom, ville_nom);
+	}
+	if (secteur_nom == VIDE) {
+		miseAJourDuFiltreSecteur(anneePromotion_libelle, entreprise_nom,
+				pays_nom, ville_nom);
+	}
+	if (pays_nom == VIDE) {
+		miseAJourDuFiltrePays(anneePromotion_libelle, entreprise_nom,
+				secteur_nom, ville_nom);
+	}
+	if (ville_nom == VIDE) {
+		miseAJourDuFiltreVille(anneePromotion_libelle, entreprise_nom,
+				secteur_nom, pays_nom);
+	}
 
 }
 
 function miseAJourDuFiltreAnneePromotion(entreprise_nom, secteur_nom, pays_nom,
 		ville_nom) {
+	jsRoutes.controllers.ServiceAnneePromotion
+			.AJAX_listeDesAnneesPromotionSelonCriteres(entreprise_nom,
+					secteur_nom, pays_nom, ville_nom)
+			.ajax(
+					{
+						success : function(data, textStatus, jqXHR) {
+							var filtre_anneePromotion = HTML('filtre_anneePromotion');
 
+							// Suppression des elements existants dans le filtre
+							filtre_anneePromotion.innerHTML = "";
+							filtre_anneePromotion_option_par_defaut = document
+									.createElement('option');
+							filtre_anneePromotion_option_par_defaut.innerHTML = FILTRE_ANNEEPROMOTION_OPTION_PAR_DEFAUT_TEXTE;
+							filtre_anneePromotion
+									.appendChild(filtre_anneePromotion_option_par_defaut);
+
+							// Ajout des nouveaux elements
+							for ( var element in data) {
+								filtre_anneePromotion.options[filtre_anneePromotion.options.length] = new Option(
+										data[element]);
+							}
+
+						}
+					});
 }
 
 function miseAJourDuFiltreEntreprise(anneePromotion_libelle, secteur_nom,
@@ -78,9 +119,9 @@ function miseAJourDuFiltreEntreprise(anneePromotion_libelle, secteur_nom,
 					});
 }
 
-// function miseAJourDuFiltreEcole() {
-//
-// }
+function miseAJourDuFiltreEcole() {
+
+}
 
 function miseAJourDuFiltreSecteur(anneePromotion_libelle, entreprise_nom,
 		pays_nom, ville_nom) {

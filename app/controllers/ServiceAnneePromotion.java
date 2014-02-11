@@ -16,25 +16,25 @@ import dao.AnneePromotionDao;
 
 public class ServiceAnneePromotion extends Controller {
 
-	public static List<AnneePromotion> listeDesAnneesdePromotion() {
+	public static List<AnneePromotion> listeDesAnneesPromotion() {
 		return AnneePromotionDao.find.orderBy("libelle asc").findList();
 	}
 
-	public static Result AJAX_listeDesAnneesdePromotion() {
+	public static Result AJAX_listeDesAnneesPromotion() {
 		String sql = "SELECT anneePromotion_libelle FROM AnneePromotion ORDER BY anneePromotion_libelle DESC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesAnneesdePromotion = new ArrayList<String>();
+		List<String> listeDesAnneesPromotion = new ArrayList<String>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesAnneesdePromotion.add(sqlRow.get("anneePromotion_libelle")
+			listeDesAnneesPromotion.add(sqlRow.get("anneePromotion_libelle")
 			        .toString());
 		}
 
-		return ok(Json.toJson(listeDesAnneesdePromotion));
+		return ok(Json.toJson(listeDesAnneesPromotion));
 	}
 
-	public static Result AJAX_listeDesAnneesdePromotionSelonCriteres(
+	public static Result AJAX_listeDesAnneesPromotionSelonCriteres(
 	        String entreprise_nom, String secteur_nom, String pays_nom,
 	        String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
@@ -45,7 +45,7 @@ public class ServiceAnneePromotion extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT anneePromotion_nom FROM AnneePromotion";
+		String sql = "SELECT anneePromotion_libelle FROM AnneePromotion";
 
 		if (parametresPresents[0]) {
 			wherePlace = true;
@@ -81,6 +81,10 @@ public class ServiceAnneePromotion extends Controller {
 				wherePlace = true;
 			}
 			sql += "anneePromotion_ID IN (";
+			sql += "SELECT personne_anneePromotion_ID FROM Personne WHERE personne_ID IN (";
+			sql += "SELECT entreprisePersonne_ID FROM EntreprisePersonne WHERE entreprisePersonne_pays_ID IN (";
+			sql += "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
+			sql += ")))";
 		}
 
 		if (parametresPresents[3]) {
@@ -91,14 +95,17 @@ public class ServiceAnneePromotion extends Controller {
 				wherePlace = true;
 			}
 			sql += "anneePromotion_ID IN (";
+			sql += "SELECT personne_anneePromotion_ID FROM Personne WHERE personne_ID IN (";
+			sql += "SELECT entreprisePersonne_ID FROM EntreprisePersonne WHERE entreprisePersonne_ville_ID IN (";
+			sql += "SELECT ville_ID FROM Ville WHERE ville_nom = :ville_nom";
+			sql += ")))";
 		}
 
 		sql += " ORDER BY anneePromotion_libelle ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
-			sqlQuery.setParameter("anneePromotion_libelle",
-			        Integer.parseInt(entreprise_nom));
+			sqlQuery.setParameter("entreprise_nom", entreprise_nom);
 		}
 		if (parametresPresents[1]) {
 			sqlQuery.setParameter("secteur_nom", secteur_nom);
@@ -111,13 +118,13 @@ public class ServiceAnneePromotion extends Controller {
 		}
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesEntreprisesParCriteres = new ArrayList<String>();
+		List<String> listeDesAnneesPromotionParCriteres = new ArrayList<String>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesEntreprisesParCriteres.add(sqlRow.get("entreprise_nom")
-			        .toString());
+			listeDesAnneesPromotionParCriteres.add(sqlRow.get(
+			        "anneePromotion_libelle").toString());
 		}
 
-		return ok(Json.toJson(listeDesEntreprisesParCriteres));
+		return ok(Json.toJson(listeDesAnneesPromotionParCriteres));
 	}
 
 }
