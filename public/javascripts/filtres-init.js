@@ -114,27 +114,38 @@ jsRoutes.controllers.ServicePays
 // selectionne
 function creationAlimentation_filtreVille(pays_nom) {
 	// Creation du filtre
-	villeTd1 = document.createElement('td');
+	var villeTd1 = document.createElement('td');
 	villeTd1.innerHTML = 'Ville';
 
-	filtre_ville = document.createElement('select');
+	var filtre_ville = document.createElement('select');
 	filtre_ville.setAttribute('name', 'Ville');
 	filtre_ville.setAttribute('id', 'filtre_ville');
 	filtre_ville.setAttribute('onChange', 'miseAJourDesFiltres()');
 
-	filtre_ville_option_par_defaut = document.createElement('option');
-	filtre_ville_option_par_defaut.innerHTML = 'S&eacute;lectionnez le Ville recherch&eacute;e';
+	var filtre_ville_option_par_defaut = document.createElement('option');
+	filtre_ville_option_par_defaut.innerHTML = FILTRE_VILLE_OPTION_PAR_DEFAUT_TEXTE;
 
 	filtre_ville.appendChild(filtre_ville_option_par_defaut);
 
-	villeTd2 = document.createElement('td');
+	var villeTd2 = document.createElement('td');
 	villeTd2.appendChild(filtre_ville);
+	
+	var villeTd3 = document.createElement('td');
+	var bouton_reset_ville = document.createElement('img');
+	bouton_reset_ville.setAttribute('src', '/assets/images/reset.png');
+	bouton_reset_ville.setAttribute('id', 'bouton_reset_ville');
+	bouton_reset_ville.setAttribute('alt', 'bouton_reset_ville');
+	bouton_reset_ville.setAttribute('onClick', "reset('filtre_ville')");
+	bouton_reset_ville.setAttribute('class', 'bouton_reset');
+	bouton_reset_ville.setAttribute('title', 'R&eacute;initialiser ce filtre');
+	villeTd3.appendChild(bouton_reset_ville);
 
-	villeTr = document.createElement('tr');
+	var villeTr = document.createElement('tr');
 	villeTr.setAttribute('id', 'tr_ville');
 	villeTr.appendChild(villeTd1);
 	villeTr.appendChild(villeTd2);
-
+	villeTr.appendChild(villeTd3);
+	
 	HTML('tableau_critere').appendChild(villeTr);
 
 	// Alimentation du filtre

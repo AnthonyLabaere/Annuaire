@@ -1,11 +1,6 @@
-/**
- * Cette fonction est appelee lorsque le filtre pays est modifie : les autres
- * filtres sont alors modifies en consequence en interrogant la BDD. Si le
- * filtre pays n'etait pas renseigne alors le filtre ville apparait. La carte
- * zoome sur le pays concerne. Les marqueurs des villes où des centraliens sont
- * presents apparaissent
- */
-function onChangeFiltrePays() {
+function reset(idFiltre) {
+	HTML(idFiltre).selectedIndex = '0';
+	miseAJourDesFiltres();
 }
 
 /**
@@ -35,18 +30,23 @@ function miseAJourDesFiltres() {
 		ville_nom = HTML('filtre_ville').value;
 	}
 
-	miseAJourDuFiltreAnneePromotion();
-	miseAJourDuFiltreEcole();
+	miseAJourDuFiltreAnneePromotion(entreprise_nom, secteur_nom, pays_nom,
+			ville_nom);
+	// miseAJourDuFiltreEcole(anneePromotion_libelle, entreprise_nom,
+	// secteur_nom, pays_nom, ville_nom);
 	miseAJourDuFiltreEntreprise(anneePromotion_libelle, secteur_nom, pays_nom,
 			ville_nom);
-	miseAJourDuFiltreSecteur();
-	miseAJourDuFiltrePays();
+	miseAJourDuFiltreSecteur(anneePromotion_libelle, entreprise_nom, pays_nom,
+			ville_nom);
+	miseAJourDuFiltrePays(anneePromotion_libelle, entreprise_nom, secteur_nom,
+			ville_nom);
 	miseAJourDuFiltreVille(anneePromotion_libelle, entreprise_nom, secteur_nom,
 			pays_nom);
 
 }
 
-function miseAJourDuFiltreAnneePromotion() {
+function miseAJourDuFiltreAnneePromotion(entreprise_nom, secteur_nom, pays_nom,
+		ville_nom) {
 
 }
 
@@ -78,58 +78,67 @@ function miseAJourDuFiltreEntreprise(anneePromotion_libelle, secteur_nom,
 					});
 }
 
-function miseAJourDuFiltreEcole() {
+// function miseAJourDuFiltreEcole() {
+//
+// }
+
+function miseAJourDuFiltreSecteur(anneePromotion_libelle, entreprise_nom,
+		pays_nom, ville_nom) {
 
 }
 
-function miseAJourDuFiltreSecteur() {
+function miseAJourDuFiltrePays(anneePromotion_libelle, entreprise_nom,
+		secteur_nom, ville_nom) {
 
 }
 
-function miseAJourDuFiltrePays() {
-
-}
-
+/**
+ * Si le filtre pays n'etait pas renseigne alors le filtre ville apparait. La
+ * carte zoome sur le pays concerne. Les marqueurs des villes où des centraliens
+ * sont presents apparaissent
+ */
 function miseAJourDuFiltreVille(anneePromotion_libelle, entreprise_nom,
 		secteur_nom, pays_nom) {
 
-	if (!HTML('filtre_ville')){
+	if (!HTML('filtre_ville')) {
 		// Si le filtre ville n'existe pas et qu'un un pays a ete selectionne,
 		// ce premier est cree avec les informations du pays
-		if (HTML('filtre_pays').selectedIndex != 0){
+		if (HTML('filtre_pays').selectedIndex != 0) {
 			creationAlimentation_filtreVille(pays_nom);
 		}
 	} else {
 		// Si le filtre pays est desactive alors le filtre ville est retire du
 		// panneau
-		if (HTML('filtre_pays').selectedIndex == 0){
+		if (HTML('filtre_pays').selectedIndex == 0) {
 			suppression_filtreVille();
+		} else {
+			jsRoutes.controllers.ServiceVille
+					.AJAX_listeDesVillesSelonCriteres(anneePromotion_libelle,
+							entreprise_nom, secteur_nom, pays_nom)
+					.ajax(
+							{
+								success : function(data, textStatus, jqXHR) {
+									var filtre_ville = HTML('filtre_ville');
+
+									// Suppression des elements existants dans
+									// le
+									// filtre
+									filtre_ville.innerHTML = "";
+									filtre_ville_option_par_defaut = document
+											.createElement('option');
+									filtre_ville_option_par_defaut.innerHTML = FILTRE_VILLE_OPTION_PAR_DEFAUT_TEXTE;
+									filtre_ville
+											.appendChild(filtre_ville_option_par_defaut);
+
+									// Ajout des nouveaux elements
+									for ( var element in data) {
+										filtre_ville.options[filtre_ville.options.length] = new Option(
+												data[element]);
+									}
+
+								}
+							});
 		}
-		
-		jsRoutes.controllers.ServiceVille
-		.AJAX_listeDesVillesSelonCriteres(anneePromotion_libelle,
-				entreprise_nom, secteur_nom, pays_nom)
-		.ajax(
-				{
-					success : function(data, textStatus, jqXHR) {
-						var filtre_ville = HTML('filtre_ville');
 
-						// Suppression des elements existants dans le
-						// filtre
-						filtre_ville.innerHTML = "";
-						filtre_ville_option_par_defaut = document
-								.createElement('option');
-						filtre_ville_option_par_defaut.innerHTML = FILTRE_VILLE_OPTION_PAR_DEFAUT_TEXTE;
-						filtre_ville
-								.appendChild(filtre_ville_option_par_defaut);
-
-						// Ajout des nouveaux elements
-						for ( var element in data) {
-							filtre_ville.options[filtre_ville.options.length] = new Option(
-									data[element]);
-						}
-
-					}
-				});
 	}
 }

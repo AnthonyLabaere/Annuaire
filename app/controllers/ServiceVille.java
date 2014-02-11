@@ -49,7 +49,6 @@ public class ServiceVille extends Controller {
 	public static Result AJAX_listeDesVillesSelonCriteres(
 	        String anneePromotion_libelle, String entreprise_nom,
 	        String secteur_nom, String pays_nom) {
-		System.out.println("--------------------AJAX_listeDesVillesSelonCriteres--------------------");
 		
 		Boolean[] parametresPresents = new Boolean[] {
 		        anneePromotion_libelle != null
@@ -66,7 +65,7 @@ public class ServiceVille extends Controller {
 			sql += " WHERE ";
 			// TODO : ajouter l'ecole !
 			sql += "ville_ID IN (";
-			sql += "SELECT entreprisePersonne_ville_ID FROM entreprisePersonne WHERE entreprisePersonne_personne_ID IN (";
+			sql += "SELECT entreprisePersonne_ville_ID FROM EntreprisePersonne WHERE entreprisePersonne_personne_ID IN (";
 			sql += "SELECT personne_ID FROM Personne WHERE personne_anneePromotion_ID IN (";
 			sql += "SELECT anneePromotion_ID FROM AnneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
 			sql += ")))";
@@ -111,8 +110,6 @@ public class ServiceVille extends Controller {
 
 		sql += "ORDER BY ville_nom ASC";
 
-		System.out.println(sql);
-
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
 			sqlQuery.setParameter("anneePromotion_libelle",
@@ -126,15 +123,12 @@ public class ServiceVille extends Controller {
 		}
 		sqlQuery.setParameter("pays_nom", pays_nom);
 		
-		System.out.println("PARAMETERS");
-
 		List<SqlRow> listSqlRow = sqlQuery.findList();
 		List<String> listeDesEntreprisesParCriteres = new ArrayList<String>();
 		for (SqlRow sqlRow : listSqlRow) {
 			listeDesEntreprisesParCriteres.add(sqlRow.get("ville_nom")
 			        .toString());
 		}
-		System.out.println("/-------------------AJAX_listeDesVillesSelonCriteres--------------------");
 
 		return ok(Json.toJson(listeDesEntreprisesParCriteres));
 	}

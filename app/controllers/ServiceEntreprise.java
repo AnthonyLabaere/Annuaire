@@ -39,8 +39,6 @@ public class ServiceEntreprise extends Controller {
 	// on le prend en compte on rajoute un Where dans la requete SQL
 	// Les memes fonctions sont a implementer pour les autres filtres !
 	// Ajouter un bouton "reinitialise les filtres"
-	// Petite légende pour préciser que les filtres sont dynamiques (dans un
-	// bouton aide "?")
 	public static Result AJAX_listeDesEntreprisesSelonCriteres(
 	        String anneePromotion_libelle, String secteur_nom, String pays_nom,
 	        String ville_nom) {
@@ -74,7 +72,11 @@ public class ServiceEntreprise extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			sql += "entreprise_ID IN (SELECT entrepriseSecteur_entreprise_ID FROM EntrepriseSecteur, Secteur WHERE secteur_nom = :secteur_nom AND secteur_ID = entrepriseSecteur_secteur_ID)";
+			sql += "entreprise_ID IN (";
+			sql += "SELECT entrepriseSecteur_entreprise_ID FROM EntrepriseSecteur, Secteur WHERE secteur_nom = :secteur_nom";
+			sql += " AND ";
+			sql += "secteur_ID = entrepriseSecteur_secteur_ID";
+			sql += ")";
 		}
 
 		if (parametresPresents[2] && !parametresPresents[3]) {
@@ -84,7 +86,13 @@ public class ServiceEntreprise extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			sql += "entreprise_ID IN (SELECT entrepriseVille_entreprise_ID FROM EntrepriseVille, Ville WHERE ville_pays_ID = (SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom) AND ville_ID = entrepriseVille_ville_ID)";
+			sql += "entreprise_ID IN (";
+			sql += "SELECT entrepriseVille_entreprise_ID FROM EntrepriseVille, Ville WHERE ville_pays_ID = (";
+			sql += "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
+			sql += ")";
+			sql += " AND ";
+			sql += "ville_ID = entrepriseVille_ville_ID";
+			sql += ")";
 		}
 
 		if (parametresPresents[3]) {
@@ -94,7 +102,11 @@ public class ServiceEntreprise extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			sql += "entreprise_ID IN (SELECT entrepriseVille_entreprise_ID FROM EntrepriseVille, Ville WHERE ville_nom = :ville_nom AND ville_ID = entrepriseVille_ville_ID)";
+			sql += "entreprise_ID IN (";
+			sql += "SELECT entrepriseVille_entreprise_ID FROM EntrepriseVille, Ville WHERE ville_nom = :ville_nom";
+			sql += " AND ";
+			sql += "ville_ID = entrepriseVille_ville_ID";
+			sql += ")";
 		}
 
 		sql += " ORDER BY entreprise_nom ASC";

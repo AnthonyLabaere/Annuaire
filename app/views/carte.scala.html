@@ -28,27 +28,34 @@ http://www.gnu.org/licenses/.
 	<div id="entete_panneau">
 		<h2>Recherche</h2>
 		@logOut() 
-		<img src="/assets/images/fleche_panneau.png"
-			id="bouton_fermeture_panneau" alt="bouton_fermeture_panneau"
-			onClick="glisserPanneau()" class="ouvert" />
+		<img src="/assets/images/fleche_panneau.png" id="bouton_fermeture_panneau" alt="bouton_fermeture_panneau" onClick="glisserPanneau()" class="ouvert" title="R&eacute;duire"/>
         <!-- TODO bouton help ? avec le but, les développeurs, le créateur, les tuteurs, des explications sur le fonctionnbement de l'application -->
 	</div>
 	<table id="tableau_critere">
 		<tr>
 			<th>Crit&egrave;re</th>
 			<th>Liste de valeurs</th>
+			<th>Reset</th>
 		</tr>
 		<tr>
 			<td>Ann&eacute;e de promotion</td>
-			<td><select name="Annee_de_promotion" id="filtre_anneePromotion"
-				onChange="miseAJourDesFiltres()">
-			</select></td>
+			<td>
+				<select name="Annee_de_promotion" id="filtre_anneePromotion"
+					onChange="miseAJourDesFiltres()">
+				</select>
+			</td>
+			<td>
+				<img src="/assets/images/reset.png" id="bouton_reset_anneePromotion" alt="bouton_reset_anneePromotion" onClick="reset('filtre_anneePromotion')" class="bouton_reset" title="R&eacute;initialiser ce filtre" />
+			</td>
 		</tr>
 		<tr>
 			<td>&Eacute;cole</td>
-			<td><select name="Ecole" id="filtre_ecole"
-				onChange="miseAJourDesFiltres()">
-			</select></td>
+			<td>
+				<select name="Ecole" id="filtre_ecole" onChange="miseAJourDesFiltres()"></select>
+			</td>
+			<td>
+				<img src="/assets/images/reset.png" id="bouton_reset_ecole" alt="bouton_reset_ecole" onClick="reset('filtre_ecole')" class="bouton_reset" title="R&eacute;initialiser ce filtre" />
+			</td>
 		</tr>
 		<tr>
 			<td>Entreprise</td>
@@ -57,25 +64,34 @@ http://www.gnu.org/licenses/.
 				onChange="miseAJourDesFiltres()">
 				</select>
 			</td>
+			<td>
+				<img src="/assets/images/reset.png" id="bouton_reset_entreprise" alt="bouton_reset_entreprise" onClick="reset('filtre_entreprise')" class="bouton_reset" title="R&eacute;initialiser ce filtre" />
+			</td>
 		</tr>
 		<tr>
 			<td>Poste Actuel</td>
 			<td>
                 <!-- TODO Filtre inactif pour l'instant -->
-				<input type="checkbox" id="poste_actuel" name="poste_actuel" value="Poste Actuel"> (Ecole ou Entreprise)
+				<input type="checkbox" id="poste_actuel" name="poste_actuel" value="Poste Actuel" title="Les recherches ne porteront que sur les postes actuels des Centraliens"> (Ecole ou Entreprise)
 			</td>
 		</tr>
 		<tr>
 			<td>Secteur</td>
-			<td><select name="Secteur" id="filtre_secteur"
-				onChange="miseAJourDesFiltres()">
-			</select></td>
+			<td>
+				<select name="Secteur" id="filtre_secteur" onChange="miseAJourDesFiltres()"></select>
+			</td>
+			<td>
+				<img src="/assets/images/reset.png" id="bouton_reset_secteur" alt="bouton_reset_secteur" onClick="reset('filtre_secteur')" class="bouton_reset" title="R&eacute;initialiser ce filtre" />
+			</td>
 		</tr>
 		<tr>
 			<td>Pays</td>
-			<td><select name="Pays" id="filtre_pays"
-				onChange="miseAJourDesFiltres()">
-			</select></td>
+			<td>
+				<select name="Pays" id="filtre_pays" onChange="miseAJourDesFiltres()"></select>
+			</td>
+			<td>
+				<img src="/assets/images/reset.png" id="bouton_reset_pays" alt="bouton_reset_pays" onClick="reset('filtre_pays')" class="bouton_reset" title="R&eacute;initialiser ce filtre" />
+			</td>
 		</tr>
 	</table>
 </div>
