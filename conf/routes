@@ -12,11 +12,7 @@ GET		/logout						controllers.Application.logOut()
 #Affiche la carte
 GET   /pays                         controllers.Application.showCarte(Pays: String) 
 
-#Methodes AJAX
-POST    /testAjax                                controllers.Ajax.testAjax(name: String)
-POST    /testAjaxEnvoyer                         controllers.Ajax.testAjaxEnvoyer()
-POST    /testAjaxRecevoir                        controllers.Ajax.testAjaxRecevoir(name: String)
-
+#Methodes AJAX des Services de connexion a la BDD
 POST    /AJAX_listeDesAnneesPromotion                    controllers.ServiceAnneePromotion.AJAX_listeDesAnneesPromotion()
 POST    /AJAX_listeDesAnneesPromotionSelonCriteres       controllers.ServiceAnneePromotion.AJAX_listeDesAnneesPromotionSelonCriteres(entreprise_nom: String, secteur_nom: String, pays_nom: String, ville_nom: String)
 POST    /AJAX_listeDesEcoles                             controllers.ServiceEcole.AJAX_listeDesEcoles()
@@ -28,7 +24,7 @@ POST    /AJAX_listeDesVillesDuPays                       controllers.ServiceVill
 POST    /AJAX_listeDesVillesSelonCriteres                controllers.ServiceVille.AJAX_listeDesVillesSelonCriteres(anneePromotion_libelle: String, entreprise_nom: String, secteur_nom: String, pays_nom: String)
 
 # Routing Javascript 
-GET     /assets/javascripts/routes  controllers.Ajax.javascriptRoutes()
+GET     /assets/javascripts/routes  controllers.RoutingAjax.javascriptRoutes()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
