@@ -3,28 +3,15 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.Pays;
-import models.Ville;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Expr;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 
-import dao.VilleDao;
-
 public class ServiceVille extends Controller {
-
-	public static List<Ville> listeDesVilles() {
-		return VilleDao.find.orderBy("nom desc").findList();
-	}
-
-	public static List<Ville> listeDesVillesDuPays(Pays pays) {
-		return VilleDao.find.where(Expr.eq("ville", pays)).findList();
-	}
 
 	public static Result AJAX_listeDesVillesDuPays(String pays_nom) {
 

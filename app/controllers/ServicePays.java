@@ -3,27 +3,15 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.Pays;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Expr;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 
-import dao.PaysDao;
-
 public class ServicePays extends Controller {
-	
-	public static List<Pays> listeDesPays(){
-		return PaysDao.find.orderBy("nom asc").findList();
-	}
-	
-	public static Pays PaysDeNom(String nom){
-		return PaysDao.find.where(Expr.eq("nom", nom)).findUnique();
-	}
 
 	public static Result AJAX_listeDesPays() {
 		String sql = "SELECT pays_nom FROM Pays ORDER BY pays_nom ASC";

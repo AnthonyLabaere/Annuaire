@@ -3,7 +3,6 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.AnneePromotion;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -12,13 +11,8 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 
-import dao.AnneePromotionDao;
-
 public class ServiceAnneePromotion extends Controller {
 
-	public static List<AnneePromotion> listeDesAnneesPromotion() {
-		return AnneePromotionDao.find.orderBy("libelle asc").findList();
-	}
 
 	public static Result AJAX_listeDesAnneesPromotion() {
 		String sql = "SELECT anneePromotion_libelle FROM AnneePromotion ORDER BY anneePromotion_libelle DESC";

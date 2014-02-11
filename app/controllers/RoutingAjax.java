@@ -1,12 +1,8 @@
 package controllers;
 
 import play.Routes;
-import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class RoutingAjax extends Controller {
 

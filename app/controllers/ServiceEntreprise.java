@@ -3,7 +3,6 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.Entreprise;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -12,13 +11,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 
-import dao.EntrepriseDao;
-
 public class ServiceEntreprise extends Controller {
-
-	public static List<Entreprise> listeDesEntreprises() {
-		return EntrepriseDao.find.orderBy("nom asc").findList();
-	}
 
 	public static Result AJAX_listeDesEntreprises() {
 		String sql = "SELECT entreprise_nom FROM Entreprise ORDER BY entreprise_nom ASC";

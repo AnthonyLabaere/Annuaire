@@ -23,15 +23,10 @@
 
 package controllers;
 
-import java.util.List;
-
-import models.Pays;
-import models.Ville;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import service.ServiceVille;
 import connections.LDAP;
 
 /**
@@ -51,7 +46,7 @@ public class Application extends Controller {
 		if (session("uid") == null) {
 			return ok(views.html.index.render());
 		} else {
-			return showCarte(null);
+			return showCarte();
 		}
 	}
 
@@ -65,7 +60,7 @@ public class Application extends Controller {
 		String login = info.get("login");
 		if (LDAP.check(login, info.get("passw"))) {
 			session("uid", login);
-			return showCarte(null);
+			return showCarte();
 		} else {
 			return index();
 		}
@@ -86,15 +81,9 @@ public class Application extends Controller {
 	 * 
 	 * @return display list template
 	 */
-	public static Result showCarte(String nomPays) {
-		List<Ville> villes = null;
+	public static Result showCarte() {	
 		
-		if (nomPays != null && !nomPays.isEmpty()){
-			Pays pays = ServicePays.PaysDeNom(nomPays);
-			villes = ServiceVille.listeDesVillesDuPays(pays);
-		}		
-		
-		return ok(views.html.carte.render(villes));
+		return ok(views.html.carte.render());
 	}
 
 }
