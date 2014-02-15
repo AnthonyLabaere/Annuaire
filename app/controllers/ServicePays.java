@@ -27,11 +27,12 @@ public class ServicePays extends Controller {
 	}
 
 	public static Result AJAX_listeDesPaysSelonCriteres(
-	        String anneePromotion_libelle, String entreprise_nom,
-	        String secteur_nom) {
+	        String anneePromotion_libelle, String ecole_nom,
+	        String entreprise_nom, String secteur_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
 		        anneePromotion_libelle != null
 		                && !anneePromotion_libelle.isEmpty(),
+		        ecole_nom != null && !ecole_nom.isEmpty(),
 		        entreprise_nom != null && !entreprise_nom.isEmpty(),
 		        secteur_nom != null && !secteur_nom.isEmpty() };
 
@@ -52,7 +53,7 @@ public class ServicePays extends Controller {
 			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
 			sql += ")";
 		}
-		
+
 		if (parametresPresents[1]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -60,16 +61,13 @@ public class ServicePays extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			// TODO : ajouter l'ecole !
 			sql += "pays_ID IN (";
-			sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_entreprise_ID = (";
-			sql += "SELECT entreprise_ID FROM Entreprise WHERE entreprise_nom = :entreprise_nom";	
-			sql += ")";		
+			sql += "SELECT ville_pays_ID FROM Ville, Ecole WHERE ecole_nom = :ecole_nom";
 			sql += " AND ";
-			sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
+			sql += "ville_ID = ecole_ville_ID";
 			sql += ")";
 		}
-
+		
 		if (parametresPresents[2]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -78,9 +76,25 @@ public class ServicePays extends Controller {
 				wherePlace = true;
 			}
 			sql += "pays_ID IN (";
+			sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_entreprise_ID = (";
+			sql += "SELECT entreprise_ID FROM Entreprise WHERE entreprise_nom = :entreprise_nom";
+			sql += ")";
+			sql += " AND ";
+			sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
+			sql += ")";
+		}
+
+		if (parametresPresents[3]) {
+			if (wherePlace) {
+				sql += " AND ";
+			} else {
+				sql += " WHERE ";
+				wherePlace = true;
+			}
+			sql += "pays_ID IN (";
 			sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
-			sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";	
-			sql += ")";		
+			sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
+			sql += ")";
 			sql += " AND ";
 			sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
 			sql += ")";
@@ -94,19 +108,19 @@ public class ServicePays extends Controller {
 			        Integer.parseInt(anneePromotion_libelle));
 		}
 		if (parametresPresents[1]) {
-			sqlQuery.setParameter("entreprise_nom", entreprise_nom);
+			sqlQuery.setParameter("ecole_nom", ecole_nom);
 		}
 		if (parametresPresents[2]) {
+			sqlQuery.setParameter("entreprise_nom", entreprise_nom);
+		}
+		if (parametresPresents[3]) {
 			sqlQuery.setParameter("secteur_nom", secteur_nom);
 		}
-
-
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
 		List<String> listeDesPaysParCriteres = new ArrayList<String>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesPaysParCriteres.add(sqlRow.get("pays_nom")
-			        .toString());
+			listeDesPaysParCriteres.add(sqlRow.get("pays_nom").toString());
 		}
 
 		return ok(Json.toJson(listeDesPaysParCriteres));
