@@ -21,7 +21,7 @@ function initialisationFiltres() {
 			.ajax(
 					{
 						success : function(data, textStatus, jqXHR) {
-							var filtre_anneePromotion = HTML('filtre_anneePromotion');
+							var filtre_anneePromotion = HTML(FILTRE_ANNEEPROMOTION_ID);
 							filtre_anneePromotion.innerHTML = '';
 
 							filtre_anneePromotion_option_par_defaut = document
@@ -37,49 +37,53 @@ function initialisationFiltres() {
 						}
 					});
 
-	// Alimentation du filtre des ecoles
-	jsRoutes.controllers.ServiceEcole
-			.AJAX_listeDesEcoles()
-			.ajax(
-					{
-						success : function(data, textStatus, jqXHR) {
-							var filtre_ecole = HTML('filtre_ecole');
-							filtre_ecole.innerHTML = '';
+	// Alimentation du filtre des ecoles (si ce filtre existe)
+	if (HTML(FILTRE_ECOLE_ID)) {
+		jsRoutes.controllers.ServiceEcole
+				.AJAX_listeDesEcoles()
+				.ajax(
+						{
+							success : function(data, textStatus, jqXHR) {
+								var filtre_ecole = HTML(FILTRE_ECOLE_ID);
+								filtre_ecole.innerHTML = '';
 
-							filtre_ecole_option_par_defaut = document
-									.createElement('option');
-							filtre_ecole_option_par_defaut.innerHTML = FILTRE_ECOLE_OPTION_PAR_DEFAUT_TEXTE;
-							filtre_ecole
-									.appendChild(filtre_ecole_option_par_defaut);
+								filtre_ecole_option_par_defaut = document
+										.createElement('option');
+								filtre_ecole_option_par_defaut.innerHTML = FILTRE_ECOLE_OPTION_PAR_DEFAUT_TEXTE;
+								filtre_ecole
+										.appendChild(filtre_ecole_option_par_defaut);
 
-							for ( var element in data) {
-								filtre_ecole.options[filtre_ecole.options.length] = new Option(
-										data[element]);
+								for ( var element in data) {
+									filtre_ecole.options[filtre_ecole.options.length] = new Option(
+											data[element]);
+								}
 							}
-						}
-					});
+						});
+	}
 
-	// Alimentation du filtre des entreprises
-	jsRoutes.controllers.ServiceEntreprise
-			.AJAX_listeDesEntreprises()
-			.ajax(
-					{
-						success : function(data, textStatus, jqXHR) {
-							var filtre_entreprise = HTML('filtre_entreprise');
-							filtre_entreprise.innerHTML = '';
+	// Alimentation du filtre des entreprises (si ce filtre existe)
+	if (HTML(FILTRE_ENTREPRISE_ID)) {
+		jsRoutes.controllers.ServiceEntreprise
+				.AJAX_listeDesEntreprises()
+				.ajax(
+						{
+							success : function(data, textStatus, jqXHR) {
+								var filtre_entreprise = HTML(FILTRE_ENTREPRISE_ID);
+								filtre_entreprise.innerHTML = '';
 
-							filtre_entreprise_option_par_defaut = document
-									.createElement('option');
-							filtre_entreprise_option_par_defaut.innerHTML = FILTRE_ENTREPRISE_OPTION_PAR_DEFAUT_TEXTE;
-							filtre_entreprise
-									.appendChild(filtre_entreprise_option_par_defaut);
+								filtre_entreprise_option_par_defaut = document
+										.createElement('option');
+								filtre_entreprise_option_par_defaut.innerHTML = FILTRE_ENTREPRISE_OPTION_PAR_DEFAUT_TEXTE;
+								filtre_entreprise
+										.appendChild(filtre_entreprise_option_par_defaut);
 
-							for ( var element in data) {
-								filtre_entreprise.options[filtre_entreprise.options.length] = new Option(
-										data[element]);
+								for ( var element in data) {
+									filtre_entreprise.options[filtre_entreprise.options.length] = new Option(
+											data[element]);
+								}
 							}
-						}
-					});
+						});
+	}
 
 	// Alimentation du filtre des secteurs
 	jsRoutes.controllers.ServiceSecteur
@@ -87,7 +91,7 @@ function initialisationFiltres() {
 			.ajax(
 					{
 						success : function(data, textStatus, jqXHR) {
-							var filtre_secteur = HTML('filtre_secteur');
+							var filtre_secteur = HTML(FILTRE_SECTEUR_ID);
 							filtre_secteur.innerHTML = '';
 
 							filtre_secteur_option_par_defaut = document
@@ -109,7 +113,7 @@ function initialisationFiltres() {
 			.ajax(
 					{
 						success : function(data, textStatus, jqXHR) {
-							var filtre_pays = HTML('filtre_pays');
+							var filtre_pays = HTML(FILTRE_PAYS_ID);
 							filtre_pays.innerHTML = '';
 
 							filtre_pays_option_par_defaut = document
@@ -138,7 +142,7 @@ function creationAlimentation_filtreVille(pays_nom) {
 
 	var filtre_ville = document.createElement('select');
 	filtre_ville.setAttribute('name', 'Ville');
-	filtre_ville.setAttribute('id', 'filtre_ville');
+	filtre_ville.setAttribute('id', FILTRE_VILLE_ID);
 	filtre_ville.setAttribute('onChange', 'miseAJourDesFiltres(this.id)');
 
 	var filtre_ville_option_par_defaut = document.createElement('option');
@@ -162,7 +166,7 @@ function creationAlimentation_filtreVille(pays_nom) {
 			.ajax(
 					{
 						success : function(data, textStatus, jqXHR) {
-							var filtre_ville = HTML('filtre_ville');
+							var filtre_ville = HTML(FILTRE_VILLE_ID);
 
 							// Suppression des elements existants dans le filtre
 							filtre_ville.innerHTML = "";

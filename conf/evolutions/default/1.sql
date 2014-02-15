@@ -12,7 +12,6 @@
 -- EcoleSequence
 -- EcoleSecteurSequence
 -- EcoleSecteurPersonneSequence
--- PosteActuelSequence
 ------------------------------------------------------------------------------------------------------------------------------
 -- et les tables suivantes :
 ------------------------------------------------------------------------------------------------------------------------------
@@ -27,7 +26,6 @@
 -- Ecole
 -- EcoleSecteur
 -- EcoleSecteurPersonne
--- PosteActuel
 ------------------------------------------------------------------------------------------------------------------------------
 -- et insere des donnees de test dans les tables suivantes :
 ------------------------------------------------------------------------------------------------------------------------------
@@ -121,7 +119,7 @@ CREATE TABLE EcoleSecteur (
 
 CREATE TABLE EcoleSecteurPersonne (
   ecoleSecteurPersonne_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EcoleSecteurPersonneSequence'),
-  ecoleSecteurPersonne_ecoleSecteur_ID INTEGER REFERENCES Personne (personne_ID) NOT NULL,
+  ecoleSecteurPersonne_ecoleSecteur_ID INTEGER REFERENCES EcoleSecteur (ecoleSecteur_ID) NOT NULL,
   ecoleSecteurPersonne_personne_ID INTEGER REFERENCES Personne (personne_ID) NOT NULL
 );
 

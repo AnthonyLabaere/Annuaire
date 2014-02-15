@@ -30,7 +30,7 @@ import play.mvc.Result;
 import connections.LDAP;
 
 /**
- * Application class. Contains basic display.
+ * Classe Application : detaille les pages a afficher
  * 
  * @author malik
  * 
@@ -38,9 +38,9 @@ import connections.LDAP;
 public class Application extends Controller {
 
 	/**
-	 * Display index
+	 * Affiche la page d'index
 	 * 
-	 * @return Index
+	 * @return la page d'index si l'uid est null ou la carte sinon
 	 */
 	public static Result index() {
 		if (session("uid") == null) {
@@ -51,9 +51,9 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Manage logging in
+	 * Gere le processus de login
 	 * 
-	 * @return
+	 * @return la carte si le login/mdp est correct et la page de login sinon
 	 */
 	public static Result login() {
 		DynamicForm info = Form.form().bindFromRequest();
@@ -67,9 +67,9 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * log out the user
+	 * Deconnexion de l'utilisateur
 	 * 
-	 * @return display login page
+	 * @return la page de login
 	 */
 	public static Result logOut() {
 		session().clear();
@@ -77,9 +77,9 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Show list template but with an empty person list
+	 * Affiche la carte qui est le coeur de l'application
 	 * 
-	 * @return display list template
+	 * @return la page de la carte
 	 */
 	public static Result showCarte() {	
 		

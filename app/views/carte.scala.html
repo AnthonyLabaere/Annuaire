@@ -43,15 +43,20 @@ http://www.gnu.org/licenses/.
 				<select name="Annee_de_promotion" id="filtre_anneePromotion" onChange="miseAJourDesFiltres(this.id)"></select>
 			</td>
 		</tr>
+<!-- 		<tr> -->
+<!-- 			<td>&Eacute;cole</td> -->
+<!-- 			<td> -->
+<!-- 				<select name="Ecole" id="filtre_ecole" onChange="miseAJourDesFiltres(this.id)"></select> -->
+<!-- 			</td> -->
+<!-- 		</tr> -->
 		<tr>
-			<td>&Eacute;cole</td>
 			<td>
-				<select name="Ecole" id="filtre_ecole" onChange="miseAJourDesFiltres(this.id)"></select>
+				<select name="EcoleOuEntreprise" id="filtre_ecoleOuEntreprise" onChange="miseAJourEcoleOuEntreprise()">
+					<option value="filtre_entreprise">Entreprise</option>
+					<option value="filtre_ecole">Ecole</option>				
+				</select>
 			</td>
-		</tr>
-		<tr>
-			<td>Entreprise</td>
-			<td>
+			<td id="td_ecoleOuEntreprise">
 				<select name="Entreprise" id="filtre_entreprise" onChange="miseAJourDesFiltres(this.id)"></select>
 			</td>
 		</tr>
