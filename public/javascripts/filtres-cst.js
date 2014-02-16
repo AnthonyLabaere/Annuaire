@@ -5,6 +5,7 @@ var NOMBRE_TOTAL_FILTRES = 6;
  * Ces tableaux de constantes permettent de retenir des informations sur chacun
  * des filtres
  */
+var ARRAY_FILTRE_CENTRALIEN = new Array();
 var ARRAY_FILTRE_ANNEEPROMOTION = new Array();
 var ARRAY_FILTRE_ECOLE = new Array();
 var ARRAY_FILTRE_ENTREPRISE = new Array();
@@ -13,6 +14,7 @@ var ARRAY_FILTRE_PAYS = new Array();
 var ARRAY_FILTRE_VILLE = new Array();
 
 /** Ces constantes sont les ID des differents filtres */
+ARRAY_FILTRE_CENTRALIEN.push('filtre_centralien');
 ARRAY_FILTRE_ANNEEPROMOTION.push('filtre_anneePromotion');
 ARRAY_FILTRE_ECOLE.push('filtre_ecole');
 ARRAY_FILTRE_ENTREPRISE.push('filtre_entreprise');
@@ -21,6 +23,7 @@ ARRAY_FILTRE_PAYS.push('filtre_pays');
 ARRAY_FILTRE_VILLE.push('filtre_ville');
 
 /** Ces constantes sont les valeurs par defauts des differents filtres */
+ARRAY_FILTRE_CENTRALIEN.push('S&eacute;lectionnez le Centralien recherch&eacute;');
 ARRAY_FILTRE_ANNEEPROMOTION
 		.push('S&eacute;lectionnez l\'Ann&eacute;e de promotion recherch&eacute;e');
 ARRAY_FILTRE_ECOLE
@@ -38,6 +41,7 @@ ARRAY_FILTRE_VILLE.push('S&eacute;lectionnez la Ville recherch&eacute;e');
  */
 var ORDRE_ACTIVATION_DERNIERE_VALEUR = 1;
 var ORDRE_ACTIVATION_PAR_DEFAUT = -1;
+ARRAY_FILTRE_CENTRALIEN.push(ORDRE_ACTIVATION_PAR_DEFAUT);
 ARRAY_FILTRE_ANNEEPROMOTION.push(ORDRE_ACTIVATION_PAR_DEFAUT);
 ARRAY_FILTRE_ECOLE.push(ORDRE_ACTIVATION_PAR_DEFAUT);
 ARRAY_FILTRE_ENTREPRISE.push(ORDRE_ACTIVATION_PAR_DEFAUT);
@@ -59,6 +63,7 @@ var ARRAY_FILTRE_ORDRE_ACTIVATION = 2;
  * for dessus)
  */
 var ARRAY_FILTRES = new Array();
+ARRAY_FILTRES.push(ARRAY_FILTRE_CENTRALIEN);
 ARRAY_FILTRES.push(ARRAY_FILTRE_ANNEEPROMOTION);
 ARRAY_FILTRES.push(ARRAY_FILTRE_ECOLE);
 ARRAY_FILTRES.push(ARRAY_FILTRE_ENTREPRISE);
@@ -70,12 +75,13 @@ ARRAY_FILTRES.push(ARRAY_FILTRE_VILLE);
  * Et les constantes associees pour trouver le tableau d'un filtre dans le
  * tableau de filtres
  */
-var ARRAY_FILTRES_ANNEEPROMOTION = 0;
-var ARRAY_FILTRES_ECOLE = 1;
-var ARRAY_FILTRES_ENTREPRISE = 2;
-var ARRAY_FILTRES_SECTEUR = 3;
-var ARRAY_FILTRES_PAYS = 4;
-var ARRAY_FILTRES_VILLE = 5;
+var ARRAY_FILTRES_CENTRALIEN = 0;
+var ARRAY_FILTRES_ANNEEPROMOTION = 1;
+var ARRAY_FILTRES_ECOLE = 2;
+var ARRAY_FILTRES_ENTREPRISE = 3;
+var ARRAY_FILTRES_SECTEUR = 4;
+var ARRAY_FILTRES_PAYS = 5;
+var ARRAY_FILTRES_VILLE = 6;
 
 
 

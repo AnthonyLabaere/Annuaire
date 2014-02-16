@@ -45,12 +45,12 @@ public class ServiceAnneePromotion extends Controller {
 			wherePlace = true;
 			sql += " WHERE ";
 			sql += "anneePromotion_ID IN (";
-			sql += "SELECT personne_anneePromotion_ID FROM Personne WHERE personne_ID IN (";
-			sql += "SELECT ecoleSecteurPersonne_ID FROM EcoleSecteurPersonne, EcoleSecteur WHERE ecoleSecteur_ecole_ID = (";
+			sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
+			sql += "SELECT ecoleSecteurCentralien_ID FROM EcoleSecteurCentralien, EcoleSecteur WHERE ecoleSecteur_ecole_ID = (";
 			sql += "SELECT ecole_ID FROM Ecole WHERE ecole_nom = :ecole_nom";
 			sql += ")";
 			sql += " AND ";
-			sql += "ecoleSecteurPersonne_ecoleSecteur_ID = ecoleSecteur_ID ";	
+			sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID ";	
 			sql += "))";
 		}
 		
@@ -62,12 +62,12 @@ public class ServiceAnneePromotion extends Controller {
 				wherePlace = true;
 			}
 			sql += "anneePromotion_ID IN (";
-			sql += "SELECT personne_anneePromotion_ID FROM Personne WHERE personne_ID IN (";
-			sql += "SELECT entrepriseVilleSecteurPersonne_ID FROM EntrepriseVilleSecteurPersonne, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_entreprise_ID = (";
+			sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
+			sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_entreprise_ID = (";
 			sql += "SELECT entreprise_ID FROM Entreprise WHERE entreprise_nom = :entreprise_nom";
 			sql += ")";
 			sql += " AND ";
-			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
+			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
 			sql += "))";
 		}
 
@@ -79,12 +79,12 @@ public class ServiceAnneePromotion extends Controller {
 				wherePlace = true;
 			}
 			sql += "anneePromotion_ID IN (";
-			sql += "SELECT personne_anneePromotion_ID FROM Personne WHERE personne_ID IN (";
-			sql += "SELECT entrepriseVilleSecteurPersonne_ID FROM EntrepriseVilleSecteurPersonne, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
+			sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
+			sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
 			sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
 			sql += ")";
 			sql += " AND ";
-			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
+			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
 			sql += "))";
 		}
 
@@ -96,12 +96,12 @@ public class ServiceAnneePromotion extends Controller {
 				wherePlace = true;
 			}
 			sql += "anneePromotion_ID IN (";
-			sql += "SELECT personne_anneePromotion_ID FROM Personne WHERE personne_ID IN (";
-			sql += "SELECT entrepriseVilleSecteurPersonne_ID FROM EntrepriseVilleSecteurPersonne, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID IN (";
+			sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
+			sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID IN (";
 			sql += "SELECT ville_ID FROM Ville, Pays WHERE ville_pays_ID = pays_ID AND pays_nom = :pays_nom";
 			sql += ")";
 			sql += " AND ";
-			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
+			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
 			sql += "))";
 		}
 
@@ -114,12 +114,12 @@ public class ServiceAnneePromotion extends Controller {
 			}
 			
 			sql += "anneePromotion_ID IN (";
-			sql += "SELECT personne_anneePromotion_ID FROM Personne WHERE personne_ID IN (";
-			sql += "SELECT entrepriseVilleSecteurPersonne_ID FROM EntrepriseVilleSecteurPersonne, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID = (";
+			sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
+			sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID = (";
 			sql += "SELECT ville_ID FROM Ville WHERE ville_nom = :ville_nom";
 			sql += ")";
 			sql += " AND ";
-			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
+			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
 			sql += "))";
 		}
 

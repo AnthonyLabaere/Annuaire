@@ -44,13 +44,13 @@ public class ServiceEcole extends Controller {
 			wherePlace = true;
 			sql += " WHERE ";
 			sql += "ecole_ID IN (";
-			sql += "SELECT ecoleSecteur_ecole_ID FROM EcoleSecteur, EcoleSecteurPersonne, Personne WHERE personne_anneePromotion_ID IN (";
+			sql += "SELECT ecoleSecteur_ecole_ID FROM EcoleSecteur, EcoleSecteurCentralien, Centralien WHERE centralien_anneePromotion_ID IN (";
 			sql += "SELECT anneePromotion_ID FROM anneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
 			sql += ")";
 			sql += " AND "; 
-			sql += "personne_ID = ecoleSecteurPersonne_personne_ID";
+			sql += "centralien_ID = ecoleSecteurCentralien_centralien_ID";
 			sql += " AND "; 
-			sql += "ecoleSecteurPersonne_ecoleSecteur_ID = ecoleSecteur_ID";
+			sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID";
 			sql += ")";
 		}
 

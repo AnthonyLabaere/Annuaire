@@ -1,9 +1,34 @@
 function initialisationFiltres() {
+	initialisationFiltreCentralien();
 	initialisationFiltreAnneePromotion();
 	initialisationFiltreEcole();
 	initialisationFiltreEntreprise();
 	initialisationFiltreSecteur();
 	initialisationFiltrePays();
+}
+
+/** Alimentation du filtre des annees de promotion */
+function initialisationFiltreCentralien() {
+	jsRoutes.controllers.ServiceCentralien
+			.AJAX_listeDesCentraliens()
+			.ajax(
+					{
+						success : function(data, textStatus, jqXHR) {
+							var filtre_centralien = HTML(ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_ID]);
+							filtre_centralien.innerHTML = '';
+
+							filtre_centralien_option_par_defaut = document
+									.createElement('option');
+							filtre_centralien_option_par_defaut.innerHTML = ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
+							filtre_centralien
+									.appendChild(filtre_centralien_option_par_defaut);
+
+							for ( var element in data) {
+								filtre_centralien.options[filtre_centralien.options.length] = new Option(
+										data[element]);
+							}
+						}
+					});
 }
 
 /** Alimentation du filtre des annees de promotion */

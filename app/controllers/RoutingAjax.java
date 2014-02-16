@@ -10,6 +10,7 @@ public class RoutingAjax extends Controller {
 	public static Result javascriptRoutes() {
 		response().setContentType("text/javascript");
 		return ok(Routes.javascriptRouter("jsRoutes",
+		        controllers.routes.javascript.ServiceCentralien.AJAX_listeDesCentraliens(),
 		        controllers.routes.javascript.ServiceAnneePromotion.AJAX_listeDesAnneesPromotion(),
 		        controllers.routes.javascript.ServiceAnneePromotion.AJAX_listeDesAnneesPromotionSelonCriteres(),
 		        controllers.routes.javascript.ServiceEcole.AJAX_listeDesEcoles(),

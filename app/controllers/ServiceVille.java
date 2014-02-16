@@ -53,12 +53,12 @@ public class ServiceVille extends Controller {
 			sql += " WHERE ";
 			// TODO : ajouter l'ecole !
 			sql += "ville_ID IN (";
-			sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurPersonne WHERE entrepriseVilleSecteurPersonne_personne_ID IN (";
-			sql += "SELECT personne_ID FROM Personne WHERE personne_anneePromotion_ID IN (";
+			sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien WHERE entrepriseVilleSecteurCentralien_centralien_ID IN (";
+			sql += "SELECT centralien_ID FROM Centralien WHERE centralien_anneePromotion_ID IN (";
 			sql += "SELECT anneePromotion_ID FROM AnneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
 			sql += ")";
 			sql += " AND ";
-			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
+			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
 			sql += "))";
 		}
 

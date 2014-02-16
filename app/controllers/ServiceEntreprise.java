@@ -49,13 +49,13 @@ public class ServiceEntreprise extends Controller {
 			wherePlace = true;
 			sql += " WHERE ";
 			sql += "entreprise_ID IN (";
-			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurPersonne, Personne WHERE personne_anneePromotion_ID IN (";
+			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_anneePromotion_ID IN (";
 			sql += "SELECT anneePromotion_ID FROM anneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
 			sql += ")";
 			sql += " AND "; 
-			sql += "personne_ID = entrepriseVilleSecteurPersonne_personne_ID";
+			sql += "centralien_ID = entrepriseVilleSecteurCentralien_centralien_ID";
 			sql += " AND "; 
-			sql += "entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
+			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
 			sql += ")";
 		}
 

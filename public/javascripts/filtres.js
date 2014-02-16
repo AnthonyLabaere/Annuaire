@@ -31,12 +31,12 @@ function miseAJourEcoleOuEntreprise() {
 
 	// Remise a jour de tous les filtres
 	resetAll();
-	
+
 	// Alimentation du filtre
 	if (filtre_ecoleOuEntreprise == 'filtre_entreprise') {
 		initialisationFiltreEntreprise();
 	} else {
-		initialisationFiltreEcole();		
+		initialisationFiltreEcole();
 	}
 
 }
@@ -332,7 +332,6 @@ function miseAJourDuFiltreAnneePromotion(ecole_nom, entreprise_nom,
 											data[element]);
 								}
 							}
-
 						}
 					});
 }
@@ -380,7 +379,6 @@ function miseAJourDuFiltreEcole(anneePromotion_libelle, secteur_nom, pays_nom,
 											data[element]);
 								}
 							}
-
 						}
 					});
 }
@@ -428,7 +426,6 @@ function miseAJourDuFiltreEntreprise(anneePromotion_libelle, secteur_nom,
 											data[element]);
 								}
 							}
-
 						}
 					});
 }
@@ -478,7 +475,6 @@ function miseAJourDuFiltreSecteur(anneePromotion_libelle, ecole_nom,
 											data[element]);
 								}
 							}
-
 						}
 					});
 }
@@ -527,7 +523,6 @@ function miseAJourDuFiltrePays(anneePromotion_libelle, ecole_nom,
 											data[element]);
 								}
 							}
-
 						}
 					});
 
@@ -599,7 +594,6 @@ function miseAJourDuFiltreVille(anneePromotion_libelle, ecole_nom,
 													data[element]);
 										}
 									}
-
 								}
 							});
 		}

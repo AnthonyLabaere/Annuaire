@@ -2,37 +2,37 @@
 -- Ce script crée les séquences suivantes :
 ------------------------------------------------------------------------------------------------------------------------------
 -- AnneePromotionSequence
--- PersonneSequence
+-- CentralienSequence
 -- EntrepriseSequence
--- EntrepriseVilleSecteurPersonneSequence
+-- EntrepriseVilleSecteurCentralienSequence
 -- SecteurSequence
 -- PaysSequence
 -- VilleSequence
 -- EntrepriseVilleSecteurSequence
 -- EcoleSequence
 -- EcoleSecteurSequence
--- EcoleSecteurPersonneSequence
+-- EcoleSecteurCentralienSequence
 ------------------------------------------------------------------------------------------------------------------------------
 -- et les tables suivantes :
 ------------------------------------------------------------------------------------------------------------------------------
 -- AnneePromotion
--- Personne
+-- Centralien
 -- Entreprise
--- EntrepriseVilleSecteurPersonne
+-- EntrepriseVilleSecteurCentralien
 -- Secteur
 -- Pays
 -- Ville
 -- EntrepriseVilleSecteur
 -- Ecole
 -- EcoleSecteur
--- EcoleSecteurPersonne
+-- EcoleSecteurCentralien
 ------------------------------------------------------------------------------------------------------------------------------
 -- et insere des donnees de test dans les tables suivantes :
 ------------------------------------------------------------------------------------------------------------------------------
 -- AnneePromotion
--- Personne
+-- Centralien
 -- Entreprise
--- EntrepriseVilleSecteurPersonne
+-- EntrepriseVilleSecteurCentralien
 -- Secteur
 -- Pays
 -- Ville
@@ -46,16 +46,16 @@
 # --- !Ups
 
 CREATE SEQUENCE AnneePromotionSequence;
-CREATE SEQUENCE PersonneSequence;
+CREATE SEQUENCE CentralienSequence;
 CREATE SEQUENCE EntrepriseSequence;
-CREATE SEQUENCE EntrepriseVilleSecteurPersonneSequence;
+CREATE SEQUENCE EntrepriseVilleSecteurCentralienSequence;
 CREATE SEQUENCE SecteurSequence;
 CREATE SEQUENCE PaysSequence;
 CREATE SEQUENCE VilleSequence;
 CREATE SEQUENCE EntrepriseVilleSecteurSequence;
 CREATE SEQUENCE EcoleSequence;
 CREATE SEQUENCE EcoleSecteurSequence;
-CREATE SEQUENCE EcoleSecteurPersonneSequence;
+CREATE SEQUENCE EcoleSecteurCentralienSequence;
 CREATE SEQUENCE PosteActuelSequence;
 
 
@@ -64,11 +64,11 @@ CREATE TABLE AnneePromotion (
   anneePromotion_libelle INTEGER NOT NULL 
 );
 
-CREATE TABLE Personne (
-  personne_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PersonneSequence'),
-  personne_nom VARCHAR(50) NOT NULL,
-  personne_prenom VARCHAR(50) NOT NULL,
-  personne_anneePromotion_ID INTEGER REFERENCES AnneePromotion (anneePromotion_ID) NOT NULL
+CREATE TABLE Centralien (
+  centralien_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('CentralienSequence'),
+  centralien_nom VARCHAR(50) NOT NULL,
+  centralien_prenom VARCHAR(50) NOT NULL,
+  centralien_anneePromotion_ID INTEGER REFERENCES AnneePromotion (anneePromotion_ID) NOT NULL
 );
 
 CREATE TABLE Pays (
@@ -99,10 +99,10 @@ CREATE TABLE EntrepriseVilleSecteur (
   entrepriseVilleSecteur_secteur_ID INTEGER REFERENCES Secteur (secteur_ID) NOT NULL
 );
 
-CREATE TABLE EntrepriseVilleSecteurPersonne (
-  entrepriseVilleSecteurPersonne_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EntrepriseVilleSecteurPersonneSequence'),
-  entrepriseVilleSecteurPersonne_personne_ID INTEGER REFERENCES Personne (personne_ID) NOT NULL,
-  entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID INTEGER REFERENCES EntrepriseVilleSecteur (entrepriseVilleSecteur_ID) NOT NULL
+CREATE TABLE EntrepriseVilleSecteurCentralien (
+  entrepriseVilleSecteurCentralien_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EntrepriseVilleSecteurCentralienSequence'),
+  entrepriseVilleSecteurCentralien_centralien_ID INTEGER REFERENCES Centralien (centralien_ID) NOT NULL,
+  entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID INTEGER REFERENCES EntrepriseVilleSecteur (entrepriseVilleSecteur_ID) NOT NULL
   );
 
 CREATE TABLE Ecole (
@@ -117,18 +117,18 @@ CREATE TABLE EcoleSecteur (
   ecoleSecteur_secteur_ID INTEGER REFERENCES Secteur (secteur_ID) NOT NULL
 );
 
-CREATE TABLE EcoleSecteurPersonne (
-  ecoleSecteurPersonne_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EcoleSecteurPersonneSequence'),
-  ecoleSecteurPersonne_ecoleSecteur_ID INTEGER REFERENCES EcoleSecteur (ecoleSecteur_ID) NOT NULL,
-  ecoleSecteurPersonne_personne_ID INTEGER REFERENCES Personne (personne_ID) NOT NULL
+CREATE TABLE EcoleSecteurCentralien (
+  ecoleSecteurCentralien_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('EcoleSecteurCentralienSequence'),
+  ecoleSecteurCentralien_ecoleSecteur_ID INTEGER REFERENCES EcoleSecteur (ecoleSecteur_ID) NOT NULL,
+  ecoleSecteurCentralien_centralien_ID INTEGER REFERENCES Centralien (centralien_ID) NOT NULL
 );
 
 -- CREATE TABLE PosteActuel (
 --  posteActuel_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PosteActuelSequence'),
---   posteActuel_entreprisePersonne_ID INTEGER REFERENCES EntreprisePersonne (entreprisePersonne_ID),
---   posteActuel_ecolePersonne_ID INTEGER REFERENCES EcolePersonne (ecolePersonne_ID),
---   CHECK (posteActuel_ecolePersonne_ID IS NOT NULL OR posteActuel_ecolePersonne_ID IS NOT NULL),
---  CHECK (posteActuel_ecolePersonne_ID IS NULL OR posteActuel_ecolePersonne_ID IS NULL)
+--   posteActuel_entrepriseCentralien_ID INTEGER REFERENCES EntrepriseCentralien (entrepriseCentralien_ID),
+--   posteActuel_ecoleCentralien_ID INTEGER REFERENCES EcoleCentralien (ecoleCentralien_ID),
+--   CHECK (posteActuel_ecoleCentralien_ID IS NOT NULL OR posteActuel_ecoleCentralien_ID IS NOT NULL),
+--  CHECK (posteActuel_ecoleCentralien_ID IS NULL OR posteActuel_ecoleCentralien_ID IS NULL)
 -- );
 
 INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2003);
@@ -146,13 +146,13 @@ INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (n
 INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2015);
 INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2016);--14
 
-INSERT INTO Personne (personne_ID, personne_nom, personne_prenom, personne_anneePromotion_ID) VALUES (nextval('PersonneSequence'), 'Dupont', 'Dupond', 9);
-INSERT INTO Personne (personne_ID, personne_nom, personne_prenom, personne_anneePromotion_ID) VALUES (nextval('PersonneSequence'), 'Robert', 'Dupond', 10);
-INSERT INTO Personne (personne_ID, personne_nom, personne_prenom, personne_anneePromotion_ID) VALUES (nextval('PersonneSequence'), 'Albert', 'Dupond', 10);
-INSERT INTO Personne (personne_ID, personne_nom, personne_prenom, personne_anneePromotion_ID) VALUES (nextval('PersonneSequence'), 'Francis', 'Dupond', 11);
-INSERT INTO Personne (personne_ID, personne_nom, personne_prenom, personne_anneePromotion_ID) VALUES (nextval('PersonneSequence'), 'Benjamin', 'Dupond', 8);
-INSERT INTO Personne (personne_ID, personne_nom, personne_prenom, personne_anneePromotion_ID) VALUES (nextval('PersonneSequence'), 'Anthony', 'Dupond', 12);
-INSERT INTO Personne (personne_ID, personne_nom, personne_prenom, personne_anneePromotion_ID) VALUES (nextval('PersonneSequence'), 'Indianna', 'Jones', 1);--7
+INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Dupont', 'Dupond', 9);
+INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Robert', 'Dupond', 10);
+INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Albert', 'Dupond', 10);
+INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Francis', 'Dupond', 11);
+INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Benjamin', 'Dupond', 8);
+INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Anthony', 'Dupond', 12);
+INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Indianna', 'Jones', 1);--7
 
 INSERT INTO Pays (pays_ID, pays_nom) VALUES (nextval('PaysSequence'), 'France');
 INSERT INTO Pays (pays_ID, pays_nom) VALUES (nextval('PaysSequence'), 'Espagne');
@@ -218,13 +218,13 @@ INSERT INTO EntrepriseVilleSecteur (entrepriseVilleSecteur_ID, entrepriseVilleSe
 INSERT INTO EntrepriseVilleSecteur (entrepriseVilleSecteur_ID, entrepriseVilleSecteur_entreprise_ID, entrepriseVilleSecteur_ville_ID, entrepriseVilleSecteur_secteur_ID) VALUES (nextval('EntrepriseVilleSecteurSequence'), 5, 1, 3);--35
 INSERT INTO EntrepriseVilleSecteur (entrepriseVilleSecteur_ID, entrepriseVilleSecteur_entreprise_ID, entrepriseVilleSecteur_ville_ID, entrepriseVilleSecteur_secteur_ID) VALUES (nextval('EntrepriseVilleSecteurSequence'), 6, 1, 4);
 
-INSERT INTO EntrepriseVilleSecteurPersonne (entrepriseVilleSecteurPersonne_ID, entrepriseVilleSecteurPersonne_personne_ID, entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurPersonneSequence'), 1, 1);
-INSERT INTO EntrepriseVilleSecteurPersonne (entrepriseVilleSecteurPersonne_ID, entrepriseVilleSecteurPersonne_personne_ID, entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurPersonneSequence'), 2, 19);
-INSERT INTO EntrepriseVilleSecteurPersonne (entrepriseVilleSecteurPersonne_ID, entrepriseVilleSecteurPersonne_personne_ID, entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurPersonneSequence'), 3, 18);
-INSERT INTO EntrepriseVilleSecteurPersonne (entrepriseVilleSecteurPersonne_ID, entrepriseVilleSecteurPersonne_personne_ID, entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurPersonneSequence'), 4, 26);
-INSERT INTO EntrepriseVilleSecteurPersonne (entrepriseVilleSecteurPersonne_ID, entrepriseVilleSecteurPersonne_personne_ID, entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurPersonneSequence'), 5, 27);
-INSERT INTO EntrepriseVilleSecteurPersonne (entrepriseVilleSecteurPersonne_ID, entrepriseVilleSecteurPersonne_personne_ID, entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurPersonneSequence'), 6, 33);
-INSERT INTO EntrepriseVilleSecteurPersonne (entrepriseVilleSecteurPersonne_ID, entrepriseVilleSecteurPersonne_personne_ID, entrepriseVilleSecteurPersonne_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurPersonneSequence'), 7, 26);
+INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_ID, entrepriseVilleSecteurCentralien_centralien_ID, entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurCentralienSequence'), 1, 1);
+INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_ID, entrepriseVilleSecteurCentralien_centralien_ID, entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurCentralienSequence'), 2, 19);
+INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_ID, entrepriseVilleSecteurCentralien_centralien_ID, entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurCentralienSequence'), 3, 18);
+INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_ID, entrepriseVilleSecteurCentralien_centralien_ID, entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurCentralienSequence'), 4, 26);
+INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_ID, entrepriseVilleSecteurCentralien_centralien_ID, entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurCentralienSequence'), 5, 27);
+INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_ID, entrepriseVilleSecteurCentralien_centralien_ID, entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurCentralienSequence'), 6, 33);
+INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_ID, entrepriseVilleSecteurCentralien_centralien_ID, entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurCentralienSequence'), 7, 26);
 
 INSERT INTO Ecole (ecole_ID, ecole_nom, ecole_ville_ID) VALUES (nextval('EcoleSequence'), 'Centrale Nantes', 1);
 INSERT INTO Ecole (ecole_ID, ecole_nom, ecole_ville_ID) VALUES (nextval('EcoleSequence'), 'Audencia', 1);
@@ -242,37 +242,37 @@ INSERT INTO EcoleSecteur (ecoleSecteur_ID, ecoleSecteur_ecole_ID, ecoleSecteur_s
 INSERT INTO EcoleSecteur (ecoleSecteur_ID, ecoleSecteur_ecole_ID, ecoleSecteur_secteur_ID) VALUES (nextval('EcoleSecteurSequence'),5,3);
 INSERT INTO EcoleSecteur (ecoleSecteur_ID, ecoleSecteur_ecole_ID, ecoleSecteur_secteur_ID) VALUES (nextval('EcoleSecteurSequence'),6,3);
 
-INSERT INTO EcoleSecteurPersonne (ecoleSecteurPersonne_ID, ecoleSecteurPersonne_ecoleSecteur_ID, ecoleSecteurPersonne_personne_ID) VALUES (nextval('EcoleSecteurPersonneSequence'),1,1);
-INSERT INTO EcoleSecteurPersonne (ecoleSecteurPersonne_ID, ecoleSecteurPersonne_ecoleSecteur_ID, ecoleSecteurPersonne_personne_ID) VALUES (nextval('EcoleSecteurPersonneSequence'),5,1);
-INSERT INTO EcoleSecteurPersonne (ecoleSecteurPersonne_ID, ecoleSecteurPersonne_ecoleSecteur_ID, ecoleSecteurPersonne_personne_ID) VALUES (nextval('EcoleSecteurPersonneSequence'),2,4);
-INSERT INTO EcoleSecteurPersonne (ecoleSecteurPersonne_ID, ecoleSecteurPersonne_ecoleSecteur_ID, ecoleSecteurPersonne_personne_ID) VALUES (nextval('EcoleSecteurPersonneSequence'),3,5);
-INSERT INTO EcoleSecteurPersonne (ecoleSecteurPersonne_ID, ecoleSecteurPersonne_ecoleSecteur_ID, ecoleSecteurPersonne_personne_ID) VALUES (nextval('EcoleSecteurPersonneSequence'),4,6);
+INSERT INTO EcoleSecteurCentralien (ecoleSecteurCentralien_ID, ecoleSecteurCentralien_ecoleSecteur_ID, ecoleSecteurCentralien_centralien_ID) VALUES (nextval('EcoleSecteurCentralienSequence'),1,1);
+INSERT INTO EcoleSecteurCentralien (ecoleSecteurCentralien_ID, ecoleSecteurCentralien_ecoleSecteur_ID, ecoleSecteurCentralien_centralien_ID) VALUES (nextval('EcoleSecteurCentralienSequence'),5,1);
+INSERT INTO EcoleSecteurCentralien (ecoleSecteurCentralien_ID, ecoleSecteurCentralien_ecoleSecteur_ID, ecoleSecteurCentralien_centralien_ID) VALUES (nextval('EcoleSecteurCentralienSequence'),2,4);
+INSERT INTO EcoleSecteurCentralien (ecoleSecteurCentralien_ID, ecoleSecteurCentralien_ecoleSecteur_ID, ecoleSecteurCentralien_centralien_ID) VALUES (nextval('EcoleSecteurCentralienSequence'),3,5);
+INSERT INTO EcoleSecteurCentralien (ecoleSecteurCentralien_ID, ecoleSecteurCentralien_ecoleSecteur_ID, ecoleSecteurCentralien_centralien_ID) VALUES (nextval('EcoleSecteurCentralienSequence'),4,6);
 
 
 # --- !Downs
 
 DROP SEQUENCE IF EXISTS AnneePromotionSequence CASCADE;
-DROP SEQUENCE IF EXISTS PersonneSequence CASCADE;
+DROP SEQUENCE IF EXISTS CentralienSequence CASCADE;
 DROP SEQUENCE IF EXISTS EntrepriseSequence CASCADE;
-DROP SEQUENCE IF EXISTS EntrepriseVilleSecteurPersonneSequence CASCADE;
+DROP SEQUENCE IF EXISTS EntrepriseVilleSecteurCentralienSequence CASCADE;
 DROP SEQUENCE IF EXISTS SecteurSequence CASCADE;
 DROP SEQUENCE IF EXISTS PaysSequence CASCADE;
 DROP SEQUENCE IF EXISTS VilleSequence CASCADE;
 DROP SEQUENCE IF EXISTS EntrepriseVilleSecteurSequence CASCADE;
 DROP SEQUENCE IF EXISTS EcoleSequence CASCADE;
 DROP SEQUENCE IF EXISTS EcoleSecteurSequence CASCADE;
-DROP SEQUENCE IF EXISTS EcoleSecteurPersonneSequence CASCADE;
+DROP SEQUENCE IF EXISTS EcoleSecteurCentralienSequence CASCADE;
 DROP SEQUENCE IF EXISTS PosteActuelSequence CASCADE;
 
 DROP TABLE IF EXISTS AnneePromotion CASCADE;
-DROP TABLE IF EXISTS Personne CASCADE;
+DROP TABLE IF EXISTS Centralien CASCADE;
 DROP TABLE IF EXISTS Entreprise CASCADE;
-DROP TABLE IF EXISTS EntrepriseVilleSecteurPersonne CASCADE;
+DROP TABLE IF EXISTS EntrepriseVilleSecteurCentralien CASCADE;
 DROP TABLE IF EXISTS Secteur CASCADE;
 DROP TABLE IF EXISTS Pays CASCADE;
 DROP TABLE IF EXISTS Ville CASCADE;
 DROP TABLE IF EXISTS EntrepriseVilleSecteur CASCADE;
 DROP TABLE IF EXISTS Ecole CASCADE; 
 DROP TABLE IF EXISTS EcoleSecteur CASCADE; 
-DROP TABLE IF EXISTS EcoleSecteurPersonne CASCADE; 
+DROP TABLE IF EXISTS EcoleSecteurCentralien CASCADE; 
 DROP TABLE IF EXISTS PosteActuel CASCADE; 
