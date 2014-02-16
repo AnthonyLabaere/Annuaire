@@ -78,5 +78,4 @@ var ARRAY_FILTRES_PAYS = 4;
 var ARRAY_FILTRES_VILLE = 5;
 
 
-/** Variables globales */
-var TABLEAU_ORDRE_ACTIVATION;
+
