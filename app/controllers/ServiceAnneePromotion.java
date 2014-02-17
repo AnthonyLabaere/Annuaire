@@ -27,6 +27,7 @@ public class ServiceAnneePromotion extends Controller {
 		return ok(Json.toJson(listeDesAnneesPromotion));
 	}
 
+	// TODO : mettre des constantes pour toutes les tables
 	public static Result AJAX_listeDesAnneesPromotionSelonCriteres(
 			String ecole_nom, String entreprise_nom, String secteur_nom, String pays_nom,
 	        String ville_nom) {
@@ -71,6 +72,7 @@ public class ServiceAnneePromotion extends Controller {
 			sql += "))";
 		}
 
+		// TODO : Ou Ecole !!!
 		if (parametresPresents[2]) {
 			if (wherePlace) {
 				sql += " AND ";

@@ -150,9 +150,10 @@ INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centra
 INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Robert', 'Dupond', 10);
 INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Albert', 'Dupond', 10);
 INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Francis', 'Dupond', 11);
-INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Benjamin', 'Dupond', 8);
+INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Benjamin', 'Dupond', 8);--5
 INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Anthony', 'Dupond', 12);
-INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Indianna', 'Jones', 1);--7
+INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Indianna', 'Jones', 1);
+INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Black', 'MrCafe', 1);--8
 
 INSERT INTO Pays (pays_ID, pays_nom) VALUES (nextval('PaysSequence'), 'France');
 INSERT INTO Pays (pays_ID, pays_nom) VALUES (nextval('PaysSequence'), 'Espagne');
@@ -225,6 +226,7 @@ INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_I
 INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_ID, entrepriseVilleSecteurCentralien_centralien_ID, entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurCentralienSequence'), 5, 27);
 INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_ID, entrepriseVilleSecteurCentralien_centralien_ID, entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurCentralienSequence'), 6, 33);
 INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_ID, entrepriseVilleSecteurCentralien_centralien_ID, entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurCentralienSequence'), 7, 26);
+INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_ID, entrepriseVilleSecteurCentralien_centralien_ID, entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID) VALUES (nextval('EntrepriseVilleSecteurCentralienSequence'), 8, 36);
 
 INSERT INTO Ecole (ecole_ID, ecole_nom, ecole_ville_ID) VALUES (nextval('EcoleSequence'), 'Centrale Nantes', 1);
 INSERT INTO Ecole (ecole_ID, ecole_nom, ecole_ville_ID) VALUES (nextval('EcoleSequence'), 'Audencia', 1);

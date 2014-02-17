@@ -87,7 +87,8 @@ public class ServiceVille extends Controller {
 			sql += "SELECT entreprise_ID FROM Entreprise WHERE entreprise_nom = :entreprise_nom";
 			sql += "))";
 		}
-
+		
+		// TODO : Ou Ecole !!!
 		if (parametresPresents[3]) {
 			if (wherePlace) {
 				sql += " AND ";

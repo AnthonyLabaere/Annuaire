@@ -84,6 +84,7 @@ public class ServicePays extends Controller {
 			sql += ")";
 		}
 
+		// TODO : Ou Ecole !!!
 		if (parametresPresents[3]) {
 			if (wherePlace) {
 				sql += " AND ";

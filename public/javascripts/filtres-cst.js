@@ -1,5 +1,5 @@
 /** Constantes contenant le nombre total de filtre */
-var NOMBRE_TOTAL_FILTRES = 6;
+var NOMBRE_TOTAL_FILTRES = 7;
 
 /**
  * Ces tableaux de constantes permettent de retenir des informations sur chacun
