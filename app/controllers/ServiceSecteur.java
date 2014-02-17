@@ -11,6 +11,8 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 
+import constantes.IConstantes;
+
 public class ServiceSecteur extends Controller {
 
 	public static Result AJAX_listeDesSecteurs() {
@@ -34,8 +36,14 @@ public class ServiceSecteur extends Controller {
 		        centralien_nom != null && !centralien_nom.isEmpty(),
 		        anneePromotion_libelle != null
 		                && !anneePromotion_libelle.isEmpty(),
-		        ecole_nom != null && !ecole_nom.isEmpty(),
-		        entreprise_nom != null && !entreprise_nom.isEmpty(),
+		        ecole_nom != null
+		                && !ecole_nom.isEmpty()
+		                && !ecole_nom
+		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
+		        entreprise_nom != null
+		                && !entreprise_nom.isEmpty()
+		                && !entreprise_nom
+		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
 		        pays_nom != null && !pays_nom.isEmpty(),
 		        ville_nom != null && !ville_nom.isEmpty() };
 
@@ -43,6 +51,7 @@ public class ServiceSecteur extends Controller {
 
 		String sql = "SELECT secteur_nom FROM Secteur";
 
+		// TODO : Ou Ecole !!!
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
@@ -55,6 +64,7 @@ public class ServiceSecteur extends Controller {
 			sql += ")";
 		}
 
+		// TODO : Ou Ecole !!!
 		if (parametresPresents[1]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -102,6 +112,7 @@ public class ServiceSecteur extends Controller {
 			sql += ")";
 		}
 
+		// TODO : Ou Ecole !!!
 		if (parametresPresents[4] && !parametresPresents[5]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -118,6 +129,7 @@ public class ServiceSecteur extends Controller {
 			sql += ")";
 		}
 
+		// TODO : Ou Ecole !!!
 		if (parametresPresents[5]) {
 			if (wherePlace) {
 				sql += " AND ";

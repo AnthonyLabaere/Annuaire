@@ -11,6 +11,8 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 
+import constantes.IConstantes;
+
 public class ServiceCentralien extends Controller {
 
 	public static Result AJAX_listeDesCentraliens() {
@@ -33,8 +35,14 @@ public class ServiceCentralien extends Controller {
 		Boolean[] parametresPresents = new Boolean[] {
 		        anneePromotion_libelle != null
 		                && !anneePromotion_libelle.isEmpty(),
-		        ecole_nom != null && !ecole_nom.isEmpty(),
-		        entreprise_nom != null && !entreprise_nom.isEmpty(),
+		        ecole_nom != null
+		                && !ecole_nom.isEmpty()
+		                && !ecole_nom
+		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
+		        entreprise_nom != null
+		                && !entreprise_nom.isEmpty()
+		                && !entreprise_nom
+		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
 		        secteur_nom != null && !secteur_nom.isEmpty(),
 		        pays_nom != null && !pays_nom.isEmpty(),
 		        ville_nom != null && !ville_nom.isEmpty() };
@@ -63,7 +71,7 @@ public class ServiceCentralien extends Controller {
 			sql += "SELECT ecole_ID FROM Ecole WHERE ecole_nom = :ecole_nom";
 			sql += ")";
 			sql += " AND ";
-			sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID ";	
+			sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID ";
 			sql += ")";
 		}
 
@@ -79,10 +87,10 @@ public class ServiceCentralien extends Controller {
 			sql += "SELECT entreprise_ID FROM Entreprise WHERE entreprise_nom = :entreprise_nom";
 			sql += ")";
 			sql += " AND ";
-			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
+			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
 			sql += ")";
 		}
-		
+
 		// TODO : Ou Ecole !!!
 		if (parametresPresents[3]) {
 			if (wherePlace) {
@@ -96,12 +104,12 @@ public class ServiceCentralien extends Controller {
 			sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
 			sql += ")";
 			sql += " AND ";
-			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
+			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
 			sql += ")";
 		}
 
-		
-		if (parametresPresents [4] && !parametresPresents[5]) {
+		// TODO : Ou Ecole !!!
+		if (parametresPresents[4] && !parametresPresents[5]) {
 			if (wherePlace) {
 				sql += " AND ";
 			} else {
@@ -113,10 +121,11 @@ public class ServiceCentralien extends Controller {
 			sql += "SELECT ville_ID FROM Ville, Pays WHERE ville_pays_ID = pays_ID AND pays_nom = :pays_nom";
 			sql += ")";
 			sql += " AND ";
-			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
+			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
 			sql += ")";
 		}
 
+		// TODO : Ou Ecole !!!
 		if (parametresPresents[5]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -129,7 +138,7 @@ public class ServiceCentralien extends Controller {
 			sql += "SELECT ville_ID FROM Ville WHERE ville_nom = :ville_nom";
 			sql += ")";
 			sql += " AND ";
-			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";	
+			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
 			sql += ")";
 		}
 
@@ -159,8 +168,8 @@ public class ServiceCentralien extends Controller {
 		List<SqlRow> listSqlRow = sqlQuery.findList();
 		List<String> listeDesCentraliensParCriteres = new ArrayList<String>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesCentraliensParCriteres.add(sqlRow.get(
-			        "centralien_nom").toString());
+			listeDesCentraliensParCriteres.add(sqlRow.get("centralien_nom")
+			        .toString());
 		}
 
 		return ok(Json.toJson(listeDesCentraliensParCriteres));

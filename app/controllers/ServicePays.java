@@ -11,6 +11,8 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 
+import constantes.IConstantes;
+
 public class ServicePays extends Controller {
 
 	public static Result AJAX_listeDesPays() {
@@ -33,18 +35,24 @@ public class ServicePays extends Controller {
 		        centralien_nom != null && !centralien_nom.isEmpty(),
 		        anneePromotion_libelle != null
 		                && !anneePromotion_libelle.isEmpty(),
-		        ecole_nom != null && !ecole_nom.isEmpty(),
-		        entreprise_nom != null && !entreprise_nom.isEmpty(),
+		        ecole_nom != null
+		                && !ecole_nom.isEmpty()
+		                && !ecole_nom
+		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
+		        entreprise_nom != null
+		                && !entreprise_nom.isEmpty()
+		                && !entreprise_nom
+		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
 		        secteur_nom != null && !secteur_nom.isEmpty() };
 
 		Boolean wherePlace = false;
 
 		String sql = "SELECT pays_nom FROM Pays";
 
+		// TODO : Ou Ecole !!!
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
-			
 			sql += "pays_ID IN (";
 			sql += "SELECT ville_pays_ID FROM Ville WHERE ville_ID = (";
 			sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_nom = :centralien_nom";
@@ -55,6 +63,7 @@ public class ServicePays extends Controller {
 			sql += "))";
 		}
 
+		// TODO : Ou Ecole !!!
 		if (parametresPresents[1]) {
 			if (wherePlace) {
 				sql += " AND ";

@@ -23,7 +23,8 @@ ARRAY_FILTRE_PAYS.push('filtre_pays');
 ARRAY_FILTRE_VILLE.push('filtre_ville');
 
 /** Ces constantes sont les valeurs par defauts des differents filtres */
-ARRAY_FILTRE_CENTRALIEN.push('S&eacute;lectionnez le Centralien recherch&eacute;');
+ARRAY_FILTRE_CENTRALIEN
+		.push('S&eacute;lectionnez le Centralien recherch&eacute;');
 ARRAY_FILTRE_ANNEEPROMOTION
 		.push('S&eacute;lectionnez l\'Ann&eacute;e de promotion recherch&eacute;e');
 ARRAY_FILTRE_ECOLE
@@ -48,7 +49,6 @@ ARRAY_FILTRE_ENTREPRISE.push(ORDRE_ACTIVATION_PAR_DEFAUT);
 ARRAY_FILTRE_SECTEUR.push(ORDRE_ACTIVATION_PAR_DEFAUT);
 ARRAY_FILTRE_PAYS.push(ORDRE_ACTIVATION_PAR_DEFAUT);
 ARRAY_FILTRE_VILLE.push(ORDRE_ACTIVATION_PAR_DEFAUT);
-
 
 /**
  * Ces constantes indiquent simplement l'indice auquel chercher dans le tableau
@@ -83,5 +83,9 @@ var ARRAY_FILTRES_SECTEUR = 4;
 var ARRAY_FILTRES_PAYS = 5;
 var ARRAY_FILTRES_VILLE = 6;
 
-
+/**
+ * Cette constante (presente aussi dans la partie serveur) permet de connaitre
+ * quelle filtre est inactif d'Ecole ou d'Entreprise
+ */
+var ECOLE_OU_ENTREPRISE_INACTIF = "ECOLE_OU_ENTREPRISE_INACTIF";
 
