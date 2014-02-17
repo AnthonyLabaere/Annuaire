@@ -34,10 +34,12 @@ public class ServiceVille extends Controller {
 
 	// pays_nom est forcement present
 	public static Result AJAX_listeDesVillesSelonCriteres(
-	        String anneePromotion_libelle, String ecole_nom, String entreprise_nom,
-	        String secteur_nom, String pays_nom) {
+	        String centralien_nom, String anneePromotion_libelle,
+	        String ecole_nom, String entreprise_nom, String secteur_nom,
+	        String pays_nom) {
 
 		Boolean[] parametresPresents = new Boolean[] {
+		        centralien_nom != null && !centralien_nom.isEmpty(),
 		        anneePromotion_libelle != null
 		                && !anneePromotion_libelle.isEmpty(),
 		        ecole_nom != null && !ecole_nom.isEmpty(),
@@ -51,6 +53,22 @@ public class ServiceVille extends Controller {
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
+			sql += "ville_ID = (";
+			sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_nom = :centralien_nom";
+			sql += " AND ";
+			sql += "centralien_ID = entrepriseVilleSecteurCentralien_centralien_ID";
+			sql += " AND ";
+			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
+			sql += ")";
+		}
+
+		if (parametresPresents[1]) {
+			if (wherePlace) {
+				sql += " AND ";
+			} else {
+				sql += " WHERE ";
+				wherePlace = true;
+			}
 			// TODO : ajouter l'ecole !
 			sql += "ville_ID IN (";
 			sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien WHERE entrepriseVilleSecteurCentralien_centralien_ID IN (";
@@ -62,7 +80,7 @@ public class ServiceVille extends Controller {
 			sql += "))";
 		}
 
-		if (parametresPresents[1]) {
+		if (parametresPresents[2]) {
 			if (wherePlace) {
 				sql += " AND ";
 			} else {
@@ -74,8 +92,8 @@ public class ServiceVille extends Controller {
 			sql += ")";
 
 		}
-		
-		if (parametresPresents[2]) {
+
+		if (parametresPresents[3]) {
 			if (wherePlace) {
 				sql += " AND ";
 			} else {
@@ -87,9 +105,9 @@ public class ServiceVille extends Controller {
 			sql += "SELECT entreprise_ID FROM Entreprise WHERE entreprise_nom = :entreprise_nom";
 			sql += "))";
 		}
-		
+
 		// TODO : Ou Ecole !!!
-		if (parametresPresents[3]) {
+		if (parametresPresents[4]) {
 			if (wherePlace) {
 				sql += " AND ";
 			} else {
@@ -116,16 +134,19 @@ public class ServiceVille extends Controller {
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
+			sqlQuery.setParameter("centralien_nom", centralien_nom);
+		}
+		if (parametresPresents[1]) {
 			sqlQuery.setParameter("anneePromotion_libelle",
 			        Integer.parseInt(anneePromotion_libelle));
 		}
-		if (parametresPresents[1]) {
+		if (parametresPresents[2]) {
 			sqlQuery.setParameter("ecole_nom", ecole_nom);
 		}
-		if (parametresPresents[2]) {
+		if (parametresPresents[3]) {
 			sqlQuery.setParameter("entreprise_nom", entreprise_nom);
 		}
-		if (parametresPresents[3]) {
+		if (parametresPresents[4]) {
 			sqlQuery.setParameter("secteur_nom", secteur_nom);
 		}
 		sqlQuery.setParameter("pays_nom", pays_nom);

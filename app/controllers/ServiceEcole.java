@@ -15,21 +15,22 @@ public class ServiceEcole extends Controller {
 
 	public static Result AJAX_listeDesEcoles() {
 		String sql = "SELECT ecole_nom FROM Ecole ORDER BY ecole_nom ASC";
-		 
-		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);		 
+
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> listSqlRow = sqlQuery.findList();
 		List<String> listeDesEcoles = new ArrayList<String>();
-		for (SqlRow sqlRow : listSqlRow){
+		for (SqlRow sqlRow : listSqlRow) {
 			listeDesEcoles.add(sqlRow.get("ecole_nom").toString());
 		}
-		
+
 		return ok(Json.toJson(listeDesEcoles));
 	}
-	
+
 	public static Result AJAX_listeDesEcolesSelonCriteres(
-	        String anneePromotion_libelle, String secteur_nom, String pays_nom,
-	        String ville_nom) {
+	        String centralien_nom, String anneePromotion_libelle,
+	        String secteur_nom, String pays_nom, String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
+		        centralien_nom != null && !centralien_nom.isEmpty(),
 		        anneePromotion_libelle != null
 		                && !anneePromotion_libelle.isEmpty(),
 		        secteur_nom != null && !secteur_nom.isEmpty(),
@@ -43,18 +44,34 @@ public class ServiceEcole extends Controller {
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
-			sql += "ecole_ID IN (";
-			sql += "SELECT ecoleSecteur_ecole_ID FROM EcoleSecteur, EcoleSecteurCentralien, Centralien WHERE centralien_anneePromotion_ID IN (";
-			sql += "SELECT anneePromotion_ID FROM anneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
-			sql += ")";
-			sql += " AND "; 
+			sql += "ecole_ID = (";
+			sql += "SELECT ecoleSecteur_ecole_ID FROM EcoleSecteur, EcoleSecteurCentralien, Centralien WHERE centralien_nom = :centralien_nom";
+			sql += " AND ";
 			sql += "centralien_ID = ecoleSecteurCentralien_centralien_ID";
-			sql += " AND "; 
+			sql += " AND ";
 			sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID";
 			sql += ")";
 		}
 
 		if (parametresPresents[1]) {
+			if (wherePlace) {
+				sql += " AND ";
+			} else {
+				sql += " WHERE ";
+				wherePlace = true;
+			}
+			sql += "ecole_ID IN (";
+			sql += "SELECT ecoleSecteur_ecole_ID FROM EcoleSecteur, EcoleSecteurCentralien, Centralien WHERE centralien_anneePromotion_ID IN (";
+			sql += "SELECT anneePromotion_ID FROM anneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
+			sql += ")";
+			sql += " AND ";
+			sql += "centralien_ID = ecoleSecteurCentralien_centralien_ID";
+			sql += " AND ";
+			sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID";
+			sql += ")";
+		}
+
+		if (parametresPresents[2]) {
 			if (wherePlace) {
 				sql += " AND ";
 			} else {
@@ -68,7 +85,7 @@ public class ServiceEcole extends Controller {
 			sql += ")";
 		}
 
-		if (parametresPresents[2] && !parametresPresents[3]) {
+		if (parametresPresents[3] && !parametresPresents[4]) {
 			if (wherePlace) {
 				sql += " AND ";
 			} else {
@@ -81,7 +98,7 @@ public class ServiceEcole extends Controller {
 			sql += "))";
 		}
 
-		if (parametresPresents[3]) {
+		if (parametresPresents[4]) {
 			if (wherePlace) {
 				sql += " AND ";
 			} else {
@@ -97,24 +114,26 @@ public class ServiceEcole extends Controller {
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
+			sqlQuery.setParameter("centralien_nom", centralien_nom);
+		}
+		if (parametresPresents[1]) {
 			sqlQuery.setParameter("anneePromotion_libelle",
 			        Integer.parseInt(anneePromotion_libelle));
 		}
-		if (parametresPresents[1]) {
+		if (parametresPresents[2]) {
 			sqlQuery.setParameter("secteur_nom", secteur_nom);
 		}
-		if (parametresPresents[2] && !parametresPresents[3]) {
+		if (parametresPresents[3] && !parametresPresents[4]) {
 			sqlQuery.setParameter("pays_nom", pays_nom);
 		}
-		if (parametresPresents[3]) {
+		if (parametresPresents[4]) {
 			sqlQuery.setParameter("ville_nom", ville_nom);
 		}
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
 		List<String> listeDesEcolesParCriteres = new ArrayList<String>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesEcolesParCriteres.add(sqlRow.get("ecole_nom")
-			        .toString());
+			listeDesEcolesParCriteres.add(sqlRow.get("ecole_nom").toString());
 		}
 
 		return ok(Json.toJson(listeDesEcolesParCriteres));

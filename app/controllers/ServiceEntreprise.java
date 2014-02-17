@@ -26,15 +26,11 @@ public class ServiceEntreprise extends Controller {
 		return ok(Json.toJson(listeDesEntreprises));
 	}
 
-	// TODO
-	// Les filtres sont activés par l'utilisateur. Sinon un "" est mis dans le
-	// parametre et donc ce n'est pas pris en compte dans cette fonction. Et si
-	// on le prend en compte on rajoute un WHERE dans la requete SQL
-	// Les memes fonctions sont a implementer pour les autres filtres !
 	public static Result AJAX_listeDesEntreprisesSelonCriteres(
-	        String anneePromotion_libelle, String secteur_nom, String pays_nom,
-	        String ville_nom) {
+	        String centralien_nom, String anneePromotion_libelle,
+	        String secteur_nom, String pays_nom, String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
+		        centralien_nom != null && !centralien_nom.isEmpty(),
 		        anneePromotion_libelle != null
 		                && !anneePromotion_libelle.isEmpty(),
 		        secteur_nom != null && !secteur_nom.isEmpty(),
@@ -48,18 +44,34 @@ public class ServiceEntreprise extends Controller {
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
-			sql += "entreprise_ID IN (";
-			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_anneePromotion_ID IN (";
-			sql += "SELECT anneePromotion_ID FROM anneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
-			sql += ")";
-			sql += " AND "; 
+			sql += "entreprise_ID = (";
+			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_nom = :centralien_nom";
+			sql += " AND ";
 			sql += "centralien_ID = entrepriseVilleSecteurCentralien_centralien_ID";
-			sql += " AND "; 
+			sql += " AND ";
 			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
 			sql += ")";
 		}
 
 		if (parametresPresents[1]) {
+			if (wherePlace) {
+				sql += " AND ";
+			} else {
+				sql += " WHERE ";
+				wherePlace = true;
+			}
+			sql += "entreprise_ID IN (";
+			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_anneePromotion_ID IN (";
+			sql += "SELECT anneePromotion_ID FROM anneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
+			sql += ")";
+			sql += " AND ";
+			sql += "centralien_ID = entrepriseVilleSecteurCentralien_centralien_ID";
+			sql += " AND ";
+			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
+			sql += ")";
+		}
+
+		if (parametresPresents[2]) {
 			if (wherePlace) {
 				sql += " AND ";
 			} else {
@@ -73,7 +85,7 @@ public class ServiceEntreprise extends Controller {
 			sql += ")";
 		}
 
-		if (parametresPresents[2] && !parametresPresents[3]) {
+		if (parametresPresents[3] && !parametresPresents[4]) {
 			if (wherePlace) {
 				sql += " AND ";
 			} else {
@@ -89,7 +101,7 @@ public class ServiceEntreprise extends Controller {
 			sql += ")";
 		}
 
-		if (parametresPresents[3]) {
+		if (parametresPresents[4]) {
 			if (wherePlace) {
 				sql += " AND ";
 			} else {
@@ -107,16 +119,19 @@ public class ServiceEntreprise extends Controller {
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
+			sqlQuery.setParameter("centralien_nom", centralien_nom);
+		}
+		if (parametresPresents[1]) {
 			sqlQuery.setParameter("anneePromotion_libelle",
 			        Integer.parseInt(anneePromotion_libelle));
 		}
-		if (parametresPresents[1]) {
+		if (parametresPresents[2]) {
 			sqlQuery.setParameter("secteur_nom", secteur_nom);
 		}
-		if (parametresPresents[2] && !parametresPresents[3]) {
+		if (parametresPresents[3] && !parametresPresents[4]) {
 			sqlQuery.setParameter("pays_nom", pays_nom);
 		}
-		if (parametresPresents[3]) {
+		if (parametresPresents[4]) {
 			sqlQuery.setParameter("ville_nom", ville_nom);
 		}
 
