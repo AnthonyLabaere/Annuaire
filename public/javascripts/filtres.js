@@ -171,9 +171,9 @@ function miseAJourDesFiltres(filtre_ID) {
 			// Il faut indiquer au serveur quel est le filtre ignore entre Ecole
 			// et Entreprise
 			if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
-				ecole_nom = ECOLE_OU_ENTREPRISE_INACTIF;
-			} else {
 				entreprise_nom = ECOLE_OU_ENTREPRISE_INACTIF;
+			} else {
+				ecole_nom = ECOLE_OU_ENTREPRISE_INACTIF;
 			}
 
 			miseAJourDuFiltreCentralien(anneePromotion_libelle, ecole_nom,
@@ -246,9 +246,9 @@ function miseAJourDesFiltres(filtre_ID) {
 			// Il faut indiquer au serveur quel est le filtre ignore entre Ecole
 			// et Entreprise
 			if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
-				ecole_nom = ECOLE_OU_ENTREPRISE_INACTIF;
-			} else {
 				entreprise_nom = ECOLE_OU_ENTREPRISE_INACTIF;
+			} else {
+				ecole_nom = ECOLE_OU_ENTREPRISE_INACTIF;
 			}
 
 			for ( var j = 0; j < i; j++) {
