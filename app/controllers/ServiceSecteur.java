@@ -184,6 +184,8 @@ public class ServiceSecteur extends Controller {
 			}
 		}
 
+		sql += " ORDER BY secteur_nom ASC";
+
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
 			sqlQuery.setParameter("centralien_nom", centralien_nom);

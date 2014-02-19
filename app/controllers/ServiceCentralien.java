@@ -174,8 +174,6 @@ public class ServiceCentralien extends Controller {
 		}
 
 		sql += " ORDER BY centralien_nom ASC";
-		
-		System.out.println(sql);
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {

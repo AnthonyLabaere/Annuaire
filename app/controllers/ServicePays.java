@@ -49,21 +49,32 @@ public class ServicePays extends Controller {
 
 		String sql = "SELECT pays_nom FROM Pays";
 
-		// TODO : Ou Ecole !!!
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
-			sql += "pays_ID IN (";
-			sql += "SELECT ville_pays_ID FROM Ville WHERE ville_ID = (";
-			sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_nom = :centralien_nom";
-			sql += " AND ";
-			sql += "centralien_ID = entrepriseVilleSecteurCentralien_centralien_ID";
-			sql += " AND ";
-			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
-			sql += "))";
+			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+				sql += "pays_ID IN (";
+				sql += "SELECT ville_pays_ID FROM Ville WHERE ville_ID = (";
+				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_nom = :centralien_nom";
+				sql += " AND ";
+				sql += "centralien_ID = entrepriseVilleSecteurCentralien_centralien_ID";
+				sql += " AND ";
+				sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
+				sql += "))";
+			} else {
+				sql += "pays_ID IN (";
+				sql += "SELECT ville_pays_ID FROM Ville WHERE ville_ID IN (";
+				sql += "SELECT ecole_ville_ID FROM Centralien, Ecole, EcoleSecteur, EcoleSecteurCentralien WHERE centralien_nom = :centralien_nom";
+				sql += " AND ";
+				sql += "centralien_ID = ecoleSecteurCentralien_centralien_ID";
+				sql += " AND ";
+				sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID";
+				sql += " AND ";
+				sql += "ecoleSecteur_ecole_ID = ecole_ID";
+				sql += "))";	
+			}
 		}
 
-		// TODO : Ou Ecole !!!
 		if (parametresPresents[1]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -71,15 +82,32 @@ public class ServicePays extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			sql += "pays_ID IN (";
-			sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_anneePromotion_ID IN (";
-			sql += "SELECT anneePromotion_ID FROM AnneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
-			sql += ")";
-			sql += " AND ";
-			sql += "centralien_ID = entrepriseVilleSecteurCentralien_centralien_ID";
-			sql += " AND ";
-			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
-			sql += ")";
+			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+				sql += "pays_ID IN (";
+				sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_anneePromotion_ID = (";
+				sql += "SELECT anneePromotion_ID FROM AnneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
+				sql += ")";
+				sql += " AND ";
+				sql += "centralien_ID = entrepriseVilleSecteurCentralien_centralien_ID";
+				sql += " AND ";
+				sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
+				sql += " AND ";
+				sql += "entrepriseVilleSecteur_ville_ID = ville_ID";
+				sql += ")";
+			} else {
+				sql += "pays_ID IN (";
+				sql += "SELECT ville_pays_ID FROM Ville WHERE ville_ID IN (";
+				sql += "SELECT ecole_ville_ID FROM Centralien, Ecole, EcoleSecteur, EcoleSecteurCentralien WHERE centralien_anneePromotion_ID = (";
+				sql += "SELECT anneePromotion_ID FROM AnneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
+				sql += ")";		
+				sql += " AND ";
+				sql += "centralien_ID = ecoleSecteurCentralien_centralien_ID";
+				sql += " AND ";
+				sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID";
+				sql += " AND ";
+				sql += "ecoleSecteur_ecole_ID = ecole_ID";
+				sql += "))";
+			}			
 		}
 
 		if (parametresPresents[2]) {
@@ -112,7 +140,6 @@ public class ServicePays extends Controller {
 			sql += ")";
 		}
 
-		// TODO : Ou Ecole !!!
 		if (parametresPresents[4]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -120,13 +147,24 @@ public class ServicePays extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			sql += "pays_ID IN (";
-			sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
-			sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
-			sql += ")";
-			sql += " AND ";
-			sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
-			sql += ")";
+			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+				sql += "pays_ID IN (";
+				sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
+				sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
+				sql += ")";
+				sql += " AND ";
+				sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
+				sql += ")";
+			} else {
+				sql += "pays_ID IN (";
+				sql += "SELECT ville_pays_ID FROM Ville WHERE ville_ID IN (";
+				sql += "SELECT ecole_ville_ID FROM Ecole, EcoleSecteur WHERE ecoleSecteur_secteur_ID = (";
+				sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
+				sql += ")";
+				sql += " AND ";
+				sql += "ecoleSecteur_ecole_ID = ecole_ID";
+				sql += "))";
+			}
 		}
 
 		sql += " ORDER BY pays_nom ASC";
