@@ -27,10 +27,10 @@ public class ServiceEcole extends Controller {
 	}
 
 	public static Result AJAX_listeDesEcolesSelonCriteres(
-	        String centralien_nom, String anneePromotion_libelle,
+	        String centralien_ID, String anneePromotion_libelle,
 	        String secteur_nom, String pays_nom, String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
-		        centralien_nom != null && !centralien_nom.isEmpty(),
+				centralien_ID != null && !centralien_ID.isEmpty(),
 		        anneePromotion_libelle != null
 		                && !anneePromotion_libelle.isEmpty(),
 		        secteur_nom != null && !secteur_nom.isEmpty(),
@@ -44,8 +44,8 @@ public class ServiceEcole extends Controller {
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
-			sql += "ecole_ID = (";
-			sql += "SELECT ecoleSecteur_ecole_ID FROM EcoleSecteur, EcoleSecteurCentralien, Centralien WHERE centralien_nom = :centralien_nom";
+			sql += "ecole_ID IN (";
+			sql += "SELECT ecoleSecteur_ecole_ID FROM EcoleSecteur, EcoleSecteurCentralien, Centralien WHERE centralien_ID = :centralien_ID";
 			sql += " AND ";
 			sql += "centralien_ID = ecoleSecteurCentralien_centralien_ID";
 			sql += " AND ";
@@ -114,7 +114,7 @@ public class ServiceEcole extends Controller {
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
-			sqlQuery.setParameter("centralien_nom", centralien_nom);
+			sqlQuery.setParameter("centralien_ID", Integer.parseInt(centralien_ID));
 		}
 		if (parametresPresents[1]) {
 			sqlQuery.setParameter("anneePromotion_libelle",

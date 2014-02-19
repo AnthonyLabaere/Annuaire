@@ -27,10 +27,10 @@ public class ServiceEntreprise extends Controller {
 	}
 
 	public static Result AJAX_listeDesEntreprisesSelonCriteres(
-	        String centralien_nom, String anneePromotion_libelle,
+	        String centralien_ID, String anneePromotion_libelle,
 	        String secteur_nom, String pays_nom, String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
-		        centralien_nom != null && !centralien_nom.isEmpty(),
+				centralien_ID != null && !centralien_ID.isEmpty(),
 		        anneePromotion_libelle != null
 		                && !anneePromotion_libelle.isEmpty(),
 		        secteur_nom != null && !secteur_nom.isEmpty(),
@@ -44,8 +44,8 @@ public class ServiceEntreprise extends Controller {
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
-			sql += "entreprise_ID = (";
-			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_nom = :centralien_nom";
+			sql += "entreprise_ID IN (";
+			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_ID = :centralien_ID";
 			sql += " AND ";
 			sql += "centralien_ID = entrepriseVilleSecteurCentralien_centralien_ID";
 			sql += " AND ";
@@ -119,7 +119,7 @@ public class ServiceEntreprise extends Controller {
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
-			sqlQuery.setParameter("centralien_nom", centralien_nom);
+			sqlQuery.setParameter("centralien_ID", Integer.parseInt(centralien_ID));
 		}
 		if (parametresPresents[1]) {
 			sqlQuery.setParameter("anneePromotion_libelle",

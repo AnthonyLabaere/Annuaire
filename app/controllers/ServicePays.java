@@ -28,11 +28,11 @@ public class ServicePays extends Controller {
 		return ok(Json.toJson(listeDesPays));
 	}
 
-	public static Result AJAX_listeDesPaysSelonCriteres(String centralien_nom,
+	public static Result AJAX_listeDesPaysSelonCriteres(String centralien_ID,
 	        String anneePromotion_libelle, String ecole_nom,
 	        String entreprise_nom, String secteur_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
-		        centralien_nom != null && !centralien_nom.isEmpty(),
+				centralien_ID != null && !centralien_ID.isEmpty(),
 		        anneePromotion_libelle != null
 		                && !anneePromotion_libelle.isEmpty(),
 		        ecole_nom != null
@@ -55,7 +55,7 @@ public class ServicePays extends Controller {
 			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
 				sql += "pays_ID IN (";
 				sql += "SELECT ville_pays_ID FROM Ville WHERE ville_ID = (";
-				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_nom = :centralien_nom";
+				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_ID = :centralien_ID";
 				sql += " AND ";
 				sql += "centralien_ID = entrepriseVilleSecteurCentralien_centralien_ID";
 				sql += " AND ";
@@ -64,7 +64,7 @@ public class ServicePays extends Controller {
 			} else {
 				sql += "pays_ID IN (";
 				sql += "SELECT ville_pays_ID FROM Ville WHERE ville_ID IN (";
-				sql += "SELECT ecole_ville_ID FROM Centralien, Ecole, EcoleSecteur, EcoleSecteurCentralien WHERE centralien_nom = :centralien_nom";
+				sql += "SELECT ecole_ville_ID FROM Centralien, Ecole, EcoleSecteur, EcoleSecteurCentralien WHERE centralien_ID = :centralien_ID";
 				sql += " AND ";
 				sql += "centralien_ID = ecoleSecteurCentralien_centralien_ID";
 				sql += " AND ";
@@ -171,7 +171,7 @@ public class ServicePays extends Controller {
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
-			sqlQuery.setParameter("centralien_nom", centralien_nom);
+			sqlQuery.setParameter("centralien_ID", Integer.parseInt(centralien_ID));
 		}
 		if (parametresPresents[1]) {
 			sqlQuery.setParameter("anneePromotion_libelle",

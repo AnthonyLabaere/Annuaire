@@ -25,7 +25,7 @@ function initialisationFiltreCentralien() {
 
 							for ( var element in data) {
 								filtre_centralien.options[filtre_centralien.options.length] = new Option(
-										data[element]);
+										data[element][1], data[element][0]);
 							}
 						}
 					});

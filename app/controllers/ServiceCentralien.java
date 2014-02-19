@@ -16,13 +16,18 @@ import constantes.IConstantes;
 public class ServiceCentralien extends Controller {
 
 	public static Result AJAX_listeDesCentraliens() {
-		String sql = "SELECT centralien_nom FROM Centralien ORDER BY centralien_nom DESC";
+		String sql = "SELECT centralien_ID AS identifiant, CONCAT(centralien_prenom, ' ', centralien_nom) AS prenomNom FROM Centralien";
+		sql += " ORDER BY prenomNom DESC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesCentraliens = new ArrayList<String>();
+		// Liste de double String : le premier est l'ID et le deuxième est le
+		// prenomNom
+		List<String[]> listeDesCentraliens = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesCentraliens.add(sqlRow.get("centralien_nom").toString());
+			String identifiant = sqlRow.get("identifiant").toString();
+			String prenomNom = sqlRow.get("prenomNom").toString();
+			listeDesCentraliens.add(new String[] { identifiant, prenomNom });
 		}
 
 		return ok(Json.toJson(listeDesCentraliens));
@@ -49,8 +54,8 @@ public class ServiceCentralien extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT centralien_nom FROM Centralien";
-
+		String sql = "SELECT centralien_ID AS identifiant, CONCAT(centralien_prenom, ' ', centralien_nom) AS prenomNom FROM Centralien";
+		
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
@@ -98,14 +103,14 @@ public class ServiceCentralien extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 				sql += "centralien_ID IN (";
 				sql += "SELECT entrepriseVilleSecteurCentralien_Centralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
 				sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
 				sql += ")";
 				sql += " AND ";
 				sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
-				sql += ")";				
+				sql += ")";
 			} else {
 				sql += "centralien_ID IN (";
 				sql += "SELECT ecoleSecteurCentralien_Centralien_ID FROM EcoleSecteurCentralien, EcoleSecteur WHERE ecoleSecteur_secteur_ID = (";
@@ -113,7 +118,7 @@ public class ServiceCentralien extends Controller {
 				sql += ")";
 				sql += " AND ";
 				sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID ";
-				sql += ")";			
+				sql += ")";
 			}
 		}
 
@@ -124,14 +129,14 @@ public class ServiceCentralien extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 				sql += "centralien_ID IN (";
 				sql += "SELECT entrepriseVilleSecteurCentralien_Centralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID IN (";
 				sql += "SELECT ville_ID FROM Ville, Pays WHERE ville_pays_ID = pays_ID AND pays_nom = :pays_nom";
 				sql += ")";
 				sql += " AND ";
 				sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
-				sql += ")";		
+				sql += ")";
 			} else {
 				sql += "centralien_ID IN (";
 				sql += "SELECT ecoleSecteurCentralien_Centralien_ID FROM EcoleSecteur, EcoleSecteurCentralien, Ecole WHERE ecole_ville_ID IN (";
@@ -140,8 +145,8 @@ public class ServiceCentralien extends Controller {
 				sql += " AND ";
 				sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID ";
 				sql += " AND ";
-				sql += "ecoleSecteur_ecole_ID = ecole_ID ";				
-				sql += ")";		
+				sql += "ecoleSecteur_ecole_ID = ecole_ID ";
+				sql += ")";
 			}
 		}
 
@@ -152,14 +157,14 @@ public class ServiceCentralien extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 				sql += "centralien_ID IN (";
 				sql += "SELECT entrepriseVilleSecteurCentralien_Centralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID = (";
 				sql += "SELECT ville_ID FROM Ville WHERE ville_nom = :ville_nom";
 				sql += ")";
 				sql += " AND ";
 				sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
-				sql += ")";				
+				sql += ")";
 			} else {
 				sql += "centralien_ID IN (";
 				sql += "SELECT ecoleSecteurCentralien_Centralien_ID FROM EcoleSecteurCentralien, Ecole, EcoleSecteur WHERE ecole_ville_ID = (";
@@ -168,12 +173,12 @@ public class ServiceCentralien extends Controller {
 				sql += " AND ";
 				sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID ";
 				sql += " AND ";
-				sql += "ecoleSecteur_ecole_ID = ecole_ID ";		
-				sql += ")";						
+				sql += "ecoleSecteur_ecole_ID = ecole_ID ";
+				sql += ")";
 			}
 		}
 
-		sql += " ORDER BY centralien_nom ASC";
+		sql += " ORDER BY prenomNom DESC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
@@ -197,10 +202,14 @@ public class ServiceCentralien extends Controller {
 		}
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesCentraliensParCriteres = new ArrayList<String>();
+	
+		// Liste de double String : le premier est l'ID et le deuxième est le
+		// prenomNom
+		List<String[]> listeDesCentraliensParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesCentraliensParCriteres.add(sqlRow.get("centralien_nom")
-			        .toString());
+			String identifiant = sqlRow.get("identifiant").toString();
+			String prenomNom = sqlRow.get("prenomNom").toString();
+			listeDesCentraliensParCriteres.add(new String[] { identifiant, prenomNom });
 		}
 
 		return ok(Json.toJson(listeDesCentraliensParCriteres));

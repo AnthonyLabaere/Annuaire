@@ -385,7 +385,7 @@ function miseAJourDuFiltreCentralien(anneePromotion_libelle, ecole_nom,
 											.appendChild(option_precedemment_selectionnee);
 								} else {
 									filtre_centralien.options[filtre_centralien.options.length] = new Option(
-											data[element]);
+											data[element][1], data[element][0]);
 								}
 							}
 						}

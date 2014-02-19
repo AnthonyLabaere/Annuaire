@@ -29,12 +29,11 @@ public class ServiceAnneePromotion extends Controller {
 		return ok(Json.toJson(listeDesAnneesPromotion));
 	}
 
-	// TODO : mettre des constantes pour toutes les tables
 	public static Result AJAX_listeDesAnneesPromotionSelonCriteres(
-	        String centralien_nom, String ecole_nom, String entreprise_nom,
+	        String centralien_ID, String ecole_nom, String entreprise_nom,
 	        String secteur_nom, String pays_nom, String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
-		        centralien_nom != null && !centralien_nom.isEmpty(),
+				centralien_ID != null && !centralien_ID.isEmpty(),
 		        ecole_nom != null
 		                && !ecole_nom.isEmpty()
 		                && !ecole_nom
@@ -55,7 +54,7 @@ public class ServiceAnneePromotion extends Controller {
 			wherePlace = true;
 			sql += " WHERE ";
 			sql += "anneePromotion_ID = (";
-			sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_nom = :centralien_nom";
+			sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID = :centralien_ID";
 			sql += ")";
 		}
 
@@ -186,7 +185,7 @@ public class ServiceAnneePromotion extends Controller {
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
-			sqlQuery.setParameter("centralien_nom", centralien_nom);
+			sqlQuery.setParameter("centralien_ID", Integer.parseInt(centralien_ID));
 		}
 		if (parametresPresents[1]) {
 			sqlQuery.setParameter("ecole_nom", ecole_nom);
