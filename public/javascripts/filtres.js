@@ -5,13 +5,45 @@
 function reset(bouton_reset_ID) {
 	var filtre_ID = "filtre_" + bouton_reset_ID.split("_")[2];
 	HTML(filtre_ID).selectedIndex = 0;
-	
+
 	miseAJourDesFiltres(filtre_ID);
 }
 
 /** Cette fonction reinitialise tous les filtres */
 function resetAll() {
-	miseAJourDesFiltres();
+
+	if (HTML(ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_ID]).selectedIndex != 0
+			|| HTML(ARRAY_FILTRE_ANNEEPROMOTION[ARRAY_FILTRE_ID]).selectedIndex != 0
+			|| (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID]) && HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID]).selectedIndex != 0)
+			|| (HTML(ARRAY_FILTRE_ENTREPRISE[ARRAY_FILTRE_ID]) && HTML(ARRAY_FILTRE_ENTREPRISE[ARRAY_FILTRE_ID]).selectedIndex != 0)
+			|| HTML(ARRAY_FILTRE_SECTEUR[ARRAY_FILTRE_ID]).selectedIndex != 0
+			|| HTML(ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID]).selectedIndex != 0
+			|| (HTML(ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID]) && HTML(ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID]).selectedIndex != 0)) {
+
+		for (ARRAY_FILTRES_ID in ARRAY_FILTRES) {
+			var filtre = HTML((ARRAY_FILTRES[ARRAY_FILTRES_ID])[ARRAY_FILTRE_ID]);
+			// Il faut indiquer au serveur quel est le filtre ignore entre Ecole
+			// et Entreprise
+			if (!((ARRAY_FILTRES_ID == ARRAY_FILTRES_ECOLE
+					|| ARRAY_FILTRES_ID == ARRAY_FILTRES_ENTREPRISE || ARRAY_FILTRES_ID == ARRAY_FILTRES_VILLE) && !filtre)) {
+				filtre.selectedIndex = 0;
+			}
+		}
+
+		miseAJourDesFiltres();
+
+		// Ne pas oublier de reinitialiser l'ordre d'activation des filtres
+		// !
+		ORDRE_ACTIVATION_DERNIERE_VALEUR = 1;
+		ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
+		ARRAY_FILTRE_ANNEEPROMOTION[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
+		ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
+		ARRAY_FILTRE_ENTREPRISE[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
+		ARRAY_FILTRE_SECTEUR[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
+		ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
+		ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
+
+	}
 }
 
 /**
@@ -164,60 +196,39 @@ function miseAJourDesFiltres(filtre_ID) {
 	// Si pas de parametre (et qu'au moins un des filtres doit etre reinitialise
 	// !), alors tous les filtres sont reinitialise
 	if (!filtre_ID) {
-		if (HTML(ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_ID]).selectedIndex != 0
-				|| HTML(ARRAY_FILTRE_ANNEEPROMOTION[ARRAY_FILTRE_ID]).selectedIndex != 0
-				|| (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID]) && HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID]).selectedIndex != 0)
-				|| (HTML(ARRAY_FILTRE_ENTREPRISE[ARRAY_FILTRE_ID]) && HTML(ARRAY_FILTRE_ENTREPRISE[ARRAY_FILTRE_ID]).selectedIndex != 0)
-				|| HTML(ARRAY_FILTRE_SECTEUR[ARRAY_FILTRE_ID]).selectedIndex != 0
-				|| HTML(ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID]).selectedIndex != 0
-				|| (HTML(ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID]) && HTML(ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID]).selectedIndex != 0)) {
-			var centralien_ID = null;
-			var anneePromotion_ID = null;
-			var ecole_ID = null;
-			var entreprise_ID = null;
-			var secteur_ID = null;
-			var pays_ID = null;
-			var ville_ID = null;
+		var centralien_ID = null;
+		var anneePromotion_ID = null;
+		var ecole_ID = null;
+		var entreprise_ID = null;
+		var secteur_ID = null;
+		var pays_ID = null;
+		var ville_ID = null;
 
-			// Il faut indiquer au serveur quel est le filtre ignore entre Ecole
-			// et Entreprise
-			if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
-				entreprise_ID = ECOLE_OU_ENTREPRISE_INACTIF;
-			} else {
-				ecole_ID = ECOLE_OU_ENTREPRISE_INACTIF;
-			}
-
-			miseAJourDuFiltreCentralien(anneePromotion_ID, ecole_ID,
-					entreprise_ID, secteur_ID, pays_ID, ville_ID);
-			miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID,
-					entreprise_ID, secteur_ID, pays_ID, ville_ID);
-			if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
-				miseAJourDuFiltreEcole(centralien_ID, anneePromotion_ID,
-						secteur_ID, pays_ID, ville_ID);
-			} else {
-				miseAJourDuFiltreEntreprise(centralien_ID, anneePromotion_ID,
-						secteur_ID, pays_ID, ville_ID);
-			}
-			miseAJourDuFiltreSecteur(centralien_ID, anneePromotion_ID,
-					ecole_ID, entreprise_ID, pays_ID, ville_ID);
-			miseAJourDuFiltrePays(centralien_ID, anneePromotion_ID, ecole_ID,
-					entreprise_ID, secteur_ID);
-			// TODO : supprimer la ligne d'apres ?
-			HTML(ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID]).selectedIndex = 0;
-			miseAJourDuFiltreVille(centralien_ID, anneePromotion_ID, ecole_ID,
-					entreprise_ID, secteur_ID, pays_ID);
-
-			// Ne pas oublier de reinitialiser l'ordre d'activation des filtres
-			// !
-			ORDRE_ACTIVATION_DERNIERE_VALEUR = 1;
-			ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
-			ARRAY_FILTRE_ANNEEPROMOTION[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
-			ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
-			ARRAY_FILTRE_ENTREPRISE[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
-			ARRAY_FILTRE_SECTEUR[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
-			ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
-			ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
+		// Il faut indiquer au serveur quel est le filtre ignore entre Ecole
+		// et Entreprise
+		if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
+			entreprise_ID = ECOLE_OU_ENTREPRISE_INACTIF;
+		} else {
+			ecole_ID = ECOLE_OU_ENTREPRISE_INACTIF;
 		}
+
+		miseAJourDuFiltreCentralien(anneePromotion_ID, ecole_ID, entreprise_ID,
+				secteur_ID, pays_ID, ville_ID);
+		miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID, entreprise_ID,
+				secteur_ID, pays_ID, ville_ID);
+		if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
+			miseAJourDuFiltreEcole(centralien_ID, anneePromotion_ID,
+					secteur_ID, pays_ID, ville_ID);
+		} else {
+			miseAJourDuFiltreEntreprise(centralien_ID, anneePromotion_ID,
+					secteur_ID, pays_ID, ville_ID);
+		}
+		miseAJourDuFiltreSecteur(centralien_ID, anneePromotion_ID, ecole_ID,
+				entreprise_ID, pays_ID, ville_ID);
+		miseAJourDuFiltrePays(centralien_ID, anneePromotion_ID, ecole_ID,
+				entreprise_ID, secteur_ID);
+		miseAJourDuFiltreVille(centralien_ID, anneePromotion_ID, ecole_ID,
+				entreprise_ID, secteur_ID, pays_ID);
 
 	} else {
 		// Si le filtre vient d'etre re-modifie, il faut remettre à jour les
@@ -350,13 +361,13 @@ function miseAJourDesFiltres(filtre_ID) {
  * Cette fonction permet d'alimenter le filtre donne en parametre avec les
  * donnees du serveur concernant ce filtre
  */
-function miseAJourDuFiltre_AJAXSuccess(data,
-		booleenValeurPrecedemmentSelectionnee, ARRAY_FILTRE) {
+function miseAJourDuFiltre_AJAXSuccess(data, ARRAY_FILTRE) {
 	var filtre = HTML(ARRAY_FILTRE[ARRAY_FILTRE_ID]);
 
 	// Suppression des elements existants dans le filtre
 	var valeurPrecedemmentSelectionnee;
-	if (booleenValeurPrecedemmentSelectionnee) {
+
+	if (filtre.selectedIndex != 0) {
 		valeurPrecedemmentSelectionnee = filtre.value;
 	}
 	filtre.innerHTML = "";
@@ -366,43 +377,16 @@ function miseAJourDuFiltre_AJAXSuccess(data,
 
 	// Ajout des nouveaux elements
 	for ( var element in data) {
-		if (data[element] == valeurPrecedemmentSelectionnee) {
+		if (data[element][0] == valeurPrecedemmentSelectionnee) {
 			option_precedemment_selectionnee = document.createElement('option');
-			option_precedemment_selectionnee.innerHTML = data[element];
+			option_precedemment_selectionnee.value = data[element][0];
+			option_precedemment_selectionnee.text = data[element][1];
 			option_precedemment_selectionnee.setAttribute('selected',
 					'selected');
 			filtre.appendChild(option_precedemment_selectionnee);
 		} else {
 			filtre.options[filtre.options.length] = new Option(
 					data[element][1], data[element][0]);
-		}
-	}
-}
-
-function miseAJourDuFiltre_AJAXSuccess_sansID(data,
-		booleenValeurPrecedemmentSelectionnee, ARRAY_FILTRE) {
-	var filtre = HTML(ARRAY_FILTRE[ARRAY_FILTRE_ID]);
-
-	// Suppression des elements existants dans le filtre
-	var valeurPrecedemmentSelectionnee;
-	if (booleenValeurPrecedemmentSelectionnee) {
-		valeurPrecedemmentSelectionnee = filtre.value;
-	}
-	filtre.innerHTML = "";
-	filtre_option_par_defaut = document.createElement('option');
-	filtre_option_par_defaut.innerHTML = ARRAY_FILTRE[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
-	filtre.appendChild(filtre_option_par_defaut);
-
-	// Ajout des nouveaux elements
-	for ( var element in data) {
-		if (data[element] == valeurPrecedemmentSelectionnee) {
-			option_precedemment_selectionnee = document.createElement('option');
-			option_precedemment_selectionnee.innerHTML = data[element];
-			option_precedemment_selectionnee.setAttribute('selected',
-					'selected');
-			filtre.appendChild(option_precedemment_selectionnee);
-		} else {
-			filtre.options[filtre.options.length] = new Option(data[element]);
 		}
 	}
 }
@@ -415,20 +399,11 @@ function miseAJourDuFiltreCentralien(anneePromotion_ID, ecole_ID,
 					ecole_ID ? ecole_ID : "",
 					entreprise_ID ? entreprise_ID : "",
 					secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "",
-					ville_ID ? ville_ID : "")
-			.ajax(
+					ville_ID ? ville_ID : "").ajax(
 					{
 						async : false,
 						success : function(data, textStatus, jqXHR) {
-							booleenValeurPrecedemmentSelectionnee = (filtre_centralien.selectedIndex != 0 && (anneePromotion_ID
-									|| ecole_ID
-									&& ecole_ID != ECOLE_OU_ENTREPRISE_INACTIF
-									|| entreprise_ID
-									&& entreprise_ID != ECOLE_OU_ENTREPRISE_INACTIF
-									|| secteur_ID || pays_ID || ville_ID));
-
 							miseAJourDuFiltre_AJAXSuccess(data,
-									booleenValeurPrecedemmentSelectionnee,
 									ARRAY_FILTRE_CENTRALIEN);
 						}
 					});
@@ -443,19 +418,11 @@ function miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID,
 					ecole_ID ? ecole_ID : "",
 					entreprise_ID ? entreprise_ID : "",
 					secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "",
-					ville_ID ? ville_ID : "")
-			.ajax(
+					ville_ID ? ville_ID : "").ajax(
 					{
 						async : false,
 						success : function(data, textStatus, jqXHR) {
-							var booleenValeurPrecedemmentSelectionnee = (filtre_anneePromotion.selectedIndex != 0 && (ecole_ID
-									&& ecole_ID != ECOLE_OU_ENTREPRISE_INACTIF
-									|| entreprise_ID
-									&& entreprise_ID != ECOLE_OU_ENTREPRISE_INACTIF
-									|| secteur_ID || pays_ID || ville_ID));
-
 							miseAJourDuFiltre_AJAXSuccess(data,
-									booleenValeurPrecedemmentSelectionnee,
 									ARRAY_FILTRE_ANNEEPROMOTION);
 						}
 					});
@@ -463,24 +430,16 @@ function miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID,
 
 function miseAJourDuFiltreEcole(centralien_ID, anneePromotion_ID, secteur_ID,
 		pays_ID, ville_ID) {
-	jsRoutes.controllers.ServiceEcole
-			.AJAX_listeDesEcolesSelonCriteres(
-					centralien_ID ? centralien_ID : "",
-					anneePromotion_ID ? anneePromotion_ID : "",
-					secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "",
-					ville_ID ? ville_ID : "")
-			.ajax(
-					{
-						async : false,
-						success : function(data, textStatus, jqXHR) {
-							var booleenValeurPrecedemmentSelectionnee = (filtre_ecole.selectedIndex != 0 && (anneePromotion_ID
-									|| secteur_ID || pays_ID || ville_ID));
-
-							miseAJourDuFiltre_AJAXSuccess(data,
-									booleenValeurPrecedemmentSelectionnee,
-									ARRAY_FILTRE_ECOLE);
-						}
-					});
+	jsRoutes.controllers.ServiceEcole.AJAX_listeDesEcolesSelonCriteres(
+			centralien_ID ? centralien_ID : "",
+			anneePromotion_ID ? anneePromotion_ID : "",
+			secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "",
+			ville_ID ? ville_ID : "").ajax({
+		async : false,
+		success : function(data, textStatus, jqXHR) {
+			miseAJourDuFiltre_AJAXSuccess(data, ARRAY_FILTRE_ECOLE);
+		}
+	});
 }
 
 function miseAJourDuFiltreEntreprise(centralien_ID, anneePromotion_ID,
@@ -490,16 +449,11 @@ function miseAJourDuFiltreEntreprise(centralien_ID, anneePromotion_ID,
 					centralien_ID ? centralien_ID : "",
 					anneePromotion_ID ? anneePromotion_ID : "",
 					secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "",
-					ville_ID ? ville_ID : "")
-			.ajax(
+					ville_ID ? ville_ID : "").ajax(
 					{
 						async : false,
 						success : function(data, textStatus, jqXHR) {
-							var booleenValeurPrecedemmentSelectionnee = (filtre_entreprise.selectedIndex != 0 && (anneePromotion_ID
-									|| secteur_ID || pays_ID || ville_ID));
-
 							miseAJourDuFiltre_AJAXSuccess(data,
-									booleenValeurPrecedemmentSelectionnee,
 									ARRAY_FILTRE_ENTREPRISE);
 						}
 					});
@@ -507,54 +461,30 @@ function miseAJourDuFiltreEntreprise(centralien_ID, anneePromotion_ID,
 
 function miseAJourDuFiltreSecteur(centralien_ID, anneePromotion_ID, ecole_ID,
 		entreprise_ID, pays_ID, ville_ID) {
-	jsRoutes.controllers.ServiceSecteur
-			.AJAX_listeDesSecteursSelonCriteres(
-					centralien_ID ? centralien_ID : "",
-					anneePromotion_ID ? anneePromotion_ID : "",
-					ecole_ID ? ecole_ID : "",
-					entreprise_ID ? entreprise_ID : "", pays_ID ? pays_ID : "",
-					ville_ID ? ville_ID : "")
-			.ajax(
-					{
-						async : false,
-						success : function(data, textStatus, jqXHR) {
-							var booleenValeurPrecedemmentSelectionnee = (filtre_secteur.selectedIndex != 0 && (anneePromotion_ID
-									|| ecole_ID
-									&& ecole_ID != ECOLE_OU_ENTREPRISE_INACTIF
-									|| entreprise_ID
-									&& entreprise_ID != ECOLE_OU_ENTREPRISE_INACTIF
-									|| pays_ID || ville_ID));
-
-							miseAJourDuFiltre_AJAXSuccess(data,
-									booleenValeurPrecedemmentSelectionnee,
-									ARRAY_FILTRE_SECTEUR);
-						}
-					});
+	jsRoutes.controllers.ServiceSecteur.AJAX_listeDesSecteursSelonCriteres(
+			centralien_ID ? centralien_ID : "",
+			anneePromotion_ID ? anneePromotion_ID : "",
+			ecole_ID ? ecole_ID : "", entreprise_ID ? entreprise_ID : "",
+			pays_ID ? pays_ID : "", ville_ID ? ville_ID : "").ajax({
+		async : false,
+		success : function(data, textStatus, jqXHR) {
+			miseAJourDuFiltre_AJAXSuccess(data, ARRAY_FILTRE_SECTEUR);
+		}
+	});
 }
 
 function miseAJourDuFiltrePays(centralien_ID, anneePromotion_ID, ecole_ID,
 		entreprise_ID, secteur_ID) {
-	jsRoutes.controllers.ServicePays
-			.AJAX_listeDesPaysSelonCriteres(centralien_ID ? centralien_ID : "",
-					anneePromotion_ID ? anneePromotion_ID : "",
-					ecole_ID ? ecole_ID : "",
-					entreprise_ID ? entreprise_ID : "",
-					secteur_ID ? secteur_ID : "")
-			.ajax(
-					{
-						async : false,
-						success : function(data, textStatus, jqXHR) {
-							var booleenValeurPrecedemmentSelectionnee = (filtre_pays.selectedIndex != 0 && (anneePromotion_ID
-									|| ecole_ID
-									&& ecole_ID != ECOLE_OU_ENTREPRISE_INACTIF
-									|| entreprise_ID
-									&& entreprise_ID != ECOLE_OU_ENTREPRISE_INACTIF || secteur_ID));
-
-							miseAJourDuFiltre_AJAXSuccess(data,
-									booleenValeurPrecedemmentSelectionnee,
-									ARRAY_FILTRE_PAYS);
-						}
-					});
+	jsRoutes.controllers.ServicePays.AJAX_listeDesPaysSelonCriteres(
+			centralien_ID ? centralien_ID : "",
+			anneePromotion_ID ? anneePromotion_ID : "",
+			ecole_ID ? ecole_ID : "", entreprise_ID ? entreprise_ID : "",
+			secteur_ID ? secteur_ID : "").ajax({
+		async : false,
+		success : function(data, textStatus, jqXHR) {
+			miseAJourDuFiltre_AJAXSuccess(data, ARRAY_FILTRE_PAYS);
+		}
+	});
 
 }
 
@@ -571,29 +501,16 @@ function miseAJourDuFiltreVille(centralien_ID, anneePromotion_ID, ecole_ID,
 			creation_filtreVille(pays_ID);
 		}
 		// Dans tous les cas on l'alimente
-		jsRoutes.controllers.ServiceVille
-				.AJAX_listeDesVillesSelonCriteres(
-						centralien_ID ? centralien_ID : "",
-						anneePromotion_ID ? anneePromotion_ID : "",
-						ecole_ID ? ecole_ID : "",
-						entreprise_ID ? entreprise_ID : "",
-						secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "")
-				.ajax(
-						{
-							async : false,
-							success : function(data, textStatus, jqXHR) {
-								var booleenValeurPrecedemmentSelectionnee = (filtre_ville.selectedIndex != 0 && (anneePromotion_ID
-										|| ecole_ID
-										&& ecole_ID != ECOLE_OU_ENTREPRISE_INACTIF
-										|| entreprise_ID
-										&& entreprise_ID != ECOLE_OU_ENTREPRISE_INACTIF
-										|| secteur_ID || pays_ID));
-
-								miseAJourDuFiltre_AJAXSuccess(data,
-										booleenValeurPrecedemmentSelectionnee,
-										ARRAY_FILTRE_VILLE);
-							}
-						});
+		jsRoutes.controllers.ServiceVille.AJAX_listeDesVillesSelonCriteres(
+				centralien_ID ? centralien_ID : "",
+				anneePromotion_ID ? anneePromotion_ID : "",
+				ecole_ID ? ecole_ID : "", entreprise_ID ? entreprise_ID : "",
+				secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "").ajax({
+			async : false,
+			success : function(data, textStatus, jqXHR) {
+				miseAJourDuFiltre_AJAXSuccess(data, ARRAY_FILTRE_VILLE);
+			}
+		});
 	} else if (HTML(ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID])) {
 		// Si le filtre pays n'est pas selectionne et que le filtre ville
 		// existe, ce dernier est supprime
