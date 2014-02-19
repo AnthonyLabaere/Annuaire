@@ -16,16 +16,18 @@ import constantes.IConstantes;
 public class ServicePays extends Controller {
 
 	public static Result AJAX_listeDesPays() {
-		String sql = "SELECT pays_ID, pays_nom FROM Pays ORDER BY pays_nom ASC";
+		String sql = "SELECT pays_ID, pays_nom, pays_latitude, pays_longitude FROM Pays ORDER BY pays_nom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		// Liste de 4 String : ID, nom, latitude et longitude
 		List<String[]> listeDesPays = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("pays_ID").toString();
 			String nom = sqlRow.get("pays_nom").toString();
-			listeDesPays.add(new String[] { identifiant, nom });
+			String latitude = sqlRow.get("pays_latitude").toString();
+			String longitude = sqlRow.get("pays_longitude").toString();
+			listeDesPays.add(new String[] { identifiant, nom, latitude, longitude });
 		}
 
 		return ok(Json.toJson(listeDesPays));
@@ -50,7 +52,7 @@ public class ServicePays extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT pays_ID, pays_nom FROM Pays";
+		String sql = "SELECT pays_ID, pays_nom, pays_latitude, pays_longitude FROM Pays";
 
 		if (parametresPresents[0]) {
 			wherePlace = true;
@@ -181,12 +183,14 @@ public class ServicePays extends Controller {
 		}
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		// Liste de 4 String : ID, nom, latitude et longitude
 		List<String[]> listeDesPaysParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("pays_ID").toString();
 			String nom = sqlRow.get("pays_nom").toString();
-			listeDesPaysParCriteres.add(new String[] { identifiant, nom });
+			String latitude = sqlRow.get("pays_latitude").toString();
+			String longitude = sqlRow.get("pays_longitude").toString();
+			listeDesPaysParCriteres.add(new String[] { identifiant, nom, latitude, longitude });
 		}
 
 		return ok(Json.toJson(listeDesPaysParCriteres));

@@ -73,13 +73,17 @@ CREATE TABLE Centralien (
 
 CREATE TABLE Pays (
   pays_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PaysSequence'),
-  pays_nom VARCHAR(50) NOT NULL
+  pays_nom VARCHAR(50) NOT NULL,
+  pays_latitude NUMERIC,
+  pays_longitude NUMERIC  
 );
 
 CREATE TABLE Ville (
   ville_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('VilleSequence'),
   ville_nom VARCHAR(50) NOT NULL,
-  ville_pays_ID INTEGER REFERENCES Pays (pays_ID) NOT NULL
+  ville_pays_ID INTEGER REFERENCES Pays (pays_ID) NOT NULL,
+  ville_latitude NUMERIC,
+  ville_longitude NUMERIC  
 );
 
 CREATE TABLE Entreprise (
@@ -155,20 +159,22 @@ INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centra
 INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Indianna', 'Jones', 1);
 INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Black', 'MrCafe', 1);--8
 
-INSERT INTO Pays (pays_ID, pays_nom) VALUES (nextval('PaysSequence'), 'France');
-INSERT INTO Pays (pays_ID, pays_nom) VALUES (nextval('PaysSequence'), 'Espagne');
-INSERT INTO Pays (pays_ID, pays_nom) VALUES (nextval('PaysSequence'), 'Allemagne');
+-- TODO : Latitude et longitude doivent etre insere par un webservice ou une API, le zoom est a definir a la main...
+INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude) VALUES (nextval('PaysSequence'), 'France', 46.0558887, 1.8142930);
+INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude) VALUES (nextval('PaysSequence'), 'Espagne', 40.4636670, -3.7492200);
+INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude) VALUES (nextval('PaysSequence'), 'Allemagne', 51.1656910, 10.4515260);
 
-INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID) VALUES (nextval('VilleSequence'), 'Nantes', 1);
-INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID) VALUES (nextval('VilleSequence'), 'Paris', 1);
-INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID) VALUES (nextval('VilleSequence'), 'Lille', 1);
-INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID) VALUES (nextval('VilleSequence'), 'Lyon', 1);
-INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID) VALUES (nextval('VilleSequence'), 'Marseille', 1);--5
-INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID) VALUES (nextval('VilleSequence'), 'Bordeaux', 1);
-INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID) VALUES (nextval('VilleSequence'), 'Toulouse', 1);
-INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID) VALUES (nextval('VilleSequence'), 'Rennes', 1);
-INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID) VALUES (nextval('VilleSequence'), 'Madrid', 2);
-INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID) VALUES (nextval('VilleSequence'), 'Berlin', 3);--10
+-- TODO : Latitude et longitude doivent etre insere par un webservice ou une API
+INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID, ville_latitude, ville_longitude) VALUES (nextval('VilleSequence'), 'Nantes', 1, 47.2183710, -1.5536210);
+INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID, ville_latitude, ville_longitude) VALUES (nextval('VilleSequence'), 'Paris', 1, 48.8566140, 2.3522219);
+INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID, ville_latitude, ville_longitude) VALUES (nextval('VilleSequence'), 'Lille', 1, 50.6292500, 3.0572560);
+INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID, ville_latitude, ville_longitude) VALUES (nextval('VilleSequence'), 'Lyon', 1, 45.7640430, 4.8356590);
+INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID, ville_latitude, ville_longitude) VALUES (nextval('VilleSequence'), 'Marseille', 1, 43.2964820, 5.3697800);--5
+INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID, ville_latitude, ville_longitude) VALUES (nextval('VilleSequence'), 'Bordeaux', 1, 44.8377890, -0.5791800);
+INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID, ville_latitude, ville_longitude) VALUES (nextval('VilleSequence'), 'Toulouse', 1, 43.6046520, 1.4442090);
+INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID, ville_latitude, ville_longitude) VALUES (nextval('VilleSequence'), 'Rennes', 1, 48.1134750, -1.6757080);
+INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID, ville_latitude, ville_longitude) VALUES (nextval('VilleSequence'), 'Madrid', 2, 40.4167754, -0.1198244);
+INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID, ville_latitude, ville_longitude) VALUES (nextval('VilleSequence'), 'Berlin', 3, 52.5200066, 13.4049540);--10
 
 INSERT INTO Entreprise (entreprise_ID, entreprise_nom) VALUES (nextval('EntrepriseSequence'), 'Sopra');
 INSERT INTO Entreprise (entreprise_ID, entreprise_nom) VALUES (nextval('EntrepriseSequence'), 'Capgemini');

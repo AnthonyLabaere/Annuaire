@@ -92,16 +92,15 @@ p{
 }
 
 /* Ses boutons */
-
 #bouton_fermeture_panneau{
 	position:absolute;
 	top:6px;
 	right:6px;
 	height:18px;
+	padding:5px;
 	z-index:3;
 	cursor:pointer;	
     background-color:#e65c00;
-	padding:5px;
 	border-radius:5px;
 	border:solid 1px black;
 	transition: 2s top, 2s right;
@@ -131,23 +130,10 @@ p{
 	border:solid 1px black;	
 }
 
-#bouton_reset_all {
+#bouton_recherche {
 	position:absolute;
 	top:6px;
-	right:100px;
-	height:18px;
-	padding:5px;
-	z-index:3;
-	cursor:pointer;
-/*     background-color:#e65c00; */
-	border-radius:5px;
-	border:solid 1px black;	
-}
-
-.bouton_reset {
-	position:relative;
-/* 	top:6px; */
-/* 	right:100px; */
+	right:400px;
 	height:18px;
 	padding:5px;
 	z-index:3;
@@ -157,10 +143,30 @@ p{
 	border:solid 1px black;	
 }
 
+#bouton_reset_all {
+	position:absolute;
+	top:6px;
+	right:100px;
+	height:18px;
+	padding:5px;
+	z-index:3;
+	cursor:pointer;
+	border-radius:5px;
+	border:solid 1px black;	
+}
 
+.bouton_reset {
+	position:relative;
+	height:18px;
+	padding:5px;
+	z-index:3;
+	cursor:pointer;
+    background-color:#e65c00;
+	border-radius:5px;
+	border:solid 1px black;	
+}
 
 /* Son tableau de critere de recherche */
-
 #tableau_critere {
 	align:center;
 }

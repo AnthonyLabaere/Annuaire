@@ -17,19 +17,21 @@ public class ServiceVille extends Controller {
 
 	public static Result AJAX_listeDesVillesDuPays(String pays_ID) {
 
-		String sql = "SELECT ville_ID, ville_nom FROM Ville WHERE ville_pays_ID = :pays_ID";
+		String sql = "SELECT ville_ID, ville_nom, ville_latitude, ville_longitude FROM Ville WHERE ville_pays_ID = :pays_ID";
 		sql += " ORDER BY ville_nom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		sqlQuery.setParameter("pays_ID", pays_ID);
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		// Liste de 4 String : ID, nom, latitude et longitude
 		List<String[]> listeDesVilles = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("ville_ID").toString();
 			String nom = sqlRow.get("ville_nom").toString();
-			listeDesVilles.add(new String[] { identifiant, nom });
+			String latitude = sqlRow.get("ville_latitude").toString();
+			String longitude = sqlRow.get("ville_longitude").toString();
+			listeDesVilles.add(new String[] { identifiant, nom, latitude, longitude });
 		}
 
 		return ok(Json.toJson(listeDesVilles));
@@ -56,7 +58,7 @@ public class ServiceVille extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT ville_ID, ville_nom FROM Ville";
+		String sql = "SELECT ville_ID, ville_nom, ville_latitude, ville_longitude FROM Ville";
 
 		if (parametresPresents[0]) {
 			wherePlace = true;
@@ -187,12 +189,14 @@ public class ServiceVille extends Controller {
 		sqlQuery.setParameter("pays_ID", Integer.parseInt(pays_ID));
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		// Liste de 4 String : ID, nom, latitude et longitude
 		List<String[]> listeDesVillesParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("ville_ID").toString();
 			String nom = sqlRow.get("ville_nom").toString();
-			listeDesVillesParCriteres.add(new String[] { identifiant, nom });
+			String latitude = sqlRow.get("ville_latitude").toString();
+			String longitude = sqlRow.get("ville_longitude").toString();
+			listeDesVillesParCriteres.add(new String[] { identifiant, nom, latitude, longitude });
 		}
 
 		return ok(Json.toJson(listeDesVillesParCriteres));

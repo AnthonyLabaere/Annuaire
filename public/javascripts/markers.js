@@ -1,48 +1,69 @@
-//A obtenir via la base de données
-var POSITIONS_CAPITALES = new Array();
+/** Le layer des marqueurs */
+var MARKER_LAYER;
 
-var POSITION_PARIS = new OpenLayers.LonLat(2.3522219, 48.8566140);
-var POSITION_MADRID = new OpenLayers.LonLat(-3.7037902, 40.4167754);
-var POSITION_LONDRES = new OpenLayers.LonLat(-0.1198244, 51.5112139);
-var POSITION_DUBLIN = new OpenLayers.LonLat(-6.2603097, 53.3498053);
-var POSITION_BRUXELLE = new OpenLayers.LonLat(4.3500000, 50.8500000);
-var POSITION_BERLIN = new OpenLayers.LonLat(13.4049540, 52.5200066);
-	
-POSITIONS_CAPITALES.push(POSITION_PARIS);	
-POSITIONS_CAPITALES.push(POSITION_MADRID);	
-POSITIONS_CAPITALES.push(POSITION_LONDRES);	
-POSITIONS_CAPITALES.push(POSITION_DUBLIN);	
-POSITIONS_CAPITALES.push(POSITION_BRUXELLE);	
-POSITIONS_CAPITALES.push(POSITION_BERLIN);	
-
+// TODO : faire en sorte de savoir s'il y a eu des modifications dans les
+// villes... bref ne pas tout recharger a chaque fois
+// var NOMBRE_PAYS;
+// var NOMBRE_VILLE;
 
 /**
  * Fonction d'ajout d'un marqueur
- * @param coordonnees position du marker
+ * 
+ * @param coordonnees
+ *            position du marker
  */
-function ajout_marqueur(coordonnees){	
-	var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
-	
-	var position=getPositionCarte(coordonnees);	
-    var point = new OpenLayers.Geometry.Point(position.lon,position.lat);
-	
-    // TODO Mettre les drapeaux du monde au lieu de balises classiques
-	var feature = new OpenLayers.Feature.Vector(
-	  point,
-	 {some:'data'},
-	 {externalGraphic: '/assets/images/map/marqueur.png', graphicHeight: 21, graphicWidth: 16});
-	vectorLayer.addFeatures(feature);
-	CARTE.addLayer(vectorLayer);
-	
-    // A popup with some information about our location
-    var popup = new OpenLayers.Popup.FramedCloud("Popup", 
-    		point.getBounds().getCenterLonLat(), null,
-        '50 Centraliens', null, null
-    );
-    // and add the popup to it.
-    CARTE.addPopup(popup);
+function ajout_marqueur(coordonnees) {
+	MARKER_LAYER = new OpenLayers.Layer.Vector("Overlay");
+
+	var position = getPositionCarte(coordonnees);
+	var point = new OpenLayers.Geometry.Point(position.lon, position.lat);
+
+	// TODO Mettre les drapeaux du monde au lieu de balises classiques
+	var feature = new OpenLayers.Feature.Vector(point, {
+		some : 'data'
+	}, {
+		externalGraphic : '/assets/images/map/marqueur.png',
+		graphicHeight : 21,
+		graphicWidth : 16
+	});
+	MARKER_LAYER.addFeatures(feature);
+	CARTE.addLayer(MARKER_LAYER);
+
+	// Une popup avec quelques informations sur la location
+	var popup = new OpenLayers.Popup.FramedCloud("Popup", point.getBounds()
+			.getCenterLonLat(), null, '50 Centraliens', null, null);
+	// Ajout de cette popup sur la carte
+	CARTE.addPopup(popup);
 }
 
-for (var index_position in POSITIONS_CAPITALES) {
-	ajout_marqueur(POSITIONS_CAPITALES[index_position]);
+function miseAjourDesMarqueurs() {
+	// Les marqueurs precedemment places sont supprimes
+	if (MARKER_LAYER) {
+		MARKER_LAYER.destroyFeatures();
+	}
+
+	var filtre_pays = HTML(ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID]);
+
+	if (filtre_pays.selectedIndex == 0) {
+		// Si le filtre pays n'est pas renseigne alors l'application affiche un
+		// marqueur par Pays concerne par la recherche actuelle
+		var nombre_pays = filtre_pays.options.length;
+		for ( var i = 1; i < nombre_pays; i++) {
+			var coordonnees = new OpenLayers.LonLat(filtre_pays.options[i]
+					.getAttribute("longitude"), filtre_pays.options[i]
+					.getAttribute("latitude"));
+			ajout_marqueur(coordonnees);
+		}
+
+	} else {
+		if (!HTML(ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID])) {
+			// Si le filtre pays est renseigne mais pas le filtre ville
+			// l'application affiche les villes du pays apres avoir effectue un
+			// zoom sur le pays
+
+		} else {
+			// Si le filtre ville est renseigne l'application affiche un
+			// marqueur sur la ville apres un zoom sur cette derniere
+		}
+	}
 }

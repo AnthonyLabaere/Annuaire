@@ -373,7 +373,8 @@ function miseAJourDesFiltres(filtre_ID) {
  * donnees du serveur concernant ce filtre
  */
 function miseAJourDuFiltre_AJAXSuccess(data, ARRAY_FILTRE) {
-	var filtre = HTML(ARRAY_FILTRE[ARRAY_FILTRE_ID]);
+	var filtre_ID = ARRAY_FILTRE[ARRAY_FILTRE_ID];
+	var filtre = HTML(filtre_ID);
 
 	// Suppression des elements existants dans le filtre
 	var valeurPrecedemmentSelectionnee;
@@ -395,9 +396,16 @@ function miseAJourDuFiltre_AJAXSuccess(data, ARRAY_FILTRE) {
 			option_precedemment_selectionnee.setAttribute('selected',
 					'selected');
 			filtre.appendChild(option_precedemment_selectionnee);
-		} else {
-			filtre.options[filtre.options.length] = new Option(
-					data[element][1], data[element][0]);
+		} else {			
+			var option = document.createElement('option');
+			option.value = data[element][0];
+			option.text = data[element][1];
+			// Si le filtre est pays ou ville alors on y ajoute les coordonnes GPS
+			if (filtre_ID == ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID] || filtre_ID == ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID]){
+				option.setAttribute('latitude', data[element][2]);
+				option.setAttribute('longitude', data[element][3]);				
+			}
+			filtre.appendChild(option);
 		}
 	}
 }

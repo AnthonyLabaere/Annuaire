@@ -1,3 +1,5 @@
+/** Ce fichier contient les constantes et variables globales utiles au fonctionnement des filtres
+
 /** Constantes contenant le nombre total de filtre */
 var NOMBRE_TOTAL_FILTRES = 7;
 
