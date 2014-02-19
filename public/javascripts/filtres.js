@@ -166,7 +166,7 @@ function miseAJourDesFiltres(filtre_ID) {
 			var entreprise_ID = null;
 			var secteur_ID = null;
 			var pays_ID = null;
-			var ville_nom = null;
+			var ville_ID = null;
 
 			// Il faut indiquer au serveur quel est le filtre ignore entre Ecole
 			// et Entreprise
@@ -177,18 +177,18 @@ function miseAJourDesFiltres(filtre_ID) {
 			}
 
 			miseAJourDuFiltreCentralien(anneePromotion_ID, ecole_ID,
-					entreprise_ID, secteur_ID, pays_ID, ville_nom);
+					entreprise_ID, secteur_ID, pays_ID, ville_ID);
 			miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID,
-					entreprise_ID, secteur_ID, pays_ID, ville_nom);
+					entreprise_ID, secteur_ID, pays_ID, ville_ID);
 			if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
 				miseAJourDuFiltreEcole(centralien_ID, anneePromotion_ID,
-						secteur_ID, pays_ID, ville_nom);
+						secteur_ID, pays_ID, ville_ID);
 			} else {
 				miseAJourDuFiltreEntreprise(centralien_ID, anneePromotion_ID,
-						secteur_ID, pays_ID, ville_nom);
+						secteur_ID, pays_ID, ville_ID);
 			}
 			miseAJourDuFiltreSecteur(centralien_ID, anneePromotion_ID,
-					ecole_ID, entreprise_ID, pays_ID, ville_nom);
+					ecole_ID, entreprise_ID, pays_ID, ville_ID);
 			miseAJourDuFiltrePays(centralien_ID, anneePromotion_ID, ecole_ID,
 					entreprise_ID, secteur_ID);
 			// TODO : supprimer la ligne d'apres ?
@@ -240,7 +240,7 @@ function miseAJourDesFiltres(filtre_ID) {
 			var entreprise_ID;
 			var secteur_ID;
 			var pays_ID;
-			var ville_nom;
+			var ville_ID;
 
 			// Il faut indiquer au serveur quel est le filtre ignore entre Ecole
 			// et Entreprise
@@ -267,32 +267,32 @@ function miseAJourDesFiltres(filtre_ID) {
 					} else if (tableau_ordre_activation[j] == ARRAY_FILTRES_PAYS) {
 						pays_ID = HTML(ARRAY_FILTRES[tableau_ordre_activation[j]][ARRAY_FILTRE_ID]).value;
 					} else if (tableau_ordre_activation[j] == ARRAY_FILTRES_VILLE) {
-						ville_nom = HTML(ARRAY_FILTRES[tableau_ordre_activation[j]][ARRAY_FILTRE_ID]).value;
+						ville_ID = HTML(ARRAY_FILTRES[tableau_ordre_activation[j]][ARRAY_FILTRE_ID]).value;
 					}
 				}
 			}
 
 			if (tableau_ordre_activation[i] == ARRAY_FILTRES_CENTRALIEN) {
 				miseAJourDuFiltreCentralien(anneePromotion_ID, ecole_ID,
-						entreprise_ID, secteur_ID, pays_ID, ville_nom);
+						entreprise_ID, secteur_ID, pays_ID, ville_ID);
 			}
 			if (tableau_ordre_activation[i] == ARRAY_FILTRES_ANNEEPROMOTION) {
 				miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID,
-						entreprise_ID, secteur_ID, pays_ID, ville_nom);
+						entreprise_ID, secteur_ID, pays_ID, ville_ID);
 			}
 			if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])
 					&& tableau_ordre_activation[i] == ARRAY_FILTRES_ECOLE) {
 				miseAJourDuFiltreEcole(centralien_ID, anneePromotion_ID,
-						secteur_ID, pays_ID, ville_nom);
+						secteur_ID, pays_ID, ville_ID);
 			}
 			if (HTML(ARRAY_FILTRE_ENTREPRISE[ARRAY_FILTRE_ID])
 					&& tableau_ordre_activation[i] == ARRAY_FILTRES_ENTREPRISE) {
 				miseAJourDuFiltreEntreprise(centralien_ID, anneePromotion_ID,
-						secteur_ID, pays_ID, ville_nom);
+						secteur_ID, pays_ID, ville_ID);
 			}
 			if (tableau_ordre_activation[i] == ARRAY_FILTRES_SECTEUR) {
 				miseAJourDuFiltreSecteur(centralien_ID, anneePromotion_ID,
-						ecole_ID, entreprise_ID, pays_ID, ville_nom);
+						ecole_ID, entreprise_ID, pays_ID, ville_ID);
 			}
 			if (tableau_ordre_activation[i] == ARRAY_FILTRES_PAYS) {
 				miseAJourDuFiltrePays(centralien_ID, anneePromotion_ID,
@@ -339,7 +339,7 @@ function miseAJourDesFiltres(filtre_ID) {
  * Cette fonction permet d'alimenter le filtre donne en parametre avec les
  * donnees du serveur concernant ce filtre
  */
-function miseAJourDuFiltre_AJAXSuccess_avecID(data,
+function miseAJourDuFiltre_AJAXSuccess(data,
 		booleenValeurPrecedemmentSelectionnee, ARRAY_FILTRE) {
 	var filtre = HTML(ARRAY_FILTRE[ARRAY_FILTRE_ID]);
 
@@ -397,14 +397,14 @@ function miseAJourDuFiltre_AJAXSuccess_sansID(data,
 }
 
 function miseAJourDuFiltreCentralien(anneePromotion_ID, ecole_ID,
-		entreprise_ID, secteur_ID, pays_ID, ville_nom) {
+		entreprise_ID, secteur_ID, pays_ID, ville_ID) {
 	jsRoutes.controllers.ServiceCentralien
 			.AJAX_listeDesCentraliensSelonCriteres(
 					anneePromotion_ID ? anneePromotion_ID : "",
 					ecole_ID ? ecole_ID : "",
 					entreprise_ID ? entreprise_ID : "",
 					secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "",
-					ville_nom ? ville_nom : "")
+					ville_ID ? ville_ID : "")
 			.ajax(
 					{
 						async : false,
@@ -414,9 +414,9 @@ function miseAJourDuFiltreCentralien(anneePromotion_ID, ecole_ID,
 									&& ecole_ID != ECOLE_OU_ENTREPRISE_INACTIF
 									|| entreprise_ID
 									&& entreprise_ID != ECOLE_OU_ENTREPRISE_INACTIF
-									|| secteur_ID || pays_ID || ville_nom));
+									|| secteur_ID || pays_ID || ville_ID));
 
-							miseAJourDuFiltre_AJAXSuccess_avecID(data,
+							miseAJourDuFiltre_AJAXSuccess(data,
 									booleenValeurPrecedemmentSelectionnee,
 									ARRAY_FILTRE_CENTRALIEN);
 						}
@@ -424,7 +424,7 @@ function miseAJourDuFiltreCentralien(anneePromotion_ID, ecole_ID,
 }
 
 function miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID,
-		entreprise_ID, secteur_ID, pays_ID, ville_nom) {
+		entreprise_ID, secteur_ID, pays_ID, ville_ID) {
 
 	jsRoutes.controllers.ServiceAnneePromotion
 			.AJAX_listeDesAnneesPromotionSelonCriteres(
@@ -432,7 +432,7 @@ function miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID,
 					ecole_ID ? ecole_ID : "",
 					entreprise_ID ? entreprise_ID : "",
 					secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "",
-					ville_nom ? ville_nom : "")
+					ville_ID ? ville_ID : "")
 			.ajax(
 					{
 						async : false,
@@ -441,9 +441,9 @@ function miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID,
 									&& ecole_ID != ECOLE_OU_ENTREPRISE_INACTIF
 									|| entreprise_ID
 									&& entreprise_ID != ECOLE_OU_ENTREPRISE_INACTIF
-									|| secteur_ID || pays_ID || ville_nom));
+									|| secteur_ID || pays_ID || ville_ID));
 
-							miseAJourDuFiltre_AJAXSuccess_avecID(data,
+							miseAJourDuFiltre_AJAXSuccess(data,
 									booleenValeurPrecedemmentSelectionnee,
 									ARRAY_FILTRE_ANNEEPROMOTION);
 						}
@@ -451,21 +451,21 @@ function miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID,
 }
 
 function miseAJourDuFiltreEcole(centralien_ID, anneePromotion_ID, secteur_ID,
-		pays_ID, ville_nom) {
+		pays_ID, ville_ID) {
 	jsRoutes.controllers.ServiceEcole
 			.AJAX_listeDesEcolesSelonCriteres(
 					centralien_ID ? centralien_ID : "",
 					anneePromotion_ID ? anneePromotion_ID : "",
 					secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "",
-					ville_nom ? ville_nom : "")
+					ville_ID ? ville_ID : "")
 			.ajax(
 					{
 						async : false,
 						success : function(data, textStatus, jqXHR) {
 							var booleenValeurPrecedemmentSelectionnee = (filtre_ecole.selectedIndex != 0 && (anneePromotion_ID
-									|| secteur_ID || pays_ID || ville_nom));
+									|| secteur_ID || pays_ID || ville_ID));
 
-							miseAJourDuFiltre_AJAXSuccess_avecID(data,
+							miseAJourDuFiltre_AJAXSuccess(data,
 									booleenValeurPrecedemmentSelectionnee,
 									ARRAY_FILTRE_ECOLE);
 						}
@@ -473,21 +473,21 @@ function miseAJourDuFiltreEcole(centralien_ID, anneePromotion_ID, secteur_ID,
 }
 
 function miseAJourDuFiltreEntreprise(centralien_ID, anneePromotion_ID,
-		secteur_ID, pays_ID, ville_nom) {
+		secteur_ID, pays_ID, ville_ID) {
 	jsRoutes.controllers.ServiceEntreprise
 			.AJAX_listeDesEntreprisesSelonCriteres(
 					centralien_ID ? centralien_ID : "",
 					anneePromotion_ID ? anneePromotion_ID : "",
 					secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "",
-					ville_nom ? ville_nom : "")
+					ville_ID ? ville_ID : "")
 			.ajax(
 					{
 						async : false,
 						success : function(data, textStatus, jqXHR) {
 							var booleenValeurPrecedemmentSelectionnee = (filtre_entreprise.selectedIndex != 0 && (anneePromotion_ID
-									|| secteur_ID || pays_ID || ville_nom));
+									|| secteur_ID || pays_ID || ville_ID));
 
-							miseAJourDuFiltre_AJAXSuccess_avecID(data,
+							miseAJourDuFiltre_AJAXSuccess(data,
 									booleenValeurPrecedemmentSelectionnee,
 									ARRAY_FILTRE_ENTREPRISE);
 						}
@@ -495,14 +495,14 @@ function miseAJourDuFiltreEntreprise(centralien_ID, anneePromotion_ID,
 }
 
 function miseAJourDuFiltreSecteur(centralien_ID, anneePromotion_ID, ecole_ID,
-		entreprise_ID, pays_ID, ville_nom) {
+		entreprise_ID, pays_ID, ville_ID) {
 	jsRoutes.controllers.ServiceSecteur
 			.AJAX_listeDesSecteursSelonCriteres(
 					centralien_ID ? centralien_ID : "",
 					anneePromotion_ID ? anneePromotion_ID : "",
 					ecole_ID ? ecole_ID : "",
 					entreprise_ID ? entreprise_ID : "", pays_ID ? pays_ID : "",
-					ville_nom ? ville_nom : "")
+					ville_ID ? ville_ID : "")
 			.ajax(
 					{
 						async : false,
@@ -512,9 +512,9 @@ function miseAJourDuFiltreSecteur(centralien_ID, anneePromotion_ID, ecole_ID,
 									&& ecole_ID != ECOLE_OU_ENTREPRISE_INACTIF
 									|| entreprise_ID
 									&& entreprise_ID != ECOLE_OU_ENTREPRISE_INACTIF
-									|| pays_ID || ville_nom));
+									|| pays_ID || ville_ID));
 
-							miseAJourDuFiltre_AJAXSuccess_avecID(data,
+							miseAJourDuFiltre_AJAXSuccess(data,
 									booleenValeurPrecedemmentSelectionnee,
 									ARRAY_FILTRE_SECTEUR);
 						}
@@ -539,7 +539,7 @@ function miseAJourDuFiltrePays(centralien_ID, anneePromotion_ID, ecole_ID,
 									|| entreprise_ID
 									&& entreprise_ID != ECOLE_OU_ENTREPRISE_INACTIF || secteur_ID));
 
-							miseAJourDuFiltre_AJAXSuccess_avecID(data,
+							miseAJourDuFiltre_AJAXSuccess(data,
 									booleenValeurPrecedemmentSelectionnee,
 									ARRAY_FILTRE_PAYS);
 						}
@@ -578,7 +578,7 @@ function miseAJourDuFiltreVille(centralien_ID, anneePromotion_ID, ecole_ID,
 										&& entreprise_ID != ECOLE_OU_ENTREPRISE_INACTIF
 										|| secteur_ID || pays_ID));
 
-								miseAJourDuFiltre_AJAXSuccess_sansID(data,
+								miseAJourDuFiltre_AJAXSuccess(data,
 										booleenValeurPrecedemmentSelectionnee,
 										ARRAY_FILTRE_VILLE);
 							}

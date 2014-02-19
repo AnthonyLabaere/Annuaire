@@ -17,16 +17,19 @@ public class ServiceVille extends Controller {
 
 	public static Result AJAX_listeDesVillesDuPays(String pays_ID) {
 
-		String sql = "SELECT ville_nom FROM Ville WHERE ville_pays_ID = :pays_ID";
+		String sql = "SELECT ville_ID, ville_nom FROM Ville WHERE ville_pays_ID = :pays_ID";
 		sql += " ORDER BY ville_nom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		sqlQuery.setParameter("pays_ID", pays_ID);
 
-		List<SqlRow> listSqlRowVille = sqlQuery.findList();
-		List<String> listeDesVilles = new ArrayList<String>();
-		for (SqlRow sqlRow : listSqlRowVille) {
-			listeDesVilles.add(sqlRow.get("ville_nom").toString());
+		List<SqlRow> listSqlRow = sqlQuery.findList();
+		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		List<String[]> listeDesVilles = new ArrayList<String[]>();
+		for (SqlRow sqlRow : listSqlRow) {
+			String identifiant = sqlRow.get("ville_ID").toString();
+			String nom = sqlRow.get("ville_nom").toString();
+			listeDesVilles.add(new String[] { identifiant, nom });
 		}
 
 		return ok(Json.toJson(listeDesVilles));
@@ -53,7 +56,7 @@ public class ServiceVille extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT ville_nom FROM Ville";
+		String sql = "SELECT ville_ID, ville_nom FROM Ville";
 
 		if (parametresPresents[0]) {
 			wherePlace = true;
@@ -161,6 +164,8 @@ public class ServiceVille extends Controller {
 		sql += "ville_pays_ID = :pays_ID";
 
 		sql += " ORDER BY ville_nom ASC";
+		
+		System.out.println(sql);
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
@@ -182,9 +187,12 @@ public class ServiceVille extends Controller {
 		sqlQuery.setParameter("pays_ID", Integer.parseInt(pays_ID));
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesVillesParCriteres = new ArrayList<String>();
+		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		List<String[]> listeDesVillesParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesVillesParCriteres.add(sqlRow.get("ville_nom").toString());
+			String identifiant = sqlRow.get("ville_ID").toString();
+			String nom = sqlRow.get("ville_nom").toString();
+			listeDesVillesParCriteres.add(new String[] { identifiant, nom });
 		}
 
 		return ok(Json.toJson(listeDesVillesParCriteres));

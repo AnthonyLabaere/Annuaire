@@ -31,14 +31,14 @@ public class ServiceEntreprise extends Controller {
 
 	public static Result AJAX_listeDesEntreprisesSelonCriteres(
 	        String centralien_ID, String anneePromotion_ID,
-	        String secteur_ID, String pays_ID, String ville_nom) {
+	        String secteur_ID, String pays_ID, String ville_ID) {
 		Boolean[] parametresPresents = new Boolean[] {
 				centralien_ID != null && !centralien_ID.isEmpty(),
 						anneePromotion_ID != null
 		                && !anneePromotion_ID.isEmpty(),
 		        secteur_ID != null && !secteur_ID.isEmpty(),
 		        pays_ID != null && !pays_ID.isEmpty(),
-		        ville_nom != null && !ville_nom.isEmpty() };
+		        ville_ID != null && !ville_ID.isEmpty() };
 
 		Boolean wherePlace = false;
 
@@ -108,7 +108,7 @@ public class ServiceEntreprise extends Controller {
 				wherePlace = true;
 			}
 			sql += "entreprise_ID IN (";
-			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, Ville WHERE ville_nom = :ville_nom";
+			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, Ville WHERE ville_ID = :ville_ID";
 			sql += " AND ";
 			sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
 			sql += ")";
@@ -131,7 +131,7 @@ public class ServiceEntreprise extends Controller {
 			sqlQuery.setParameter("pays_ID", Integer.parseInt(pays_ID));
 		}
 		if (parametresPresents[4]) {
-			sqlQuery.setParameter("ville_nom", ville_nom);
+			sqlQuery.setParameter("ville_ID", Integer.parseInt(ville_ID));
 		}
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();		

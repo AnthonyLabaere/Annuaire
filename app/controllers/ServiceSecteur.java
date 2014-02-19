@@ -33,7 +33,7 @@ public class ServiceSecteur extends Controller {
 
 	public static Result AJAX_listeDesSecteursSelonCriteres(
 	        String centralien_ID, String anneePromotion_ID, String ecole_ID,
-	        String entreprise_ID, String pays_ID, String ville_nom) {
+	        String entreprise_ID, String pays_ID, String ville_ID) {
 		Boolean[] parametresPresents = new Boolean[] {
 		        centralien_ID != null && !centralien_ID.isEmpty(),
 		        anneePromotion_ID != null && !anneePromotion_ID.isEmpty(),
@@ -46,7 +46,7 @@ public class ServiceSecteur extends Controller {
 		                && !entreprise_ID
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
 		        pays_ID != null && !pays_ID.isEmpty(),
-		        ville_nom != null && !ville_nom.isEmpty() };
+		        ville_ID != null && !ville_ID.isEmpty() };
 
 		Boolean wherePlace = false;
 
@@ -158,13 +158,13 @@ public class ServiceSecteur extends Controller {
 			}
 			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 				sql += "secteur_ID IN (";
-				sql += "SELECT entrepriseVilleSecteur_secteur_ID FROM EntrepriseVilleSecteur, Ville WHERE ville_nom = :ville_nom";
+				sql += "SELECT entrepriseVilleSecteur_secteur_ID FROM EntrepriseVilleSecteur, Ville WHERE ville_ID = :ville_ID";
 				sql += " AND ";
 				sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
 				sql += ")";
 			} else {
 				sql += "secteur_ID IN (";
-				sql += "SELECT ecoleSecteur_secteur_ID FROM EcoleSecteur, Ecole, Ville WHERE ville_nom = :ville_nom";
+				sql += "SELECT ecoleSecteur_secteur_ID FROM EcoleSecteur, Ecole, Ville WHERE ville_ID = :ville_ID";
 				sql += " AND ";
 				sql += "ville_ID = ecole_ville_ID";
 				sql += " AND ";
@@ -194,7 +194,7 @@ public class ServiceSecteur extends Controller {
 			sqlQuery.setParameter("pays_ID", Integer.parseInt(pays_ID));
 		}
 		if (parametresPresents[5]) {
-			sqlQuery.setParameter("ville_nom", ville_nom);
+			sqlQuery.setParameter("ville_ID", Integer.parseInt(ville_ID));
 		}
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();		

@@ -33,7 +33,7 @@ public class ServiceAnneePromotion extends Controller {
 
 	public static Result AJAX_listeDesAnneesPromotionSelonCriteres(
 	        String centralien_ID, String ecole_ID, String entreprise_ID,
-	        String secteur_ID, String pays_ID, String ville_nom) {
+	        String secteur_ID, String pays_ID, String ville_ID) {
 		Boolean[] parametresPresents = new Boolean[] {
 				centralien_ID != null && !centralien_ID.isEmpty(),
 		        ecole_ID != null
@@ -46,7 +46,7 @@ public class ServiceAnneePromotion extends Controller {
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
 		        secteur_ID != null && !secteur_ID.isEmpty(),
 		        pays_ID != null && !pays_ID.isEmpty(),
-		        ville_nom != null && !ville_nom.isEmpty() };
+		        ville_ID != null && !ville_ID.isEmpty() };
 
 		Boolean wherePlace = false;
 
@@ -155,18 +155,14 @@ public class ServiceAnneePromotion extends Controller {
 			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
 				sql += "anneePromotion_ID IN (";
 				sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
-				sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID = (";
-				sql += "SELECT ville_ID FROM Ville WHERE ville_nom = :ville_nom";
-				sql += ")";
+				sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID = :ville_ID";
 				sql += " AND ";
 				sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
 				sql += "))";
 			} else {
 				sql += "anneePromotion_ID IN (";
 				sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
-				sql += "SELECT ecoleSecteurCentralien_Centralien_ID FROM EcoleSecteurCentralien, Ecole, EcoleSecteur WHERE ecole_ville_ID = (";
-				sql += "SELECT ville_ID FROM Ville WHERE ville_nom = :ville_nom";
-				sql += ")";
+				sql += "SELECT ecoleSecteurCentralien_Centralien_ID FROM EcoleSecteurCentralien, Ecole, EcoleSecteur WHERE ecole_ville_ID = :ville_ID";
 				sql += " AND ";
 				sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID ";
 				sql += " AND ";
@@ -194,7 +190,7 @@ public class ServiceAnneePromotion extends Controller {
 			sqlQuery.setParameter("pays_ID", Integer.parseInt(pays_ID));
 		}
 		if (parametresPresents[5]) {
-			sqlQuery.setParameter("ville_nom", ville_nom);
+			sqlQuery.setParameter("ville_ID", Integer.parseInt(ville_ID));
 		}
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
