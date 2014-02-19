@@ -93,7 +93,6 @@ public class ServiceAnneePromotion extends Controller {
 			sql += "))";
 		}
 
-		// TODO : Ou Ecole !!!
 		if (parametresPresents[3]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -101,17 +100,28 @@ public class ServiceAnneePromotion extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			sql += "anneePromotion_ID IN (";
-			sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
-			sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
-			sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
-			sql += ")";
-			sql += " AND ";
-			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
-			sql += "))";
+			
+			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+				sql += "anneePromotion_ID IN (";
+				sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
+				sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
+				sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
+				sql += ")";
+				sql += " AND ";
+				sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
+				sql += "))";
+			} else {
+				sql += "anneePromotion_ID IN (";
+				sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
+				sql += "SELECT ecoleSecteurCentralien_Centralien_ID FROM EcoleSecteurCentralien, EcoleSecteur WHERE ecoleSecteur_secteur_ID = (";
+				sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
+				sql += ")";
+				sql += " AND ";
+				sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID ";
+				sql += "))";						
+			}
 		}
 
-		// TODO : Ou Ecole !!!
 		if (parametresPresents[4] && !parametresPresents[5]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -119,17 +129,29 @@ public class ServiceAnneePromotion extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			sql += "anneePromotion_ID IN (";
-			sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
-			sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID IN (";
-			sql += "SELECT ville_ID FROM Ville, Pays WHERE ville_pays_ID = pays_ID AND pays_nom = :pays_nom";
-			sql += ")";
-			sql += " AND ";
-			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
-			sql += "))";
+			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+				sql += "anneePromotion_ID IN (";
+				sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
+				sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID IN (";
+				sql += "SELECT ville_ID FROM Ville, Pays WHERE ville_pays_ID = pays_ID AND pays_nom = :pays_nom";
+				sql += ")";
+				sql += " AND ";
+				sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
+				sql += "))";
+			} else {
+				sql += "anneePromotion_ID IN (";
+				sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
+				sql += "SELECT ecoleSecteurCentralien_Centralien_ID FROM EcoleSecteur, EcoleSecteurCentralien, Ecole WHERE ecole_ville_ID IN (";
+				sql += "SELECT ville_ID FROM Ville, Pays WHERE ville_pays_ID = pays_ID AND pays_nom = :pays_nom";
+				sql += ")";
+				sql += " AND ";
+				sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID ";
+				sql += " AND ";
+				sql += "ecoleSecteur_ecole_ID = ecole_ID ";				
+				sql += "))";		
+			}
 		}
 
-		// TODO : Ou Ecole !!!
 		if (parametresPresents[5]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -137,15 +159,27 @@ public class ServiceAnneePromotion extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-
-			sql += "anneePromotion_ID IN (";
-			sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
-			sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID = (";
-			sql += "SELECT ville_ID FROM Ville WHERE ville_nom = :ville_nom";
-			sql += ")";
-			sql += " AND ";
-			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
-			sql += "))";
+			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+				sql += "anneePromotion_ID IN (";
+				sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
+				sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID = (";
+				sql += "SELECT ville_ID FROM Ville WHERE ville_nom = :ville_nom";
+				sql += ")";
+				sql += " AND ";
+				sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
+				sql += "))";
+			} else {
+				sql += "anneePromotion_ID IN (";
+				sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
+				sql += "SELECT ecoleSecteurCentralien_Centralien_ID FROM EcoleSecteurCentralien, Ecole, EcoleSecteur WHERE ecole_ville_ID = (";
+				sql += "SELECT ville_ID FROM Ville WHERE ville_nom = :ville_nom";
+				sql += ")";
+				sql += " AND ";
+				sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID ";
+				sql += " AND ";
+				sql += "ecoleSecteur_ecole_ID = ecole_ID ";		
+				sql += "))";	
+			}
 		}
 
 		sql += " ORDER BY anneePromotion_libelle ASC";
