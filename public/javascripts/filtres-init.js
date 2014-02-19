@@ -110,9 +110,8 @@ function initialisationFiltrePays() {
 // On initialise les filtres au demarrage de l'application web
 initialisationFiltres();
 
-// Creation et alimentation du filtre des villes en considérant le pays
-// selectionne
-function creationAlimentation_filtreVille(pays_nom) {
+//Creation du filtre des villes
+function creation_filtreVille(pays_nom) {
 	// Creation du filtre
 	var villeTd1 = document.createElement('td');
 	villeTd1.innerHTML = 'Ville';
@@ -136,14 +135,4 @@ function creationAlimentation_filtreVille(pays_nom) {
 	villeTr.appendChild(villeTd2);
 
 	HTML('tableau_critere').appendChild(villeTr);
-
-	// Alimentation du filtre
-	jsRoutes.controllers.ServiceVille.AJAX_listeDesVillesDuPays(pays_nom).ajax(
-			{
-				success : function(data, textStatus, jqXHR) {
-					initialisationFiltre_AJAX_Success_sansID(data,
-							ARRAY_FILTRE_VILLE);
-
-				}
-			});
 }
