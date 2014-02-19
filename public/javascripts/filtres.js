@@ -1,4 +1,20 @@
 /**
+ * Cette fonction reinitialise un filtre en particulier (simulation de
+ * modification du filtre avec selectedIndex=0)
+ */
+function reset(bouton_reset_ID) {
+	var filtre_ID = "filtre_" + bouton_reset_ID.split("_")[2];
+	HTML(filtre_ID).selectedIndex = 0;
+	
+	miseAJourDesFiltres(filtre_ID);
+}
+
+/** Cette fonction reinitialise tous les filtres */
+function resetAll() {
+	miseAJourDesFiltres();
+}
+
+/**
  * Cette fonction est utilisee lors de la selection du filtre_ecole ou du
  * filtre_entreprise par l'utilisateur afin de remplacer un filtre par l'autre
  */
@@ -39,11 +55,6 @@ function miseAJourEcoleOuEntreprise() {
 		initialisationFiltreEcole();
 	}
 
-}
-
-/** Cette fonction reinitialise tous les filtres */
-function resetAll() {
-	miseAJourDesFiltres();
 }
 
 function selectionneArrayFiltreSelonID(filtre_ID) {

@@ -27,7 +27,7 @@ http://www.gnu.org/licenses/.
 <div id="panneau">
 	<div id="entete_panneau">
 		<h2>Recherche</h2>
-		<img src="/assets/images/reset.png" id="bouton_reset_pays" alt="bouton_reset_pays" onClick="resetAll()" class="bouton_reset" title="R&eacute;initialisation des filtres" />
+		<img src="/assets/images/reset.png" id="bouton_reset_all" alt="bouton_reset_all" onClick="resetAll()" title="R&eacute;initialisation des champs" />
 		@logOut() 
 		<img src="/assets/images/fleche_panneau.png" id="bouton_fermeture_panneau" alt="bouton_fermeture_panneau" onClick="glisserPanneau()" class="ouvert" title="R&eacute;duire"/>
         <!-- TODO bouton help ? avec le but, les developpeurs, le createur, les tuteurs, des explications sur le fonctionnement de l'application -->
@@ -36,17 +36,24 @@ http://www.gnu.org/licenses/.
 		<tr>
 			<th>Crit&egrave;re</th>
 			<th>Liste de valeurs</th>
+			<th>Reset</th>
 		</tr>
 		<tr>
 			<td>Centraliens</td>
 			<td>
 				<select name="Centralien" id="filtre_centralien" onChange="miseAJourDesFiltres(this.id);"></select>
 			</td>
+			<td>
+				<img src="/assets/images/reset.png" id="bouton_reset_centralien" alt="bouton_reset_centralien" onClick="reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Centralien" />
+			</td>
 		</tr>
 		<tr>
 			<td>Ann&eacute;e de promotion</td>
 			<td>
 				<select name="Annee_de_promotion" id="filtre_anneePromotion" onChange="miseAJourDesFiltres(this.id)"></select>
+			</td>
+			<td>
+				<img src="/assets/images/reset.png" id="bouton_reset_anneePromotion" alt="bouton_reset_anneePromotion" onClick="reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Ann&eacute;e de promotion" />
 			</td>
 		</tr>
 		<tr>
@@ -58,6 +65,9 @@ http://www.gnu.org/licenses/.
 			</td>
 			<td id="td_ecoleOuEntreprise">
 				<select name="Entreprise" id="filtre_entreprise" onChange="miseAJourDesFiltres(this.id)"></select>
+			</td>
+			<td>
+				<img src="/assets/images/reset.png" id="bouton_reset_entreprise" alt="bouton_reset_entreprise" onClick="reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Entreprise" />
 			</td>
 		</tr>
 		<tr>
@@ -72,11 +82,17 @@ http://www.gnu.org/licenses/.
 			<td>
 				<select name="Secteur" id="filtre_secteur" onChange="miseAJourDesFiltres(this.id)"></select>
 			</td>
+			<td>
+				<img src="/assets/images/reset.png" id="bouton_reset_secteur" alt="bouton_reset_secteur" onClick="reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Secteur" />
+			</td>
 		</tr>
 		<tr>
 			<td>Pays</td>
 			<td>
 				<select name="Pays" id="filtre_pays" onChange="miseAJourDesFiltres(this.id)"></select>
+			</td>
+			<td>
+				<img src="/assets/images/reset.png" id="bouton_reset_pays" alt="bouton_reset_pays" onClick="reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Pays" />
 			</td>
 		</tr>
 	</table>

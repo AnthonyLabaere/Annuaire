@@ -110,16 +110,27 @@ function creation_filtreVille(pays_nom) {
 
 	var filtre_ville_option_par_defaut = document.createElement('option');
 	filtre_ville_option_par_defaut.innerHTML = ARRAY_FILTRE_VILLE[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
-
 	filtre_ville.appendChild(filtre_ville_option_par_defaut);
 
 	var villeTd2 = document.createElement('td');
 	villeTd2.appendChild(filtre_ville);
 
+	var bouton_reset = document.createElement('img');
+	bouton_reset.setAttribute('src', '/assets/images/reset.png');
+	bouton_reset.setAttribute('id', 'bouton_reset_ville');
+	bouton_reset.setAttribute('alt', 'bouton_reset_ville');
+	bouton_reset.setAttribute('onClick', 'reset(this.id)');
+	bouton_reset.setAttribute('class', 'bouton_reset');
+	bouton_reset.setAttribute('title', 'R&eacute;initialisation du champ Ville');
+		
+	var villeTd3 = document.createElement('td');	
+	villeTd3.appendChild(bouton_reset);
+
 	var villeTr = document.createElement('tr');
 	villeTr.setAttribute('id', 'tr_ville');
 	villeTr.appendChild(villeTd1);
 	villeTr.appendChild(villeTd2);
+	villeTr.appendChild(villeTd3);
 
 	HTML('tableau_critere').appendChild(villeTr);
 }

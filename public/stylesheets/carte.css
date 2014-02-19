@@ -63,7 +63,7 @@ p{
 	z-index:1;
 	margin-left:1%;
 	margin-top:1%;
-	width:430px;
+	width:450px;
 	max-height:500px;
 	color:white;
     background-color:#1f1919;
@@ -83,7 +83,7 @@ p{
 /* Son ent�te */
 
 #entete_panneau{
-	width:430px;
+	width:450px;
 	height:50px;
 	z-index:2;
 	border-bottom:solid 1px black;
@@ -131,7 +131,7 @@ p{
 	border:solid 1px black;	
 }
 
-.bouton_reset {
+#bouton_reset_all {
 	position:absolute;
 	top:6px;
 	right:100px;
@@ -140,6 +140,19 @@ p{
 	z-index:3;
 	cursor:pointer;
 /*     background-color:#e65c00; */
+	border-radius:5px;
+	border:solid 1px black;	
+}
+
+.bouton_reset {
+	position:relative;
+/* 	top:6px; */
+/* 	right:100px; */
+	height:18px;
+	padding:5px;
+	z-index:3;
+	cursor:pointer;
+    background-color:#e65c00;
 	border-radius:5px;
 	border:solid 1px black;	
 }
