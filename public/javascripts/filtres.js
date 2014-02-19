@@ -338,7 +338,67 @@ function miseAJourDesFiltres(filtre_ID) {
 	}
 }
 
-// TODO : essayer de faire une fonction generique de mise a jour
+/**
+ * Cette fonction permet d'alimenter le filtre donne en parametre avec les
+ * donnees du serveur concernant ce filtre
+ */
+function miseAJourDuFiltre_AJAXSuccess_avecID(data,
+		booleenValeurPrecedemmentSelectionnee, ARRAY_FILTRE) {
+	var filtre = HTML(ARRAY_FILTRE[ARRAY_FILTRE_ID]);
+
+	// Suppression des elements existants dans le filtre
+	var valeurPrecedemmentSelectionnee;
+	if (booleenValeurPrecedemmentSelectionnee) {
+		valeurPrecedemmentSelectionnee = filtre.value;
+	}
+	filtre.innerHTML = "";
+	filtre_option_par_defaut = document.createElement('option');
+	filtre_option_par_defaut.innerHTML = ARRAY_FILTRE[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
+	filtre.appendChild(filtre_option_par_defaut);
+
+	// Ajout des nouveaux elements
+	for ( var element in data) {
+		if (data[element] == valeurPrecedemmentSelectionnee) {
+			option_precedemment_selectionnee = document.createElement('option');
+			option_precedemment_selectionnee.innerHTML = data[element];
+			option_precedemment_selectionnee.setAttribute('selected',
+					'selected');
+			filtre.appendChild(option_precedemment_selectionnee);
+		} else {
+			filtre.options[filtre.options.length] = new Option(
+					data[element][1], data[element][0]);
+		}
+	}
+}
+
+function miseAJourDuFiltre_AJAXSuccess_sansID(data,
+		booleenValeurPrecedemmentSelectionnee, ARRAY_FILTRE) {
+	var filtre = HTML(ARRAY_FILTRE[ARRAY_FILTRE_ID]);
+
+	// Suppression des elements existants dans le filtre
+	var valeurPrecedemmentSelectionnee;
+	if (booleenValeurPrecedemmentSelectionnee) {
+		valeurPrecedemmentSelectionnee = filtre.value;
+	}
+	filtre.innerHTML = "";
+	filtre_option_par_defaut = document.createElement('option');
+	filtre_option_par_defaut.innerHTML = ARRAY_FILTRE[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
+	filtre.appendChild(filtre_option_par_defaut);
+
+	// Ajout des nouveaux elements
+	for ( var element in data) {
+		if (data[element] == valeurPrecedemmentSelectionnee) {
+			option_precedemment_selectionnee = document.createElement('option');
+			option_precedemment_selectionnee.innerHTML = data[element];
+			option_precedemment_selectionnee.setAttribute('selected',
+					'selected');
+			filtre.appendChild(option_precedemment_selectionnee);
+		} else {
+			filtre.options[filtre.options.length] = new Option(data[element]);
+		}
+	}
+}
+
 function miseAJourDuFiltreCentralien(anneePromotion_libelle, ecole_nom,
 		entreprise_nom, secteur_nom, pays_nom, ville_nom) {
 	jsRoutes.controllers.ServiceCentralien
@@ -352,42 +412,16 @@ function miseAJourDuFiltreCentralien(anneePromotion_libelle, ecole_nom,
 					{
 						async : false,
 						success : function(data, textStatus, jqXHR) {
-							var filtre_centralien = HTML(ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_ID]);
+							booleenValeurPrecedemmentSelectionnee = (filtre_centralien.selectedIndex != 0 && (anneePromotion_libelle
+									|| ecole_nom
+									&& ecole_nom != ECOLE_OU_ENTREPRISE_INACTIF
+									|| entreprise_nom
+									&& entreprise_nom != ECOLE_OU_ENTREPRISE_INACTIF
+									|| secteur_nom || pays_nom || ville_nom));
 
-							// Suppression des elements existants dans le filtre
-							var valeurPrecedemmentSelectionnee;
-							if (filtre_centralien.selectedIndex != 0
-									&& (anneePromotion_libelle
-											|| ecole_nom
-											&& ecole_nom != ECOLE_OU_ENTREPRISE_INACTIF
-											|| entreprise_nom
-											&& entreprise_nom != ECOLE_OU_ENTREPRISE_INACTIF
-											|| secteur_nom || pays_nom || ville_nom)) {
-								valeurPrecedemmentSelectionnee = filtre_anneePromotion.value;
-							}
-							filtre_centralien.innerHTML = "";
-							filtre_centralien_option_par_defaut = document
-									.createElement('option');
-							filtre_centralien_option_par_defaut.innerHTML = ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
-							filtre_centralien
-									.appendChild(filtre_centralien_option_par_defaut);
-
-							// Ajout des nouveaux elements
-							for ( var element in data) {
-								if (data[element] == valeurPrecedemmentSelectionnee) {
-									option_precedemment_selectionnee = document
-											.createElement('option');
-									option_precedemment_selectionnee.innerHTML = data[element];
-									option_precedemment_selectionnee
-											.setAttribute('selected',
-													'selected');
-									filtre_centralien
-											.appendChild(option_precedemment_selectionnee);
-								} else {
-									filtre_centralien.options[filtre_centralien.options.length] = new Option(
-											data[element][1], data[element][0]);
-								}
-							}
+							miseAJourDuFiltre_AJAXSuccess_avecID(data,
+									booleenValeurPrecedemmentSelectionnee,
+									ARRAY_FILTRE_CENTRALIEN);
 						}
 					});
 }
@@ -406,41 +440,15 @@ function miseAJourDuFiltreAnneePromotion(centralien_nom, ecole_nom,
 					{
 						async : false,
 						success : function(data, textStatus, jqXHR) {
-							var filtre_anneePromotion = HTML(ARRAY_FILTRE_ANNEEPROMOTION[ARRAY_FILTRE_ID]);
+							var booleenValeurPrecedemmentSelectionnee = (filtre_anneePromotion.selectedIndex != 0 && (ecole_nom
+									&& ecole_nom != ECOLE_OU_ENTREPRISE_INACTIF
+									|| entreprise_nom
+									&& entreprise_nom != ECOLE_OU_ENTREPRISE_INACTIF
+									|| secteur_nom || pays_nom || ville_nom));
 
-							// Suppression des elements existants dans le filtre
-							var valeurPrecedemmentSelectionnee;
-							if (filtre_anneePromotion.selectedIndex != 0
-									&& (ecole_nom
-											&& ecole_nom != ECOLE_OU_ENTREPRISE_INACTIF
-											|| entreprise_nom
-											&& entreprise_nom != ECOLE_OU_ENTREPRISE_INACTIF
-											|| secteur_nom || pays_nom || ville_nom)) {
-								valeurPrecedemmentSelectionnee = filtre_anneePromotion.value;
-							}
-							filtre_anneePromotion.innerHTML = "";
-							filtre_anneePromotion_option_par_defaut = document
-									.createElement('option');
-							filtre_anneePromotion_option_par_defaut.innerHTML = ARRAY_FILTRE_ANNEEPROMOTION[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
-							filtre_anneePromotion
-									.appendChild(filtre_anneePromotion_option_par_defaut);
-
-							// Ajout des nouveaux elements
-							for ( var element in data) {
-								if (data[element] == valeurPrecedemmentSelectionnee) {
-									option_precedemment_selectionnee = document
-											.createElement('option');
-									option_precedemment_selectionnee.innerHTML = data[element];
-									option_precedemment_selectionnee
-											.setAttribute('selected',
-													'selected');
-									filtre_anneePromotion
-											.appendChild(option_precedemment_selectionnee);
-								} else {
-									filtre_anneePromotion.options[filtre_anneePromotion.options.length] = new Option(
-											data[element]);
-								}
-							}
+							miseAJourDuFiltre_AJAXSuccess_sansID(data,
+									booleenValeurPrecedemmentSelectionnee,
+									ARRAY_FILTRE_ANNEEPROMOTION);
 						}
 					});
 }
@@ -457,38 +465,12 @@ function miseAJourDuFiltreEcole(centralien_nom, anneePromotion_libelle,
 					{
 						async : false,
 						success : function(data, textStatus, jqXHR) {
-							var filtre_ecole = HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID]);
+							var booleenValeurPrecedemmentSelectionnee = (filtre_ecole.selectedIndex != 0 && (anneePromotion_libelle
+									|| secteur_nom || pays_nom || ville_nom));
 
-							// Suppression des elements existants dans le filtre
-							var valeurPrecedemmentSelectionnee;
-							if (filtre_ecole.selectedIndex != 0
-									&& (anneePromotion_libelle || secteur_nom
-											|| pays_nom || ville_nom)) {
-								valeurPrecedemmentSelectionnee = filtre_ecole.value;
-							}
-							filtre_ecole.innerHTML = "";
-							filtre_ecole_option_par_defaut = document
-									.createElement('option');
-							filtre_ecole_option_par_defaut.innerHTML = ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
-							filtre_ecole
-									.appendChild(filtre_ecole_option_par_defaut);
-
-							// Ajout des nouveaux elements
-							for ( var element in data) {
-								if (data[element] == valeurPrecedemmentSelectionnee) {
-									option_precedemment_selectionnee = document
-											.createElement('option');
-									option_precedemment_selectionnee.innerHTML = data[element];
-									option_precedemment_selectionnee
-											.setAttribute('selected',
-													'selected');
-									filtre_ecole
-											.appendChild(option_precedemment_selectionnee);
-								} else {
-									filtre_ecole.options[filtre_ecole.options.length] = new Option(
-											data[element]);
-								}
-							}
+							miseAJourDuFiltre_AJAXSuccess_sansID(data,
+									booleenValeurPrecedemmentSelectionnee,
+									ARRAY_FILTRE_ECOLE);
 						}
 					});
 }
@@ -505,38 +487,12 @@ function miseAJourDuFiltreEntreprise(centralien_nom, anneePromotion_libelle,
 					{
 						async : false,
 						success : function(data, textStatus, jqXHR) {
-							var filtre_entreprise = HTML(ARRAY_FILTRE_ENTREPRISE[ARRAY_FILTRE_ID]);
+							var booleenValeurPrecedemmentSelectionnee = (filtre_entreprise.selectedIndex != 0 && (anneePromotion_libelle
+									|| secteur_nom || pays_nom || ville_nom));
 
-							// Suppression des elements existants dans le filtre
-							var valeurPrecedemmentSelectionnee;
-							if (filtre_entreprise.selectedIndex != 0
-									&& (anneePromotion_libelle || secteur_nom
-											|| pays_nom || ville_nom)) {
-								valeurPrecedemmentSelectionnee = filtre_entreprise.value;
-							}
-							filtre_entreprise.innerHTML = "";
-							filtre_entreprise_option_par_defaut = document
-									.createElement('option');
-							filtre_entreprise_option_par_defaut.innerHTML = ARRAY_FILTRE_ENTREPRISE[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
-							filtre_entreprise
-									.appendChild(filtre_entreprise_option_par_defaut);
-
-							// Ajout des nouveaux elements
-							for ( var element in data) {
-								if (data[element] == valeurPrecedemmentSelectionnee) {
-									option_precedemment_selectionnee = document
-											.createElement('option');
-									option_precedemment_selectionnee.innerHTML = data[element];
-									option_precedemment_selectionnee
-											.setAttribute('selected',
-													'selected');
-									filtre_entreprise
-											.appendChild(option_precedemment_selectionnee);
-								} else {
-									filtre_entreprise.options[filtre_entreprise.options.length] = new Option(
-											data[element]);
-								}
-							}
+							miseAJourDuFiltre_AJAXSuccess_sansID(data,
+									booleenValeurPrecedemmentSelectionnee,
+									ARRAY_FILTRE_ENTREPRISE);
 						}
 					});
 }
@@ -554,43 +510,16 @@ function miseAJourDuFiltreSecteur(centralien_nom, anneePromotion_libelle,
 					{
 						async : false,
 						success : function(data, textStatus, jqXHR) {
-							var filtre_secteur = HTML(ARRAY_FILTRE_SECTEUR[ARRAY_FILTRE_ID]);
+							var booleenValeurPrecedemmentSelectionnee = (filtre_secteur.selectedIndex != 0 && (anneePromotion_libelle
+									|| ecole_nom
+									&& ecole_nom != ECOLE_OU_ENTREPRISE_INACTIF
+									|| entreprise_nom
+									&& entreprise_nom != ECOLE_OU_ENTREPRISE_INACTIF
+									|| pays_nom || ville_nom));
 
-							// Suppression des elements existants dans le filtre
-							var valeurPrecedemmentSelectionnee;
-							if (filtre_secteur.selectedIndex != 0
-									&& (anneePromotion_libelle
-											|| ecole_nom
-											&& ecole_nom != ECOLE_OU_ENTREPRISE_INACTIF
-											|| entreprise_nom
-											&& entreprise_nom != ECOLE_OU_ENTREPRISE_INACTIF
-											|| pays_nom || ville_nom)) {
-								valeurPrecedemmentSelectionnee = filtre_secteur.value;
-							}
-							filtre_secteur.innerHTML = "";
-							filtre_secteur_option_par_defaut = document
-									.createElement('option');
-							filtre_secteur_option_par_defaut.innerHTML = ARRAY_FILTRE_SECTEUR[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
-							filtre_secteur
-									.appendChild(filtre_secteur_option_par_defaut);
-
-							// Ajout des nouveaux elements
-							for ( var element in data) {
-								if (data[element] == valeurPrecedemmentSelectionnee) {
-									option_precedemment_selectionnee = document
-											.createElement('option');
-									option_precedemment_selectionnee.innerHTML = data[element];
-									option_precedemment_selectionnee
-											.setAttribute('selected',
-													'selected');
-
-									filtre_secteur
-											.appendChild(option_precedemment_selectionnee);
-								} else {
-									filtre_secteur.options[filtre_secteur.options.length] = new Option(
-											data[element]);
-								}
-							}
+							miseAJourDuFiltre_AJAXSuccess_sansID(data,
+									booleenValeurPrecedemmentSelectionnee,
+									ARRAY_FILTRE_SECTEUR);
 						}
 					});
 }
@@ -608,41 +537,15 @@ function miseAJourDuFiltrePays(centralien_nom, anneePromotion_libelle,
 					{
 						async : false,
 						success : function(data, textStatus, jqXHR) {
-							var filtre_pays = HTML(ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID]);
+							var booleenValeurPrecedemmentSelectionnee = (filtre_pays.selectedIndex != 0 && (anneePromotion_libelle
+									|| ecole_nom
+									&& ecole_nom != ECOLE_OU_ENTREPRISE_INACTIF
+									|| entreprise_nom
+									&& entreprise_nom != ECOLE_OU_ENTREPRISE_INACTIF || secteur_nom));
 
-							// Suppression des elements existants dans le filtre
-							var valeurPrecedemmentSelectionnee;
-							if (filtre_pays.selectedIndex != 0
-									&& (anneePromotion_libelle
-											|| ecole_nom
-											&& ecole_nom != ECOLE_OU_ENTREPRISE_INACTIF
-											|| entreprise_nom
-											&& entreprise_nom != ECOLE_OU_ENTREPRISE_INACTIF || secteur_nom)) {
-								valeurPrecedemmentSelectionnee = filtre_pays.value;
-							}
-							filtre_pays.innerHTML = "";
-							filtre_pays_option_par_defaut = document
-									.createElement('option');
-							filtre_pays_option_par_defaut.innerHTML = ARRAY_FILTRE_PAYS[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
-							filtre_pays
-									.appendChild(filtre_pays_option_par_defaut);
-
-							// Ajout des nouveaux elements
-							for ( var element in data) {
-								if (data[element] == valeurPrecedemmentSelectionnee) {
-									option_precedemment_selectionnee = document
-											.createElement('option');
-									option_precedemment_selectionnee.innerHTML = data[element];
-									option_precedemment_selectionnee
-											.setAttribute('selected',
-													'selected');
-									filtre_pays
-											.appendChild(option_precedemment_selectionnee);
-								} else {
-									filtre_pays.options[filtre_pays.options.length] = new Option(
-											data[element]);
-								}
-							}
+							miseAJourDuFiltre_AJAXSuccess_sansID(data,
+									booleenValeurPrecedemmentSelectionnee,
+									ARRAY_FILTRE_PAYS);
 						}
 					});
 
@@ -680,47 +583,20 @@ function miseAJourDuFiltreVille(centralien_nom, anneePromotion_libelle,
 							{
 								async : false,
 								success : function(data, textStatus, jqXHR) {
-									var filtre_ville = HTML(ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID]);
+									var booleenValeurPrecedemmentSelectionnee = (filtre_ville.selectedIndex != 0 && (anneePromotion_libelle
+											|| ecole_nom
+											&& ecole_nom != ECOLE_OU_ENTREPRISE_INACTIF
+											|| entreprise_nom
+											&& entreprise_nom != ECOLE_OU_ENTREPRISE_INACTIF
+											|| secteur_nom || pays_nom));
 
-									// Suppression des elements existants dans
-									// le filtre
-									var valeurPrecedemmentSelectionnee;
-									if (filtre_ville.selectedIndex != 0
-											&& (anneePromotion_libelle
-													|| ecole_nom
-													&& ecole_nom != ECOLE_OU_ENTREPRISE_INACTIF
-													|| entreprise_nom
-													&& entreprise_nom != ECOLE_OU_ENTREPRISE_INACTIF
-													|| secteur_nom || pays_nom)) {
-										valeurPrecedemmentSelectionnee = filtre_ville.value;
-									}
-									filtre_ville.innerHTML = "";
-									filtre_ville_option_par_defaut = document
-											.createElement('option');
-									filtre_ville_option_par_defaut.innerHTML = ARRAY_FILTRE_VILLE[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
-									filtre_ville
-											.appendChild(filtre_ville_option_par_defaut);
-
-									// Ajout des nouveaux elements
-									for ( var element in data) {
-										if (data[element] == valeurPrecedemmentSelectionnee) {
-											option_precedemment_selectionnee = document
-													.createElement('option');
-											option_precedemment_selectionnee.innerHTML = data[element];
-											option_precedemment_selectionnee
-													.setAttribute('selected',
-															'selected');
-											filtre_ville
-													.appendChild(option_precedemment_selectionnee);
-										} else {
-											filtre_ville.options[filtre_ville.options.length] = new Option(
-													data[element]);
-										}
-									}
+									miseAJourDuFiltre_AJAXSuccess_sansID(
+											data,
+											booleenValeurPrecedemmentSelectionnee,
+											ARRAY_FILTRE_VILLE);
 								}
 							});
 		}
-
 	}
 	return null;
 }
