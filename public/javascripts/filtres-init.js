@@ -80,7 +80,7 @@ function initialisationFiltreEntreprise() {
 		jsRoutes.controllers.ServiceEntreprise.AJAX_listeDesEntreprises().ajax(
 				{
 					success : function(data, textStatus, jqXHR) {
-						initialisationFiltre_AJAX_Success_sansID(data,
+						initialisationFiltre_AJAX_Success_avecID(data,
 								ARRAY_FILTRE_ENTREPRISE);
 					}
 				});

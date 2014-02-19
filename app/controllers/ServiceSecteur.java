@@ -30,7 +30,7 @@ public class ServiceSecteur extends Controller {
 
 	public static Result AJAX_listeDesSecteursSelonCriteres(
 	        String centralien_ID, String anneePromotion_ID, String ecole_ID,
-	        String entreprise_nom, String pays_nom, String ville_nom) {
+	        String entreprise_ID, String pays_nom, String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
 		        centralien_ID != null && !centralien_ID.isEmpty(),
 		        anneePromotion_ID != null && !anneePromotion_ID.isEmpty(),
@@ -38,9 +38,9 @@ public class ServiceSecteur extends Controller {
 		                && !ecole_ID.isEmpty()
 		                && !ecole_ID
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
-		        entreprise_nom != null
-		                && !entreprise_nom.isEmpty()
-		                && !entreprise_nom
+		        entreprise_ID != null
+		                && !entreprise_ID.isEmpty()
+		                && !entreprise_ID
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
 		        pays_nom != null && !pays_nom.isEmpty(),
 		        ville_nom != null && !ville_nom.isEmpty() };
@@ -118,9 +118,7 @@ public class ServiceSecteur extends Controller {
 				wherePlace = true;
 			}
 			sql += "secteur_ID IN (";
-			sql += "SELECT entrepriseVilleSecteur_secteur_ID FROM EntrepriseVilleSecteur, Entreprise WHERE entrepriseVilleSecteur_entreprise_ID = entreprise_ID";
-			sql += " AND ";
-			sql += "entreprise_nom = :entreprise_nom";
+			sql += "SELECT entrepriseVilleSecteur_secteur_ID FROM EntrepriseVilleSecteur, Entreprise WHERE entrepriseVilleSecteur_entreprise_ID = :entreprise_ID";
 			sql += ")";
 		}
 
@@ -191,7 +189,7 @@ public class ServiceSecteur extends Controller {
 			sqlQuery.setParameter("ecole_ID", Integer.parseInt(ecole_ID));
 		}
 		if (parametresPresents[3]) {
-			sqlQuery.setParameter("entreprise_nom", entreprise_nom);
+			sqlQuery.setParameter("entreprise_ID", Integer.parseInt(entreprise_ID));
 		}
 		if (parametresPresents[4] && !parametresPresents[5]) {
 			sqlQuery.setParameter("pays_nom", pays_nom);

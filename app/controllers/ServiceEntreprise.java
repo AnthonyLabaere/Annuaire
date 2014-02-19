@@ -14,13 +14,16 @@ import com.avaje.ebean.SqlRow;
 public class ServiceEntreprise extends Controller {
 
 	public static Result AJAX_listeDesEntreprises() {
-		String sql = "SELECT entreprise_nom FROM Entreprise ORDER BY entreprise_nom ASC";
+		String sql = "SELECT entreprise_ID, entreprise_nom FROM Entreprise ORDER BY entreprise_nom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesEntreprises = new ArrayList<String>();
+		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		List<String[]> listeDesEntreprises = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesEntreprises.add(sqlRow.get("entreprise_nom").toString());
+			String identifiant = sqlRow.get("entreprise_ID").toString();
+			String prenomNom = sqlRow.get("entreprise_nom").toString();
+			listeDesEntreprises.add(new String[] { identifiant, prenomNom });
 		}
 
 		return ok(Json.toJson(listeDesEntreprises));
@@ -39,7 +42,7 @@ public class ServiceEntreprise extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT entreprise_nom FROM Entreprise";
+		String sql = "SELECT entreprise_ID, entreprise_nom FROM Entreprise";
 
 		if (parametresPresents[0]) {
 			wherePlace = true;
@@ -133,11 +136,13 @@ public class ServiceEntreprise extends Controller {
 			sqlQuery.setParameter("ville_nom", ville_nom);
 		}
 
-		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesEntreprisesParCriteres = new ArrayList<String>();
+		List<SqlRow> listSqlRow = sqlQuery.findList();		
+		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		List<String[]> listeDesEntreprisesParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesEntreprisesParCriteres.add(sqlRow.get("entreprise_nom")
-			        .toString());
+			String identifiant = sqlRow.get("entreprise_ID").toString();
+			String prenomNom = sqlRow.get("entreprise_nom").toString();
+			listeDesEntreprisesParCriteres.add(new String[] { identifiant, prenomNom });
 		}
 
 		return ok(Json.toJson(listeDesEntreprisesParCriteres));

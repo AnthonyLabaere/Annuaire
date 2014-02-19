@@ -35,7 +35,7 @@ public class ServiceCentralien extends Controller {
 
 	public static Result AJAX_listeDesCentraliensSelonCriteres(
 	        String anneePromotion_ID, String ecole_ID,
-	        String entreprise_nom, String secteur_nom, String pays_nom,
+	        String entreprise_ID, String secteur_nom, String pays_nom,
 	        String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
 				anneePromotion_ID != null
@@ -44,9 +44,9 @@ public class ServiceCentralien extends Controller {
 		                && !ecole_ID.isEmpty()
 		                && !ecole_ID
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
-		        entreprise_nom != null
-		                && !entreprise_nom.isEmpty()
-		                && !entreprise_nom
+		        entreprise_ID != null
+		                && !entreprise_ID.isEmpty()
+		                && !entreprise_ID
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
 		        secteur_nom != null && !secteur_nom.isEmpty(),
 		        pays_nom != null && !pays_nom.isEmpty(),
@@ -84,9 +84,7 @@ public class ServiceCentralien extends Controller {
 				wherePlace = true;
 			}
 			sql += "centralien_ID IN (";
-			sql += "SELECT entrepriseVilleSecteurCentralien_Centralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_entreprise_ID = (";
-			sql += "SELECT entreprise_ID FROM Entreprise WHERE entreprise_nom = :entreprise_nom";
-			sql += ")";
+			sql += "SELECT entrepriseVilleSecteurCentralien_Centralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_entreprise_ID = :entreprise_ID";
 			sql += " AND ";
 			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
 			sql += ")";
@@ -185,7 +183,7 @@ public class ServiceCentralien extends Controller {
 			sqlQuery.setParameter("ecole_ID", Integer.parseInt(ecole_ID));
 		}
 		if (parametresPresents[2]) {
-			sqlQuery.setParameter("entreprise_nom", entreprise_nom);
+			sqlQuery.setParameter("entreprise_ID", Integer.parseInt(entreprise_ID));
 		}
 		if (parametresPresents[3]) {
 			sqlQuery.setParameter("secteur_nom", secteur_nom);
