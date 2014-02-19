@@ -16,13 +16,16 @@ import constantes.IConstantes;
 public class ServiceSecteur extends Controller {
 
 	public static Result AJAX_listeDesSecteurs() {
-		String sql = "SELECT secteur_nom FROM Secteur ORDER BY secteur_nom ASC";
+		String sql = "SELECT secteur_ID, secteur_nom FROM Secteur ORDER BY secteur_nom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
-		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesSecteurs = new ArrayList<String>();
+		List<SqlRow> listSqlRow = sqlQuery.findList();		
+		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		List<String[]> listeDesSecteurs = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesSecteurs.add(sqlRow.get("secteur_nom").toString());
+			String identifiant = sqlRow.get("secteur_ID").toString();
+			String nom = sqlRow.get("secteur_nom").toString();
+			listeDesSecteurs.add(new String[] { identifiant, nom });
 		}
 
 		return ok(Json.toJson(listeDesSecteurs));
@@ -47,7 +50,7 @@ public class ServiceSecteur extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT secteur_nom FROM Secteur";
+		String sql = "SELECT secteur_ID, secteur_nom FROM Secteur";
 
 		if (parametresPresents[0]) {
 			wherePlace = true;
@@ -198,11 +201,13 @@ public class ServiceSecteur extends Controller {
 			sqlQuery.setParameter("ville_nom", ville_nom);
 		}
 
-		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesSecteursParCriteres = new ArrayList<String>();
+		List<SqlRow> listSqlRow = sqlQuery.findList();		
+		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		List<String[]> listeDesSecteursParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesSecteursParCriteres.add(sqlRow.get("secteur_nom")
-			        .toString());
+			String identifiant = sqlRow.get("secteur_ID").toString();
+			String nom = sqlRow.get("secteur_nom").toString();
+			listeDesSecteursParCriteres.add(new String[] { identifiant, nom });
 		}
 
 		return ok(Json.toJson(listeDesSecteursParCriteres));

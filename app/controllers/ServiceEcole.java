@@ -22,8 +22,8 @@ public class ServiceEcole extends Controller {
 		List<String[]> listeDesEcoles = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("ecole_ID").toString();
-			String prenomNom = sqlRow.get("ecole_nom").toString();
-			listeDesEcoles.add(new String[] { identifiant, prenomNom });
+			String nom = sqlRow.get("ecole_nom").toString();
+			listeDesEcoles.add(new String[] { identifiant, nom });
 		}
 
 		return ok(Json.toJson(listeDesEcoles));
@@ -31,12 +31,12 @@ public class ServiceEcole extends Controller {
 
 	public static Result AJAX_listeDesEcolesSelonCriteres(
 	        String centralien_ID, String anneePromotion_ID,
-	        String secteur_nom, String pays_nom, String ville_nom) {
+	        String secteur_ID, String pays_nom, String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
 				centralien_ID != null && !centralien_ID.isEmpty(),
 						anneePromotion_ID != null
 		                && !anneePromotion_ID.isEmpty(),
-		        secteur_nom != null && !secteur_nom.isEmpty(),
+		        secteur_ID != null && !secteur_ID.isEmpty(),
 		        pays_nom != null && !pays_nom.isEmpty(),
 		        ville_nom != null && !ville_nom.isEmpty() };
 
@@ -80,7 +80,7 @@ public class ServiceEcole extends Controller {
 				wherePlace = true;
 			}
 			sql += "ecole_ID IN (";
-			sql += "SELECT ecoleSecteur_ecole_ID FROM EcoleSecteur, Secteur WHERE secteur_nom = :secteur_nom";
+			sql += "SELECT ecoleSecteur_ecole_ID FROM EcoleSecteur, Secteur WHERE secteur_ID = :secteur_ID";
 			sql += " AND ";
 			sql += "secteur_ID = ecoleSecteur_secteur_ID";
 			sql += ")";
@@ -122,7 +122,7 @@ public class ServiceEcole extends Controller {
 			        Integer.parseInt(anneePromotion_ID));
 		}
 		if (parametresPresents[2]) {
-			sqlQuery.setParameter("secteur_nom", secteur_nom);
+			sqlQuery.setParameter("secteur_ID", Integer.parseInt(secteur_ID));
 		}
 		if (parametresPresents[3] && !parametresPresents[4]) {
 			sqlQuery.setParameter("pays_nom", pays_nom);
@@ -136,8 +136,8 @@ public class ServiceEcole extends Controller {
 		List<String[]> listeDesEcolesParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("ecole_ID").toString();
-			String prenomNom = sqlRow.get("ecole_nom").toString();
-			listeDesEcolesParCriteres.add(new String[] { identifiant, prenomNom });
+			String nom = sqlRow.get("ecole_nom").toString();
+			listeDesEcolesParCriteres.add(new String[] { identifiant, nom });
 		}
 
 

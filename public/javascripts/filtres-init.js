@@ -92,7 +92,7 @@ function initialisationFiltreSecteur() {
 	jsRoutes.controllers.ServiceSecteur.AJAX_listeDesSecteurs().ajax(
 			{
 				success : function(data, textStatus, jqXHR) {
-					initialisationFiltre_AJAX_Success_sansID(data,
+					initialisationFiltre_AJAX_Success_avecID(data,
 							ARRAY_FILTRE_SECTEUR);
 				}
 			});

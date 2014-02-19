@@ -22,8 +22,8 @@ public class ServiceEntreprise extends Controller {
 		List<String[]> listeDesEntreprises = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("entreprise_ID").toString();
-			String prenomNom = sqlRow.get("entreprise_nom").toString();
-			listeDesEntreprises.add(new String[] { identifiant, prenomNom });
+			String nom = sqlRow.get("entreprise_nom").toString();
+			listeDesEntreprises.add(new String[] { identifiant, nom });
 		}
 
 		return ok(Json.toJson(listeDesEntreprises));
@@ -31,12 +31,12 @@ public class ServiceEntreprise extends Controller {
 
 	public static Result AJAX_listeDesEntreprisesSelonCriteres(
 	        String centralien_ID, String anneePromotion_ID,
-	        String secteur_nom, String pays_nom, String ville_nom) {
+	        String secteur_ID, String pays_nom, String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
 				centralien_ID != null && !centralien_ID.isEmpty(),
 						anneePromotion_ID != null
 		                && !anneePromotion_ID.isEmpty(),
-		        secteur_nom != null && !secteur_nom.isEmpty(),
+		        secteur_ID != null && !secteur_ID.isEmpty(),
 		        pays_nom != null && !pays_nom.isEmpty(),
 		        ville_nom != null && !ville_nom.isEmpty() };
 
@@ -80,7 +80,7 @@ public class ServiceEntreprise extends Controller {
 				wherePlace = true;
 			}
 			sql += "entreprise_ID IN (";
-			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, Secteur WHERE secteur_nom = :secteur_nom";
+			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, Secteur WHERE secteur_ID = :secteur_ID";
 			sql += " AND ";
 			sql += "secteur_ID = entrepriseVilleSecteur_secteur_ID";
 			sql += ")";
@@ -127,7 +127,7 @@ public class ServiceEntreprise extends Controller {
 			        Integer.parseInt(anneePromotion_ID));
 		}
 		if (parametresPresents[2]) {
-			sqlQuery.setParameter("secteur_nom", secteur_nom);
+			sqlQuery.setParameter("secteur_ID", Integer.parseInt(secteur_ID));
 		}
 		if (parametresPresents[3] && !parametresPresents[4]) {
 			sqlQuery.setParameter("pays_nom", pays_nom);
@@ -141,8 +141,8 @@ public class ServiceEntreprise extends Controller {
 		List<String[]> listeDesEntreprisesParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("entreprise_ID").toString();
-			String prenomNom = sqlRow.get("entreprise_nom").toString();
-			listeDesEntreprisesParCriteres.add(new String[] { identifiant, prenomNom });
+			String nom = sqlRow.get("entreprise_nom").toString();
+			listeDesEntreprisesParCriteres.add(new String[] { identifiant, nom });
 		}
 
 		return ok(Json.toJson(listeDesEntreprisesParCriteres));

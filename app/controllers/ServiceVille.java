@@ -36,7 +36,7 @@ public class ServiceVille extends Controller {
 
 	public static Result AJAX_listeDesVillesSelonCriteres(
 	        String centralien_ID, String anneePromotion_ID,
-	        String ecole_ID, String entreprise_ID, String secteur_nom,
+	        String ecole_ID, String entreprise_ID, String secteur_ID,
 	        String pays_nom) {
 
 		Boolean[] parametresPresents = new Boolean[] {
@@ -51,7 +51,7 @@ public class ServiceVille extends Controller {
 		                && !entreprise_ID.isEmpty()
 		                && !entreprise_ID
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
-		        secteur_nom != null && !secteur_nom.isEmpty() };
+		        secteur_ID != null && !secteur_ID.isEmpty() };
 
 		Boolean wherePlace = false;
 
@@ -142,14 +142,11 @@ public class ServiceVille extends Controller {
 			}
 			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 				sql += "ville_ID IN (";
-				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
-				sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
-				sql += "))";
+				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = :secteur_ID";
+				sql += ")";
 			} else {
 				sql += "ville_ID IN (";
-				sql += "SELECT ecole_ville_ID FROM Ecole, EcoleSecteur WHERE ecoleSecteur_secteur_ID = (";
-				sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
-				sql += ")";
+				sql += "SELECT ecole_ville_ID FROM Ecole, EcoleSecteur WHERE ecoleSecteur_secteur_ID = :secteur_ID";
 				sql += " AND ";
 				sql += "ecoleSecteur_ecole_ID = ecole_ID";
 				sql += ")";
@@ -184,7 +181,7 @@ public class ServiceVille extends Controller {
 			sqlQuery.setParameter("entreprise_ID", Integer.parseInt(entreprise_ID));
 		}
 		if (parametresPresents[4]) {
-			sqlQuery.setParameter("secteur_nom", secteur_nom);
+			sqlQuery.setParameter("secteur_ID", Integer.parseInt(secteur_ID));
 		}
 		sqlQuery.setParameter("pays_nom", pays_nom);
 

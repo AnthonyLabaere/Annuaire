@@ -30,7 +30,7 @@ public class ServicePays extends Controller {
 
 	public static Result AJAX_listeDesPaysSelonCriteres(String centralien_ID,
 	        String anneePromotion_ID, String ecole_ID,
-	        String entreprise_ID, String secteur_nom) {
+	        String entreprise_ID, String secteur_ID) {
 		Boolean[] parametresPresents = new Boolean[] {
 				centralien_ID != null && !centralien_ID.isEmpty(),
 		        anneePromotion_ID != null
@@ -43,7 +43,7 @@ public class ServicePays extends Controller {
 		                && !entreprise_ID.isEmpty()
 		                && !entreprise_ID
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
-		        secteur_nom != null && !secteur_nom.isEmpty() };
+		        secteur_ID != null && !secteur_ID.isEmpty() };
 
 		Boolean wherePlace = false;
 
@@ -143,18 +143,14 @@ public class ServicePays extends Controller {
 			}
 			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
 				sql += "pays_ID IN (";
-				sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
-				sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
-				sql += ")";
+				sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = :secteur_ID";
 				sql += " AND ";
 				sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
 				sql += ")";
 			} else {
 				sql += "pays_ID IN (";
 				sql += "SELECT ville_pays_ID FROM Ville WHERE ville_ID IN (";
-				sql += "SELECT ecole_ville_ID FROM Ecole, EcoleSecteur WHERE ecoleSecteur_secteur_ID = (";
-				sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
-				sql += ")";
+				sql += "SELECT ecole_ville_ID FROM Ecole, EcoleSecteur WHERE ecoleSecteur_secteur_ID = :secteur_ID";
 				sql += " AND ";
 				sql += "ecoleSecteur_ecole_ID = ecole_ID";
 				sql += "))";
@@ -178,7 +174,7 @@ public class ServicePays extends Controller {
 			sqlQuery.setParameter("entreprise_ID", Integer.parseInt(entreprise_ID));
 		}
 		if (parametresPresents[4]) {
-			sqlQuery.setParameter("secteur_nom", secteur_nom);
+			sqlQuery.setParameter("secteur_ID", Integer.parseInt(secteur_ID));
 		}
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
