@@ -16,13 +16,16 @@ import constantes.IConstantes;
 public class ServicePays extends Controller {
 
 	public static Result AJAX_listeDesPays() {
-		String sql = "SELECT pays_nom FROM Pays ORDER BY pays_nom ASC";
+		String sql = "SELECT pays_ID, pays_nom FROM Pays ORDER BY pays_nom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesPays = new ArrayList<String>();
+		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		List<String[]> listeDesPays = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesPays.add(sqlRow.get("pays_nom").toString());
+			String identifiant = sqlRow.get("pays_ID").toString();
+			String nom = sqlRow.get("pays_nom").toString();
+			listeDesPays.add(new String[] { identifiant, nom });
 		}
 
 		return ok(Json.toJson(listeDesPays));
@@ -47,7 +50,7 @@ public class ServicePays extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT pays_nom FROM Pays";
+		String sql = "SELECT pays_ID, pays_nom FROM Pays";
 
 		if (parametresPresents[0]) {
 			wherePlace = true;
@@ -178,9 +181,12 @@ public class ServicePays extends Controller {
 		}
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesPaysParCriteres = new ArrayList<String>();
+		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		List<String[]> listeDesPaysParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesPaysParCriteres.add(sqlRow.get("pays_nom").toString());
+			String identifiant = sqlRow.get("pays_ID").toString();
+			String nom = sqlRow.get("pays_nom").toString();
+			listeDesPaysParCriteres.add(new String[] { identifiant, nom });
 		}
 
 		return ok(Json.toJson(listeDesPaysParCriteres));

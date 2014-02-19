@@ -11,7 +11,7 @@ function initialisationFiltres() {
  * Cette fonction permet d'alimenter le filtre donne en parametre avec les
  * donnees du serveur concernant ce filtre
  */
-function initialisationFiltre_AJAX_Success_avecID(data, ARRAY_FILTRE) {
+function initialisationFiltre_AJAX_Success(data, ARRAY_FILTRE) {
 	var filtre = HTML(ARRAY_FILTRE[ARRAY_FILTRE_ID]);
 	filtre.innerHTML = '';
 
@@ -25,25 +25,12 @@ function initialisationFiltre_AJAX_Success_avecID(data, ARRAY_FILTRE) {
 	}
 }
 
-function initialisationFiltre_AJAX_Success_sansID(data, ARRAY_FILTRE) {
-	var filtre = HTML(ARRAY_FILTRE[ARRAY_FILTRE_ID]);
-	filtre.innerHTML = '';
-
-	filtre_option_par_defaut = document.createElement('option');
-	filtre_option_par_defaut.innerHTML = ARRAY_FILTRE[ARRAY_FILTRE_OPTION_PAR_DEFAUT];
-	filtre.appendChild(filtre_option_par_defaut);
-
-	for ( var element in data) {
-		filtre.options[filtre.options.length] = new Option(data[element]);
-	}
-}
-
 /** Alimentation du filtre des annees de promotion */
 function initialisationFiltreCentralien() {
 	jsRoutes.controllers.ServiceCentralien.AJAX_listeDesCentraliens().ajax(
 			{
 				success : function(data, textStatus, jqXHR) {
-					initialisationFiltre_AJAX_Success_avecID(data,
+					initialisationFiltre_AJAX_Success(data,
 							ARRAY_FILTRE_CENTRALIEN);
 				}
 			});
@@ -55,7 +42,7 @@ function initialisationFiltreAnneePromotion() {
 			.ajax(
 					{
 						success : function(data, textStatus, jqXHR) {
-							initialisationFiltre_AJAX_Success_avecID(data,
+							initialisationFiltre_AJAX_Success(data,
 									ARRAY_FILTRE_ANNEEPROMOTION);
 						}
 					});
@@ -67,7 +54,7 @@ function initialisationFiltreEcole() {
 		jsRoutes.controllers.ServiceEcole.AJAX_listeDesEcoles().ajax(
 				{
 					success : function(data, textStatus, jqXHR) {
-						initialisationFiltre_AJAX_Success_avecID(data,
+						initialisationFiltre_AJAX_Success(data,
 								ARRAY_FILTRE_ECOLE);
 					}
 				});
@@ -80,7 +67,7 @@ function initialisationFiltreEntreprise() {
 		jsRoutes.controllers.ServiceEntreprise.AJAX_listeDesEntreprises().ajax(
 				{
 					success : function(data, textStatus, jqXHR) {
-						initialisationFiltre_AJAX_Success_avecID(data,
+						initialisationFiltre_AJAX_Success(data,
 								ARRAY_FILTRE_ENTREPRISE);
 					}
 				});
@@ -92,7 +79,7 @@ function initialisationFiltreSecteur() {
 	jsRoutes.controllers.ServiceSecteur.AJAX_listeDesSecteurs().ajax(
 			{
 				success : function(data, textStatus, jqXHR) {
-					initialisationFiltre_AJAX_Success_avecID(data,
+					initialisationFiltre_AJAX_Success(data,
 							ARRAY_FILTRE_SECTEUR);
 				}
 			});
@@ -102,7 +89,7 @@ function initialisationFiltreSecteur() {
 function initialisationFiltrePays() {
 	jsRoutes.controllers.ServicePays.AJAX_listeDesPays().ajax({
 		success : function(data, textStatus, jqXHR) {
-			initialisationFiltre_AJAX_Success_sansID(data, ARRAY_FILTRE_PAYS);
+			initialisationFiltre_AJAX_Success(data, ARRAY_FILTRE_PAYS);
 		}
 	});
 }

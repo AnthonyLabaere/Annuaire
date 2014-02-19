@@ -15,15 +15,13 @@ import constantes.IConstantes;
 
 public class ServiceVille extends Controller {
 
-	public static Result AJAX_listeDesVillesDuPays(String pays_nom) {
+	public static Result AJAX_listeDesVillesDuPays(String pays_ID) {
 
-		String sql = "SELECT ville_nom FROM Ville WHERE ville_pays_ID = (";
-		sql += "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
-		sql += ") ";
-		sql += "ORDER BY ville_nom ASC";
+		String sql = "SELECT ville_nom FROM Ville WHERE ville_pays_ID = :pays_ID";
+		sql += " ORDER BY ville_nom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
-		sqlQuery.setParameter("pays_nom", pays_nom);
+		sqlQuery.setParameter("pays_ID", pays_ID);
 
 		List<SqlRow> listSqlRowVille = sqlQuery.findList();
 		List<String> listeDesVilles = new ArrayList<String>();
@@ -37,7 +35,7 @@ public class ServiceVille extends Controller {
 	public static Result AJAX_listeDesVillesSelonCriteres(
 	        String centralien_ID, String anneePromotion_ID,
 	        String ecole_ID, String entreprise_ID, String secteur_ID,
-	        String pays_nom) {
+	        String pays_ID) {
 
 		Boolean[] parametresPresents = new Boolean[] {
 				centralien_ID != null && !centralien_ID.isEmpty(),
@@ -153,18 +151,16 @@ public class ServiceVille extends Controller {
 			}
 		}
 		
-		// pays_nom est forcement present
+		// pays_ID est forcement present
 		if (wherePlace) {
 			sql += " AND ";
 		} else {
 			sql += " WHERE ";
 			wherePlace = true;
 		}
-		sql += "ville_pays_ID = (";
-		sql += "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
-		sql += ") ";
+		sql += "ville_pays_ID = :pays_ID";
 
-		sql += "ORDER BY ville_nom ASC";
+		sql += " ORDER BY ville_nom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
@@ -183,7 +179,7 @@ public class ServiceVille extends Controller {
 		if (parametresPresents[4]) {
 			sqlQuery.setParameter("secteur_ID", Integer.parseInt(secteur_ID));
 		}
-		sqlQuery.setParameter("pays_nom", pays_nom);
+		sqlQuery.setParameter("pays_ID", Integer.parseInt(pays_ID));
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
 		List<String> listeDesVillesParCriteres = new ArrayList<String>();

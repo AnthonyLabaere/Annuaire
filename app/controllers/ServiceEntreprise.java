@@ -31,13 +31,13 @@ public class ServiceEntreprise extends Controller {
 
 	public static Result AJAX_listeDesEntreprisesSelonCriteres(
 	        String centralien_ID, String anneePromotion_ID,
-	        String secteur_ID, String pays_nom, String ville_nom) {
+	        String secteur_ID, String pays_ID, String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
 				centralien_ID != null && !centralien_ID.isEmpty(),
 						anneePromotion_ID != null
 		                && !anneePromotion_ID.isEmpty(),
 		        secteur_ID != null && !secteur_ID.isEmpty(),
-		        pays_nom != null && !pays_nom.isEmpty(),
+		        pays_ID != null && !pays_ID.isEmpty(),
 		        ville_nom != null && !ville_nom.isEmpty() };
 
 		Boolean wherePlace = false;
@@ -94,9 +94,7 @@ public class ServiceEntreprise extends Controller {
 				wherePlace = true;
 			}
 			sql += "entreprise_ID IN (";
-			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, Ville WHERE ville_pays_ID = (";
-			sql += "SELECT pays_ID FROM Pays WHERE pays_nom = :pays_nom";
-			sql += ")";
+			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, Ville WHERE ville_pays_ID = :pays_ID";
 			sql += " AND ";
 			sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
 			sql += ")";
@@ -130,7 +128,7 @@ public class ServiceEntreprise extends Controller {
 			sqlQuery.setParameter("secteur_ID", Integer.parseInt(secteur_ID));
 		}
 		if (parametresPresents[3] && !parametresPresents[4]) {
-			sqlQuery.setParameter("pays_nom", pays_nom);
+			sqlQuery.setParameter("pays_ID", Integer.parseInt(pays_ID));
 		}
 		if (parametresPresents[4]) {
 			sqlQuery.setParameter("ville_nom", ville_nom);
