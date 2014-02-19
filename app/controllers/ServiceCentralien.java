@@ -34,12 +34,12 @@ public class ServiceCentralien extends Controller {
 	}
 
 	public static Result AJAX_listeDesCentraliensSelonCriteres(
-	        String anneePromotion_libelle, String ecole_nom,
+	        String anneePromotion_ID, String ecole_nom,
 	        String entreprise_nom, String secteur_nom, String pays_nom,
 	        String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
-		        anneePromotion_libelle != null
-		                && !anneePromotion_libelle.isEmpty(),
+				anneePromotion_ID != null
+		                && !anneePromotion_ID.isEmpty(),
 		        ecole_nom != null
 		                && !ecole_nom.isEmpty()
 		                && !ecole_nom
@@ -59,9 +59,7 @@ public class ServiceCentralien extends Controller {
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
-			sql += "centralien_anneePromotion_ID = (";
-			sql += "SELECT anneePromotion_ID FROM anneePromotion WHERE anneePromotion_libelle = :anneePromotion_libelle";
-			sql += ")";
+			sql += "centralien_anneePromotion_ID = :anneePromotion_ID";
 		}
 
 		if (parametresPresents[1]) {
@@ -182,8 +180,8 @@ public class ServiceCentralien extends Controller {
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
-			sqlQuery.setParameter("anneePromotion_libelle",
-			        Integer.parseInt(anneePromotion_libelle));
+			sqlQuery.setParameter("anneePromotion_ID",
+			        Integer.parseInt(anneePromotion_ID));
 		}
 		if (parametresPresents[1]) {
 			sqlQuery.setParameter("ecole_nom", ecole_nom);

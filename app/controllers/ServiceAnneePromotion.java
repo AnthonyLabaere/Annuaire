@@ -16,14 +16,16 @@ import constantes.IConstantes;
 public class ServiceAnneePromotion extends Controller {
 
 	public static Result AJAX_listeDesAnneesPromotion() {
-		String sql = "SELECT anneePromotion_libelle FROM AnneePromotion ORDER BY anneePromotion_libelle DESC";
+		String sql = "SELECT anneePromotion_ID, anneePromotion_libelle FROM AnneePromotion ORDER BY anneePromotion_libelle DESC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesAnneesPromotion = new ArrayList<String>();
+		// Liste de double String : le premier est l'ID et le deuxième est le libelle
+		List<String[]> listeDesAnneesPromotion = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesAnneesPromotion.add(sqlRow.get("anneePromotion_libelle")
-			        .toString());
+			String identifiant = sqlRow.get("anneePromotion_ID").toString();
+			String prenomNom = sqlRow.get("anneePromotion_libelle").toString();
+			listeDesAnneesPromotion.add(new String[] { identifiant, prenomNom });
 		}
 
 		return ok(Json.toJson(listeDesAnneesPromotion));
@@ -48,7 +50,7 @@ public class ServiceAnneePromotion extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT anneePromotion_libelle FROM AnneePromotion";
+		String sql = "SELECT anneePromotion_ID, anneePromotion_libelle FROM AnneePromotion";
 
 		if (parametresPresents[0]) {
 			wherePlace = true;
@@ -204,10 +206,12 @@ public class ServiceAnneePromotion extends Controller {
 		}
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesAnneesPromotionParCriteres = new ArrayList<String>();
+		// Liste de double String : le premier est l'ID et le deuxième est le libelle
+		List<String[]> listeDesAnneesPromotionParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesAnneesPromotionParCriteres.add(sqlRow.get(
-			        "anneePromotion_libelle").toString());
+			String identifiant = sqlRow.get("anneePromotion_ID").toString();
+			String prenomNom = sqlRow.get("anneePromotion_libelle").toString();
+			listeDesAnneesPromotionParCriteres.add(new String[] { identifiant, prenomNom });
 		}
 
 		return ok(Json.toJson(listeDesAnneesPromotionParCriteres));
