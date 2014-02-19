@@ -36,16 +36,16 @@ public class ServiceVille extends Controller {
 
 	public static Result AJAX_listeDesVillesSelonCriteres(
 	        String centralien_ID, String anneePromotion_ID,
-	        String ecole_nom, String entreprise_nom, String secteur_nom,
+	        String ecole_ID, String entreprise_nom, String secteur_nom,
 	        String pays_nom) {
 
 		Boolean[] parametresPresents = new Boolean[] {
 				centralien_ID != null && !centralien_ID.isEmpty(),
 						anneePromotion_ID != null
 		                && !anneePromotion_ID.isEmpty(),
-		        ecole_nom != null
-		                && !ecole_nom.isEmpty()
-		                && !ecole_nom
+		        ecole_ID != null
+		                && !ecole_ID.isEmpty()
+		                && !ecole_ID
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
 		        entreprise_nom != null
 		                && !entreprise_nom.isEmpty()
@@ -60,7 +60,7 @@ public class ServiceVille extends Controller {
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
-			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
+			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 				sql += "ville_ID IN (";
 				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_ID = :centralien_ID";
 				sql += " AND ";
@@ -88,7 +88,7 @@ public class ServiceVille extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
+			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 				sql += "ville_ID IN (";
 				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien WHERE entrepriseVilleSecteurCentralien_centralien_ID IN (";
 				sql += "SELECT centralien_ID FROM Centralien WHERE centralien_anneePromotion_ID = :anneePromotion_ID";
@@ -116,7 +116,7 @@ public class ServiceVille extends Controller {
 				wherePlace = true;
 			}
 			sql += "ville_ID IN (";
-			sql += "SELECT ecole_ville_ID FROM Ecole WHERE ecole_nom = :ecole_nom";
+			sql += "SELECT ecole_ville_ID FROM Ecole WHERE ecole_ID = :ecole_ID";
 			sql += ")";
 
 		}
@@ -141,7 +141,7 @@ public class ServiceVille extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
+			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 				sql += "ville_ID IN (";
 				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
 				sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
@@ -179,7 +179,7 @@ public class ServiceVille extends Controller {
 			        Integer.parseInt(anneePromotion_ID));
 		}
 		if (parametresPresents[2]) {
-			sqlQuery.setParameter("ecole_nom", ecole_nom);
+			sqlQuery.setParameter("ecole_ID", Integer.parseInt(ecole_ID));
 		}
 		if (parametresPresents[3]) {
 			sqlQuery.setParameter("entreprise_nom", entreprise_nom);

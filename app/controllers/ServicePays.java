@@ -29,15 +29,15 @@ public class ServicePays extends Controller {
 	}
 
 	public static Result AJAX_listeDesPaysSelonCriteres(String centralien_ID,
-	        String anneePromotion_ID, String ecole_nom,
+	        String anneePromotion_ID, String ecole_ID,
 	        String entreprise_nom, String secteur_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
 				centralien_ID != null && !centralien_ID.isEmpty(),
 		        anneePromotion_ID != null
 		                && !anneePromotion_ID.isEmpty(),
-		        ecole_nom != null
-		                && !ecole_nom.isEmpty()
-		                && !ecole_nom
+		        ecole_ID != null
+		                && !ecole_ID.isEmpty()
+		                && !ecole_ID
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
 		        entreprise_nom != null
 		                && !entreprise_nom.isEmpty()
@@ -52,7 +52,7 @@ public class ServicePays extends Controller {
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
-			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
 				sql += "pays_ID IN (";
 				sql += "SELECT ville_pays_ID FROM Ville WHERE ville_ID = (";
 				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_ID = :centralien_ID";
@@ -82,7 +82,7 @@ public class ServicePays extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
 				sql += "pays_ID IN (";
 				sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_anneePromotion_ID = :anneePromotion_ID";
 				sql += " AND ";
@@ -114,7 +114,7 @@ public class ServicePays extends Controller {
 				wherePlace = true;
 			}
 			sql += "pays_ID IN (";
-			sql += "SELECT ville_pays_ID FROM Ville, Ecole WHERE ecole_nom = :ecole_nom";
+			sql += "SELECT ville_pays_ID FROM Ville, Ecole WHERE ecole_ID = :ecole_ID";
 			sql += " AND ";
 			sql += "ville_ID = ecole_ville_ID";
 			sql += ")";
@@ -143,7 +143,7 @@ public class ServicePays extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
 				sql += "pays_ID IN (";
 				sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
 				sql += "SELECT secteur_ID FROM Secteur WHERE secteur_nom = :secteur_nom";
@@ -174,7 +174,7 @@ public class ServicePays extends Controller {
 			        Integer.parseInt(anneePromotion_ID));
 		}
 		if (parametresPresents[2]) {
-			sqlQuery.setParameter("ecole_nom", ecole_nom);
+			sqlQuery.setParameter("ecole_ID", Integer.parseInt(ecole_ID));
 		}
 		if (parametresPresents[3]) {
 			sqlQuery.setParameter("entreprise_nom", entreprise_nom);

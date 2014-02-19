@@ -32,13 +32,13 @@ public class ServiceAnneePromotion extends Controller {
 	}
 
 	public static Result AJAX_listeDesAnneesPromotionSelonCriteres(
-	        String centralien_ID, String ecole_nom, String entreprise_nom,
+	        String centralien_ID, String ecole_ID, String entreprise_nom,
 	        String secteur_nom, String pays_nom, String ville_nom) {
 		Boolean[] parametresPresents = new Boolean[] {
 				centralien_ID != null && !centralien_ID.isEmpty(),
-		        ecole_nom != null
-		                && !ecole_nom.isEmpty()
-		                && !ecole_nom
+		        ecole_ID != null
+		                && !ecole_ID.isEmpty()
+		                && !ecole_ID
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
 		        entreprise_nom != null
 		                && !entreprise_nom.isEmpty()
@@ -69,9 +69,7 @@ public class ServiceAnneePromotion extends Controller {
 			}
 			sql += "anneePromotion_ID IN (";
 			sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
-			sql += "SELECT ecoleSecteurCentralien_ID FROM EcoleSecteurCentralien, EcoleSecteur WHERE ecoleSecteur_ecole_ID = (";
-			sql += "SELECT ecole_ID FROM Ecole WHERE ecole_nom = :ecole_nom";
-			sql += ")";
+			sql += "SELECT ecoleSecteurCentralien_ID FROM EcoleSecteurCentralien, EcoleSecteur WHERE ecoleSecteur_ecole_ID = :ecole_ID";
 			sql += " AND ";
 			sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID ";
 			sql += "))";
@@ -102,7 +100,7 @@ public class ServiceAnneePromotion extends Controller {
 				wherePlace = true;
 			}
 			
-			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
 				sql += "anneePromotion_ID IN (";
 				sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
 				sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = (";
@@ -130,7 +128,7 @@ public class ServiceAnneePromotion extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
 				sql += "anneePromotion_ID IN (";
 				sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
 				sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID IN (";
@@ -160,7 +158,7 @@ public class ServiceAnneePromotion extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			if (ecole_nom.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
 				sql += "anneePromotion_ID IN (";
 				sql += "SELECT centralien_anneePromotion_ID FROM Centralien WHERE centralien_ID IN (";
 				sql += "SELECT entrepriseVilleSecteurCentralien_ID FROM EntrepriseVilleSecteurCentralien, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_ville_ID = (";
@@ -190,7 +188,7 @@ public class ServiceAnneePromotion extends Controller {
 			sqlQuery.setParameter("centralien_ID", Integer.parseInt(centralien_ID));
 		}
 		if (parametresPresents[1]) {
-			sqlQuery.setParameter("ecole_nom", ecole_nom);
+			sqlQuery.setParameter("ecole_ID", Integer.parseInt(ecole_ID));
 		}
 		if (parametresPresents[2]) {
 			sqlQuery.setParameter("entreprise_nom", entreprise_nom);

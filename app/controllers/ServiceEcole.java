@@ -14,13 +14,16 @@ import com.avaje.ebean.SqlRow;
 public class ServiceEcole extends Controller {
 
 	public static Result AJAX_listeDesEcoles() {
-		String sql = "SELECT ecole_nom FROM Ecole ORDER BY ecole_nom ASC";
+		String sql = "SELECT ecole_ID, ecole_nom FROM Ecole ORDER BY ecole_nom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
-		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesEcoles = new ArrayList<String>();
+		List<SqlRow> listSqlRow = sqlQuery.findList();		
+		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		List<String[]> listeDesEcoles = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesEcoles.add(sqlRow.get("ecole_nom").toString());
+			String identifiant = sqlRow.get("ecole_ID").toString();
+			String prenomNom = sqlRow.get("ecole_nom").toString();
+			listeDesEcoles.add(new String[] { identifiant, prenomNom });
 		}
 
 		return ok(Json.toJson(listeDesEcoles));
@@ -39,7 +42,7 @@ public class ServiceEcole extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT ecole_nom FROM Ecole";
+		String sql = "SELECT ecole_ID, ecole_nom FROM Ecole";
 
 		if (parametresPresents[0]) {
 			wherePlace = true;
@@ -129,10 +132,14 @@ public class ServiceEcole extends Controller {
 		}
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
-		List<String> listeDesEcolesParCriteres = new ArrayList<String>();
+		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		List<String[]> listeDesEcolesParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			listeDesEcolesParCriteres.add(sqlRow.get("ecole_nom").toString());
+			String identifiant = sqlRow.get("ecole_ID").toString();
+			String prenomNom = sqlRow.get("ecole_nom").toString();
+			listeDesEcolesParCriteres.add(new String[] { identifiant, prenomNom });
 		}
+
 
 		return ok(Json.toJson(listeDesEcolesParCriteres));
 	}
