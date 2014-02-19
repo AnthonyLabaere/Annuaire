@@ -32,8 +32,7 @@ function resetAll() {
 
 		miseAJourDesFiltres();
 
-		// Ne pas oublier de reinitialiser l'ordre d'activation des filtres
-		// !
+		// Ne pas oublier de reinitialiser l'ordre d'activation des filtres !
 		ORDRE_ACTIVATION_DERNIERE_VALEUR = 1;
 		ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
 		ARRAY_FILTRE_ANNEEPROMOTION[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
@@ -89,6 +88,10 @@ function miseAJourEcoleOuEntreprise() {
 
 }
 
+/**
+ * Cette fonction retourne le tableau de constantes correspondant a l'id donne
+ * en parametre
+ */
 function selectionneArrayFiltreSelonID(filtre_ID) {
 	if (ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_ID] == filtre_ID) {
 		return ARRAY_FILTRE_CENTRALIEN;
@@ -107,6 +110,10 @@ function selectionneArrayFiltreSelonID(filtre_ID) {
 	}
 }
 
+/**
+ * Cette fonction retourne le numero du filtre dans le tableau de tableau de
+ * constantes correspondant a l'id donne en parametre
+ */
 function selectionneNumeroFiltreSelonID(filtre_ID) {
 	if (ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_ID] == filtre_ID) {
 		return ARRAY_FILTRES_CENTRALIEN;
@@ -125,6 +132,10 @@ function selectionneNumeroFiltreSelonID(filtre_ID) {
 	}
 }
 
+/**
+ * Cette fonction retourne les numeros des filtres (correspondant au tableau de
+ * tableaux de constantes) classes dans un tableau par ordre d'activation
+ */
 function calculTableauOrdreActivation() {
 	var tableau_ordre_maj = new Array();
 	var tableau_ordre_maj_idFiltre = new Array();
@@ -391,6 +402,9 @@ function miseAJourDuFiltre_AJAXSuccess(data, ARRAY_FILTRE) {
 	}
 }
 
+/**
+ * Met a jour le filtre Centralien
+ */
 function miseAJourDuFiltreCentralien(anneePromotion_ID, ecole_ID,
 		entreprise_ID, secteur_ID, pays_ID, ville_ID) {
 	jsRoutes.controllers.ServiceCentralien
@@ -409,6 +423,9 @@ function miseAJourDuFiltreCentralien(anneePromotion_ID, ecole_ID,
 					});
 }
 
+/**
+ * Met a jour le filtre AnneePromotion
+ */
 function miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID,
 		entreprise_ID, secteur_ID, pays_ID, ville_ID) {
 
@@ -428,6 +445,9 @@ function miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID,
 					});
 }
 
+/**
+ * Met a jour le filtre Ecole
+ */
 function miseAJourDuFiltreEcole(centralien_ID, anneePromotion_ID, secteur_ID,
 		pays_ID, ville_ID) {
 	jsRoutes.controllers.ServiceEcole.AJAX_listeDesEcolesSelonCriteres(
@@ -442,6 +462,9 @@ function miseAJourDuFiltreEcole(centralien_ID, anneePromotion_ID, secteur_ID,
 	});
 }
 
+/**
+ * Met a jour le filtre Entreprise
+ */
 function miseAJourDuFiltreEntreprise(centralien_ID, anneePromotion_ID,
 		secteur_ID, pays_ID, ville_ID) {
 	jsRoutes.controllers.ServiceEntreprise
@@ -459,6 +482,9 @@ function miseAJourDuFiltreEntreprise(centralien_ID, anneePromotion_ID,
 					});
 }
 
+/**
+ * Met a jour le filtre Secteur
+ */
 function miseAJourDuFiltreSecteur(centralien_ID, anneePromotion_ID, ecole_ID,
 		entreprise_ID, pays_ID, ville_ID) {
 	jsRoutes.controllers.ServiceSecteur.AJAX_listeDesSecteursSelonCriteres(
@@ -473,6 +499,9 @@ function miseAJourDuFiltreSecteur(centralien_ID, anneePromotion_ID, ecole_ID,
 	});
 }
 
+/**
+ * Met a jour le filtre Pays
+ */
 function miseAJourDuFiltrePays(centralien_ID, anneePromotion_ID, ecole_ID,
 		entreprise_ID, secteur_ID) {
 	jsRoutes.controllers.ServicePays.AJAX_listeDesPaysSelonCriteres(
@@ -489,9 +518,9 @@ function miseAJourDuFiltrePays(centralien_ID, anneePromotion_ID, ecole_ID,
 }
 
 /**
- * Si le filtre pays n'etait pas renseigne alors le filtre ville apparait. La
- * carte zoome sur le pays concerne. Les marqueurs des villes où des centraliens
- * sont presents apparaissent
+ * Met a jour le filtre Ville Si le filtre pays n'etait pas renseigne alors le
+ * filtre ville apparait. La carte zoome sur le pays concerne. Les marqueurs des
+ * villes où des centraliens sont presents apparaissent
  */
 function miseAJourDuFiltreVille(centralien_ID, anneePromotion_ID, ecole_ID,
 		entreprise_ID, secteur_ID, pays_ID) {
@@ -518,6 +547,9 @@ function miseAJourDuFiltreVille(centralien_ID, anneePromotion_ID, ecole_ID,
 	}
 }
 
+/**
+ * Cette fonction supprime le filtre ville
+ */
 function suppression_filtreVille() {
 	HTML('tableau_critere').removeChild(HTML('tr_ville'));
 	ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
