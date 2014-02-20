@@ -90,7 +90,7 @@ http://www.gnu.org/licenses/.
 		<tr>
 			<td>Pays</td>
 			<td>
-				<select name="Pays" id="filtre_pays" onChange="miseAJourDesFiltres(this.id)"></select>
+				<select name="Pays" id="filtre_pays" onChange="miseAJourDesFiltres(this.id);miseAjourDesMarqueurs();"></select>
 			</td>
 			<td>
 				<img src="/assets/images/reset.png" id="bouton_reset_pays" alt="bouton_reset_pays" onClick="reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Pays" />
