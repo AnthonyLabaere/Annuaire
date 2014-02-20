@@ -1,5 +1,5 @@
-/** Le layer des marqueurs */
-var MARKER_LAYER;
+/** Le layer des marqueurs de pays */
+var MARKER_PAYS_LAYER = new Array();
 
 // TODO : faire en sorte de savoir s'il y a eu des modifications dans les
 // villes... bref ne pas tout recharger a chaque fois
@@ -12,8 +12,8 @@ var MARKER_LAYER;
  * @param coordonnees
  *            position du marker
  */
-function ajout_marqueur(coordonnees) {
-	MARKER_LAYER = new OpenLayers.Layer.Vector("Overlay");
+function ajout_marqueur_pays(pays_nom, coordonnees) {
+	MARKER_PAYS_LAYER.push(new OpenLayers.Layer.Vector("Overlay"));
 
 	var position = getPositionCarte(coordonnees);
 	var point = new OpenLayers.Geometry.Point(position.lon, position.lat);
@@ -26,20 +26,24 @@ function ajout_marqueur(coordonnees) {
 		graphicHeight : 21,
 		graphicWidth : 16
 	});
-	MARKER_LAYER.addFeatures(feature);
-	CARTE.addLayer(MARKER_LAYER);
+	
+	MARKER_PAYS_LAYER[MARKER_PAYS_LAYER.length - 1].addFeatures(feature);
+	CARTE.addLayer(MARKER_PAYS_LAYER[MARKER_PAYS_LAYER.length - 1]);
 
-	// Une popup avec quelques informations sur la location
-	var popup = new OpenLayers.Popup.FramedCloud("Popup", point.getBounds()
-			.getCenterLonLat(), null, '50 Centraliens', null, null);
-	// Ajout de cette popup sur la carte
-	CARTE.addPopup(popup);
+
+	// // Une popup avec quelques informations sur la location
+	// var popup = new OpenLayers.Popup.FramedCloud("Popup", point.getBounds()
+	// .getCenterLonLat(), null, '50 Centraliens', null, null);
+	// // Ajout de cette popup sur la carte
+	// CARTE.addPopup(popup);
 }
 
 function miseAjourDesMarqueurs() {
 	// Les marqueurs precedemment places sont supprimes
-	if (MARKER_LAYER) {
-		MARKER_LAYER.destroyFeatures();
+	if (MARKER_PAYS_LAYER[0]) {
+		for (indice in MARKER_PAYS_LAYER) {
+			MARKER_PAYS_LAYER[indice].destroyFeatures();
+		}
 	}
 
 	var filtre_pays = HTML(ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID]);
@@ -52,7 +56,7 @@ function miseAjourDesMarqueurs() {
 			var coordonnees = new OpenLayers.LonLat(filtre_pays.options[i]
 					.getAttribute("longitude"), filtre_pays.options[i]
 					.getAttribute("latitude"));
-			ajout_marqueur(coordonnees);
+			ajout_marqueur_pays(filtre_pays.options[i].text, coordonnees);
 		}
 
 	} else {
