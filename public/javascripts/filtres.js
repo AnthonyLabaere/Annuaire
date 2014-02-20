@@ -55,6 +55,7 @@ function miseAJourEcoleOuEntreprise() {
 	var td_ecoleOuEntreprise = HTML('td_ecoleOuEntreprise');
 	td_ecoleOuEntreprise.innerHTML = '';
 
+	// On recree le filtre ecole ou le filtre entreprise
 	var filtre = document.createElement('select');
 	var filtre_option_par_defaut = document.createElement('option');
 
@@ -76,6 +77,25 @@ function miseAJourEcoleOuEntreprise() {
 	filtre.appendChild(filtre_option_par_defaut);
 	HTML('td_ecoleOuEntreprise').appendChild(filtre);
 
+	// On recree le bouton reset d'ecole ou d'entreprise
+	var bouton_reset = document.createElement('img');
+	bouton_reset.setAttribute('src', '/assets/images/reset.png');
+	if (filtre_ecoleOuEntreprise == 'filtre_entreprise') {
+		bouton_reset.setAttribute('id', 'bouton_reset_entreprise');
+		bouton_reset.setAttribute('alt', 'bouton_reset_entreprise');
+		bouton_reset.setAttribute('title', 'R&eacute;initialisation du champ Entreprise');
+	} else {
+		bouton_reset.setAttribute('id', 'bouton_reset_ecole');
+		bouton_reset.setAttribute('alt', 'bouton_reset_ecole');
+		bouton_reset.setAttribute('title', 'R&eacute;initialisation du champ Ecole');
+	}
+	bouton_reset.setAttribute('onClick', 'reset(this.id)');
+	bouton_reset.setAttribute('class', 'bouton_reset');
+
+	var td_ecoleOuEntreprise_reset = HTML('td_ecoleOuEntreprise_reset');
+	td_ecoleOuEntreprise_reset.innerHTML="";
+	td_ecoleOuEntreprise_reset.appendChild(bouton_reset);	
+	
 	// Remise a jour de tous les filtres
 	resetAll();
 

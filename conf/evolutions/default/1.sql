@@ -150,14 +150,14 @@ INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (n
 INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2015);
 INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2016);--14
 
-INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Dupont', 'Dupond', 9);
-INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Robert', 'Dupond', 10);
-INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Albert', 'Dupond', 10);
-INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Francis', 'Dupond', 11);
-INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Benjamin', 'Dupond', 8);--5
-INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Anthony', 'Dupond', 12);
-INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Indianna', 'Jones', 1);
-INSERT INTO Centralien (centralien_ID, centralien_nom, centralien_prenom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Black', 'MrCafe', 1);--8
+INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom,  centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Dupont', 'Dupond', 9);
+INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Robert', 'Dupond', 10);
+INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Albert', 'Dupond', 10);
+INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Francis', 'Dupond', 11);
+INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Benjamin', 'Dupond', 8);--5
+INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Anthony', 'Dupond', 12);
+INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Indianna', 'Jones', 1);
+INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Black', 'MrCafe', 1);--8
 
 -- TODO : Latitude et longitude doivent etre insere par un webservice ou une API, le zoom est a definir a la main...
 INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude) VALUES (nextval('PaysSequence'), 'France', 46.0558887, 1.8142930);

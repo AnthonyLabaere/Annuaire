@@ -16,18 +16,18 @@ import constantes.IConstantes;
 public class ServiceCentralien extends Controller {
 
 	public static Result AJAX_listeDesCentraliens() {
-		String sql = "SELECT centralien_ID AS identifiant, CONCAT(centralien_prenom, ' ', centralien_nom) AS prenomNom FROM Centralien";
-		sql += " ORDER BY prenomNom DESC";
+		String sql = "SELECT centralien_ID AS identifiant, CONCAT(centralien_nom, ' ', centralien_prenom) AS nomPrenom FROM Centralien";
+		sql += " ORDER BY nomPrenom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> listSqlRow = sqlQuery.findList();
 		// Liste de double String : le premier est l'ID et le deuxième est le
-		// prenomNom
+		// nomPrenom
 		List<String[]> listeDesCentraliens = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("identifiant").toString();
-			String prenomNom = sqlRow.get("prenomNom").toString();
-			listeDesCentraliens.add(new String[] { identifiant, prenomNom });
+			String nomPrenom = sqlRow.get("nomPrenom").toString();
+			listeDesCentraliens.add(new String[] { identifiant, nomPrenom });
 		}
 
 		return ok(Json.toJson(listeDesCentraliens));
@@ -54,7 +54,7 @@ public class ServiceCentralien extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT centralien_ID AS identifiant, CONCAT(centralien_prenom, ' ', centralien_nom) AS prenomNom FROM Centralien";
+		String sql = "SELECT centralien_ID AS identifiant, CONCAT(centralien_nom, ' ', centralien_prenom) AS nomPrenom FROM Centralien";
 		
 		if (parametresPresents[0]) {
 			wherePlace = true;
@@ -164,7 +164,7 @@ public class ServiceCentralien extends Controller {
 			}
 		}
 
-		sql += " ORDER BY prenomNom DESC";
+		sql += " ORDER BY nomPrenom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
@@ -194,8 +194,8 @@ public class ServiceCentralien extends Controller {
 		List<String[]> listeDesCentraliensParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("identifiant").toString();
-			String prenomNom = sqlRow.get("prenomNom").toString();
-			listeDesCentraliensParCriteres.add(new String[] { identifiant, prenomNom });
+			String nomPrenom = sqlRow.get("nomPrenom").toString();
+			listeDesCentraliensParCriteres.add(new String[] { identifiant, nomPrenom });
 		}
 
 		return ok(Json.toJson(listeDesCentraliensParCriteres));
