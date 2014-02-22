@@ -112,7 +112,7 @@ function creation_filtreVille(pays_nom) {
 	var filtre_ville = document.createElement('select');
 	filtre_ville.setAttribute('name', 'Ville');
 	filtre_ville.setAttribute('id', ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID]);
-	filtre_ville.setAttribute('onChange', 'miseAJourDesFiltres(this.id);miseAjourDesMarqueurs();');
+	filtre_ville.setAttribute('onChange', 'miseAJourDesFiltres(this.id)');
 
 	var villeTd2 = document.createElement('td');
 	villeTd2.appendChild(filtre_ville);

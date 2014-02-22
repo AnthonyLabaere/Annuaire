@@ -1,172 +1,228 @@
 /* Generalites */
-body{
-	background:black;
+span.button{
+	cursor:pointer;
+	border:1px solid black;
 }
 
-h1{
+body {
+	background: black;
+}
+
+h1 {
 	color: orange;
-	text-align:center;
+	text-align: center;
 }
 
 h2 {
-	margin-top:00px;
-	text-align:center;
-	color:white;
-	width:100%;
+	margin-top: 00px;
+	text-align: center;
+	color: white;
+	width: 100%;
 }
 
-table{
+table {
 	
 }
 
-th{
+th {
 	
 }
 
-tr{
+tr {
 	
 }
 
 /* Identification */
-html{height:100%;}
-
-#identification{
-	 width:500px;
-	 margin:auto;
-	 margin-top:10%; 
-     background : white;
-     border: 4px solid orange;
-     border-radius: 5px;
+html {
+	height: 100%;
 }
 
-p{
-	margin-left:10px;
+#identification {
+	width: 500px;
+	margin: auto;
+	margin-top: 10%;
+	background: white;
+	border: 4px solid orange;
+	border-radius: 5px;
+}
+
+p {
+	margin-left: 10px;
 }
 
 /* Carte */
-
 #carte {
-	position:absolute;
-	width:100%;
-	height:100%;
-	left:0;
-	top:0;
-	z-index:0;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	z-index: 0;
 }
 
 /* Panneau */
-
 #panneau {
-	position:absolute;
-	left:0;
-	top:0;
-	z-index:1;
-	margin-left:1%;
-	margin-top:1%;
-	width:450px;
-	max-height:500px;
-	color:white;
-    background-color:#1f1919;
-	border-radius:10px;
-	border:solid 1px black;	
-    transition: top 2s, left 2s;
-    -webkit-transition: top 2s, left 2s; /* Safari */
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	margin-left: 1%;
+	margin-top: 1%;
+	width: 450px;
+	max-height: 500px;
+	color: white;
+	background-color: #1f1919;
+	border-radius: 10px;
+	border: solid 1px black;
+	transition: top 2s, left 2s;
+	-webkit-transition: top 2s, left 2s; /* Safari */
 }
 
 #panneau.ferme {
-	left:-450px;
-	top:-520px;
-	transition: top 2s, left 2s ;
-	-webkit-transition: top 2s, left 2s ; /* Safari */
+	left: -450px;
+	top: -520px;
+	transition: top 2s, left 2s;
+	-webkit-transition: top 2s, left 2s; /* Safari */
 }
 
 /* Son entï¿½te */
-
-#entete_panneau{
-	width:450px;
-	height:50px;
-	z-index:2;
-	border-bottom:solid 1px black;
-	border-radius:9px 9px 0 0;
-    background-color:#e65c00;
+#entete_panneau {
+	width: 450px;
+	height: 50px;
+	z-index: 2;
+	border-bottom: solid 1px black;
+	border-radius: 9px 9px 0 0;
+	background-color: #e65c00;
 }
 
 /* Ses boutons */
-#bouton_fermeture_panneau{
-	position:absolute;
-	top:6px;
-	right:6px;
-	height:18px;
-	padding:5px;
-	z-index:3;
-	cursor:pointer;	
-    background-color:#e65c00;
-	border-radius:5px;
-	border:solid 1px black;
+#bouton_fermeture_panneau {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	height: 18px;
+	padding: 5px;
+	z-index: 3;
+	cursor: pointer;
+	background-color: #e65c00;
+	border-radius: 5px;
+	border: solid 1px black;
 	transition: 2s top, 2s right;
 	-webkit-transition: 2s top, 2s right;
 }
 
-#bouton_fermeture_panneau.ferme{
-	right:-40px;
-    top:520px; 
+#bouton_fermeture_panneau.ferme {
+	right: -40px;
+	top: 520px;
 	transition: 2s top, 2s right;
-	-webkit-transition: 2s top, 12 right;	
+	-webkit-transition: 2s top, 12 right;
 	transform: rotate(-135deg);
 	-ms-transform: rotate(-135deg);
 	-webkit-transform: rotate(-135deg);
 }
 
 #bouton_deconnexion {
-	position:absolute;
-	top:6px;
-	right:50px;
-	height:18px;
-	padding:5px;
-	z-index:3;
-	cursor:pointer;
-    background-color:#e65c00;
-	border-radius:5px;
-	border:solid 1px black;	
+	position: absolute;
+	top: 6px;
+	right: 50px;
+	height: 18px;
+	padding: 5px;
+	z-index: 3;
+	cursor: pointer;
+	background-color: #e65c00;
+	border-radius: 5px;
+	border: solid 1px black;
 }
 
 #bouton_recherche {
-	position:absolute;
-	top:6px;
-	right:400px;
-	height:18px;
-	padding:5px;
-	z-index:3;
-	cursor:pointer;
-    background-color:#e65c00;
-	border-radius:5px;
-	border:solid 1px black;	
+	position: absolute;
+	top: 6px;
+	right: 400px;
+	height: 18px;
+	padding: 5px;
+	z-index: 3;
+	cursor: pointer;
+	background-color: #e65c00;
+	border-radius: 5px;
+	border: solid 1px black;
 }
 
 #bouton_reset_all {
-	position:absolute;
-	top:6px;
-	right:100px;
-	height:18px;
-	padding:5px;
-	z-index:3;
-	cursor:pointer;
-	border-radius:5px;
-	border:solid 1px black;	
+	position: absolute;
+	top: 6px;
+	right: 100px;
+	height: 18px;
+	padding: 5px;
+	z-index: 3;
+	cursor: pointer;
+	border-radius: 5px;
+	border: solid 1px black;
 }
 
 .bouton_reset {
-	position:relative;
-	height:18px;
-	padding:5px;
-	z-index:3;
-	cursor:pointer;
-    background-color:#e65c00;
-	border-radius:5px;
-	border:solid 1px black;	
+	position: relative;
+	height: 18px;
+	padding: 5px;
+	z-index: 3;
+	cursor: pointer;
+	background-color: #e65c00;
+	border-radius: 5px;
+	border: solid 1px black;
 }
 
 /* Son tableau de critere de recherche */
 #tableau_critere {
-	align:center;
+	align: center;
+}
+
+
+/* La modale */
+
+#modale_fond { /*--Masque opaque noir de fond--*/
+	display: none; /*--masqué par défaut--*/
+	background: #000;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	opacity: .80;
+	z-index: 9999;
+}
+
+.modale_block {
+	display: none; /* la modale est masque par defaut */
+	background: #fff;
+	padding: 20px;
+	border: 20px solid #ddd;
+	float: left;
+	font-size: 1.2em;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	z-index: 99999;
+	/* Box Shadow */
+	-webkit-box-shadow : 0px 0px 20px #000;
+	-moz-box-shadow: 0px 0px 20px #000;
+	box-shadow: 0px 0px 20px #000;
+	/* Coins arrondis */
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	-webkit-box-shadow: 0px 0px 20px #000
+}
+
+img.bouton_fermeture {
+	float: right;
+	height: 55px;
+	margin: -55px -50px 0 0;
+}
+
+/*--Gérer la position fixed pour IE6--*/
+* html #modale_fond {
+	position: absolute;
+}
+
+* html .modale_block {
+	position: absolute;
 }

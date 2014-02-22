@@ -43,6 +43,9 @@ function resetAll() {
 		ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
 
 	}
+	
+	// Mise a jour des marqueurs
+	miseAjourDesMarqueurs();	
 }
 
 /**
@@ -386,6 +389,9 @@ function miseAJourDesFiltres(filtre_ID) {
 			arrayDuFiltreModifie[ARRAY_FILTRE_ORDRE_ACTIVATION] = -1;
 		}
 	}
+	
+	// Mise a jour des marqueurs
+	miseAjourDesMarqueurs();	
 }
 
 /**

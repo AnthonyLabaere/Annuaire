@@ -167,8 +167,6 @@ public class ServiceVille extends Controller {
 
 		sql += " ORDER BY ville_nom ASC";
 		
-		System.out.println(sql);
-
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
 			sqlQuery.setParameter("centralien_ID", Integer.parseInt(centralien_ID));
