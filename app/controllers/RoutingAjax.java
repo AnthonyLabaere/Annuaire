@@ -12,6 +12,7 @@ public class RoutingAjax extends Controller {
 		return ok(Routes.javascriptRouter("jsRoutes",
 		        controllers.routes.javascript.ServiceCentralien.AJAX_listeDesCentraliens(),
 		        controllers.routes.javascript.ServiceCentralien.AJAX_listeDesCentraliensSelonCriteres(),
+		        controllers.routes.javascript.ServiceCentralien.AJAX_listeDesCoordonneesDesCentraliens(),
 		        controllers.routes.javascript.ServiceAnneePromotion.AJAX_listeDesAnneesPromotion(),
 		        controllers.routes.javascript.ServiceAnneePromotion.AJAX_listeDesAnneesPromotionSelonCriteres(),
 		        controllers.routes.javascript.ServiceEcole.AJAX_listeDesEcoles(),

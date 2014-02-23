@@ -24,6 +24,7 @@ function initialisationFiltre_AJAX_Success(data, ARRAY_FILTRE) {
 		var option = document.createElement('option');
 		option.value = data[element][0];
 		option.text = data[element][1];
+		option.id = filtre_ID + "_" + data[element][0];
 		// Si le filtre est pays ou ville alors on y ajoute les coordonnes GPS
 		if (filtre_ID == ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID]
 				|| filtre_ID == ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID]) {

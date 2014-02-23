@@ -15,9 +15,6 @@ TYPES_MARQUEUR.push("ville");
 TYPE_MARQUEUR_PAYS_ID = 0;
 TYPE_MARQUEUR_VILLE_ID = 1;
 
-/** Le marqueur selectionne */
-var SELECTED_FEATURE;
-
 /** Initialisation de la partie des marqueurs : layer et controlleur */
 function init_marqueur() {
 	MARKER_LAYER = new OpenLayers.Layer.Vector("Overlay");
@@ -48,9 +45,9 @@ function clicSurMarqueur(feature) {
 		// Si le marqueur est de type ville alors on affiche une modale avec les
 		// informations sur les centraliens correspondants aux filtres
 		// selectionnes
-		console.log(feature);
-		console.log(feature.attributes.type);
+		alimenterModale(id);
 		afficherModale();
+		SELECT_CONTROL.unselect(feature);
 	}
 }
 
@@ -137,13 +134,14 @@ function afficherModale() {
 
 	// Faire apparaitre la pop-up et ajouter le bouton de
 	// fermeture
-	$('#' + popID)
+	jQuery('#' + popID)
 			.fadeIn()
 			.css({
-				'width' : popWidth
+				'width' : 800,
+				'height' : 500
 			})
 			.prepend(
-					'<a href="#" class="close"><img src="/assets/images/fermer.png" class="bouton_fermeture" title="Close Window" alt="Close" /></a>');
+					'<a href="#" class="fermer"><img src="/assets/images/fermer.png" class="bouton_fermeture" title="Close Window" alt="Close" /></a>');
 
 	// Récupération du margin, qui permettra de centrer la
 	// fenêtre - on ajuste de 80px en conformité avec le CSS
@@ -170,8 +168,160 @@ function afficherModale() {
 /**
  * Cette fonction alimente la modale en fonction des informations a afficher
  */
-function alimenterModale() {
+function alimenterModale(ville_ID) {
 
+	// On enregistre les valeurs des filtres dans des variables pour l'appel
+	// Ajax
+	var centralien_ID;
+	var anneePromotion_ID;
+	var ecole_ID;
+	var entreprise_ID;
+	var secteur_ID;
+
+	// On indique au serveur quel est le filtre ignore entre Ecole
+	// ou Entreprise
+	if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
+		entreprise_ID = ECOLE_OU_ENTREPRISE_INACTIF;
+	} else {
+		ecole_ID = ECOLE_OU_ENTREPRISE_INACTIF;
+	}
+
+	if (HTML(ARRAY_FILTRES[ARRAY_FILTRES_CENTRALIEN][ARRAY_FILTRE_ID]).selectedIndex != 0) {
+		centralien_ID = HTML(ARRAY_FILTRES[ARRAY_FILTRES_CENTRALIEN][ARRAY_FILTRE_ID]).value;
+	}
+	if (HTML(ARRAY_FILTRES[ARRAY_FILTRES_ANNEEPROMOTION][ARRAY_FILTRE_ID]).selectedIndex != 0) {
+		anneePromotion_ID = HTML(ARRAY_FILTRES[ARRAY_FILTRES_ANNEEPROMOTION][ARRAY_FILTRE_ID]).value;
+	}
+	if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])
+			&& HTML(ARRAY_FILTRES[ARRAY_FILTRES_ECOLE][ARRAY_FILTRE_ID]).selectedIndex != 0) {
+		ecole_ID = HTML(ARRAY_FILTRES[ARRAY_FILTRES_ECOLE][ARRAY_FILTRE_ID]).value;
+	}
+	if (HTML(ARRAY_FILTRES_ENTREPRISE[ARRAY_FILTRE_ID])
+			&& HTML(ARRAY_FILTRES[ARRAY_FILTRES_ENTREPRISE][ARRAY_FILTRE_ID]).selectedIndex != 0) {
+		entreprise_ID = HTML(ARRAY_FILTRES[ARRAY_FILTRES_ENTREPRISE][ARRAY_FILTRE_ID]).value;
+	}
+	if (HTML(ARRAY_FILTRES[ARRAY_FILTRES_SECTEUR][ARRAY_FILTRE_ID]).selectedIndex != 0) {
+		secteur_ID = HTML(ARRAY_FILTRES[ARRAY_FILTRES_SECTEUR][ARRAY_FILTRE_ID]).value;
+	}
+
+	// On supprime le tableau precedent s'il existe
+	var modale = HTML('modale');
+	modale.innerHTML = '';
+
+	// On rappelle a l'utilisateur les criteres precedemments renseignes :
+	var rappel = document.createElement('p');
+	var rappelTexte = '';
+	if (centralien_ID) {
+		rappelTexte += 'Coordonn&eacute;es de l\activité ';
+		if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
+			rappelTexte += ' &eacute;tudiante ';
+		} else {
+			rappelTexte += 'professionnelle ';
+		}
+		rappelTexte += 'du Centralien'
+				+ HTML(ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_ID] + "_"
+						+ centralien_ID).text;
+		rappelTexte += ' dans la ville '
+				+ HTML(ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID] + "_" + ville_ID).text;
+	} else {
+		rappelTexte += 'Coordonn&eacute;es des Centraliens ayant';
+		if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
+			rappelTexte += ' &eacute;tudi&eacute; &agrave; ';
+		} else {
+			rappelTexte += ' travaill&eacute; &agrave; ';
+		}
+		rappelTexte += HTML(ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID] + "_"
+				+ ville_ID).text;
+		if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
+			if (ecole_ID) {
+				rappelTexte += ' , à l\&Eacute;cole '
+						+ HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID] + "_"
+								+ ecole_ID).text;
+			}
+		} else {
+			if (entreprise_ID) {
+				rappelTexte += ' pour l\'entreprise '
+						+ HTML(ARRAY_FILTRE_ENTREPRISE[ARRAY_FILTRE_ID] + "_"
+								+ entreprise_ID).text;
+			}
+		}
+		if (secteur_ID) {
+			rappelTexte += ' dans le secteur '
+					+ HTML(ARRAY_FILTRE_SECTEUR[ARRAY_FILTRE_ID] + "_"
+							+ secteur_ID).text;
+		}
+	}
+
+	rappel.innerHTML = rappelTexte;
+	modale.appendChild(rappel);
+
+	// On insere la base du tableau dans la modale
+	var prenomTh = document.createElement('th');
+	prenomTh.innerHTML = 'Pr&eacute;nom';
+	var nomTh = document.createElement('th');
+	nomTh.innerHTML = 'Nom';
+	var anneePromotionTh = document.createElement('th');
+	anneePromotionTh.innerHTML = 'Promotion';
+	var ecoleOuEntrepriseTh = document.createElement('th');
+	if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
+		ecoleOuEntrepriseTh.innerHTML = "Ecole";
+	} else {
+		ecoleOuEntrepriseTh.innerHTML = "Entreprise";
+	}
+	var secteurTh = document.createElement('th');
+	secteurTh.innerHTML = 'Secteur';
+
+	var bodyTr = document.createElement('tr');
+	bodyTr.appendChild(prenomTh);
+	bodyTr.appendChild(nomTh);
+	bodyTr.appendChild(anneePromotionTh);
+	bodyTr.appendChild(ecoleOuEntrepriseTh);
+	bodyTr.appendChild(secteurTh);
+
+	var tableau_coordonnees = document.createElement('table');
+	tableau_coordonnees.setAttribute('id', 'tableau_coordonnees');
+	tableau_coordonnees.appendChild(bodyTr);
+
+	modale.appendChild(tableau_coordonnees);
+
+	// Et on ajoute les nouvelles a partir de la requete AJAX
+	// "AJAX_listeDesCoordonneesDesCentraliens"
+	jsRoutes.controllers.ServiceCentralien
+			.AJAX_listeDesCoordonneesDesCentraliens(
+					centralien_ID ? centralien_ID : "",
+					anneePromotion_ID ? anneePromotion_ID : "",
+					ecole_ID ? ecole_ID : "",
+					entreprise_ID ? entreprise_ID : "",
+					secteur_ID ? secteur_ID : "", ville_ID ? ville_ID : "")
+			.ajax({
+				async : false,
+				success : function(data, textStatus, jqXHR) {
+					var tableau_coordonnees = HTML('tableau_coordonnees');
+					for ( var element in data) {
+
+						var prenomTd = document.createElement('td');
+						prenomTd.innerHTML = data[element][0];
+						var nomTd = document.createElement('td');
+						nomTd.innerHTML = data[element][1];
+						var anneePromotionTd = document.createElement('td');
+						anneePromotionTd.innerHTML = data[element][2];
+						var ecoleOuEntrepriseTd = document.createElement('td');
+						ecoleOuEntrepriseTd.innerHTML = data[element][3];
+						var secteurTd = document.createElement('td');
+						secteurTd.innerHTML = data[element][4];
+
+						var modaleTr = document.createElement('tr');
+						modaleTr.appendChild(prenomTd);
+						modaleTr.appendChild(nomTd);
+						modaleTr.appendChild(anneePromotionTd);
+						modaleTr.appendChild(ecoleOuEntrepriseTd);
+						modaleTr.appendChild(secteurTd);
+
+						tableau_coordonnees.appendChild(modaleTr);
+					}
+
+				}
+			});
 }
 
 /**
@@ -180,10 +330,10 @@ function alimenterModale() {
  */
 jQuery(function($) {
 	// Fermer la modale et supprimer la transparence noire de l'arriere plan
-	$('body').on('click', 'a.close, #modale_fond', function() {
+	$('body').on('click', 'a.fermer, #modale_fond', function() {
 		// Lors d'un clic sur body :
 		$('#modale_fond , .modale_block').fadeOut(function() {
-			$('#modale_fond, a.close').remove();
+			$('#modale_fond, a.fermer').remove();
 		});
 		return false;
 	});
