@@ -212,13 +212,13 @@ function alimenterModale(ville_ID) {
 	var rappel = document.createElement('p');
 	var rappelTexte = '';
 	if (centralien_ID) {
-		rappelTexte += 'Coordonn&eacute;es de l\activité ';
+		rappelTexte += 'Coordonn&eacute;es de l\'activit&eacute; ';
 		if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
 			rappelTexte += ' &eacute;tudiante ';
 		} else {
-			rappelTexte += 'professionnelle ';
+			rappelTexte += ' professionnelle ';
 		}
-		rappelTexte += 'du Centralien'
+		rappelTexte += 'du Centralien '
 				+ HTML(ARRAY_FILTRE_CENTRALIEN[ARRAY_FILTRE_ID] + "_"
 						+ centralien_ID).text;
 		rappelTexte += ' dans la ville '
@@ -319,7 +319,6 @@ function alimenterModale(ville_ID) {
 
 						tableau_coordonnees.appendChild(modaleTr);
 					}
-
 				}
 			});
 }
