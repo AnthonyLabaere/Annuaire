@@ -1,4 +1,10 @@
 /**
+ * -----------------------------------------------------------------------------
+ * Ce fichier contient les fonctions portant sur les filtres (sauf leurs initialisations)
+ * -----------------------------------------------------------------------------
+ */
+
+/**
  * Cette fonction reinitialise un filtre en particulier (simulation de
  * modification du filtre avec selectedIndex=0)
  */
@@ -43,9 +49,6 @@ function resetAll() {
 		ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ORDRE_ACTIVATION] = ORDRE_ACTIVATION_PAR_DEFAUT;
 
 	}
-	
-	// Mise a jour des marqueurs
-	miseAjourDesMarqueurs();	
 }
 
 /**
@@ -76,7 +79,7 @@ function miseAJourEcoleOuEntreprise() {
 
 	}
 
-	filtre.setAttribute('onChange', 'miseAJourDesFiltres(this.id)');
+	filtre.setAttribute('onChange', 'action_modificationFiltre(this.id)');
 	filtre.appendChild(filtre_option_par_defaut);
 	HTML('td_ecoleOuEntreprise').appendChild(filtre);
 
@@ -86,19 +89,21 @@ function miseAJourEcoleOuEntreprise() {
 	if (filtre_ecoleOuEntreprise == 'filtre_entreprise') {
 		bouton_reset.setAttribute('id', 'bouton_reset_entreprise');
 		bouton_reset.setAttribute('alt', 'bouton_reset_entreprise');
-		bouton_reset.setAttribute('title', 'R&eacute;initialisation du champ Entreprise');
+		bouton_reset.setAttribute('title',
+				'R&eacute;initialisation du champ Entreprise');
 	} else {
 		bouton_reset.setAttribute('id', 'bouton_reset_ecole');
 		bouton_reset.setAttribute('alt', 'bouton_reset_ecole');
-		bouton_reset.setAttribute('title', 'R&eacute;initialisation du champ Ecole');
+		bouton_reset.setAttribute('title',
+				'R&eacute;initialisation du champ Ecole');
 	}
-	bouton_reset.setAttribute('onClick', 'reset(this.id)');
+	bouton_reset.setAttribute('onClick', 'action_reset(this.id)');
 	bouton_reset.setAttribute('class', 'bouton_reset');
 
 	var td_ecoleOuEntreprise_reset = HTML('td_ecoleOuEntreprise_reset');
-	td_ecoleOuEntreprise_reset.innerHTML="";
-	td_ecoleOuEntreprise_reset.appendChild(bouton_reset);	
-	
+	td_ecoleOuEntreprise_reset.innerHTML = "";
+	td_ecoleOuEntreprise_reset.appendChild(bouton_reset);
+
 	// Remise a jour de tous les filtres
 	resetAll();
 
@@ -269,7 +274,7 @@ function miseAJourDesFiltres(filtre_ID) {
 		// filtres pour lesquels l'activation a
 		// ete realisee apres celle de ce premier
 		var arrayDuFiltreModifie = selectionneArrayFiltreSelonID(filtre_ID);
-		var ordreActivationDuFiltreReinitialise = NOMBRE_TOTAL_FILTRES + 1;
+		var ordreActivationDuFiltreReinitialise = ARRAY_FILTRES.length + 1;
 		if (arrayDuFiltreModifie[ARRAY_FILTRE_ORDRE_ACTIVATION] != ORDRE_ACTIVATION_PAR_DEFAUT) {
 			ordreActivationDuFiltreReinitialise = arrayDuFiltreModifie[ARRAY_FILTRE_ORDRE_ACTIVATION];
 		} else {
@@ -389,9 +394,6 @@ function miseAJourDesFiltres(filtre_ID) {
 			arrayDuFiltreModifie[ARRAY_FILTRE_ORDRE_ACTIVATION] = -1;
 		}
 	}
-	
-	// Mise a jour des marqueurs
-	miseAjourDesMarqueurs();	
 }
 
 /**
@@ -422,15 +424,17 @@ function miseAJourDuFiltre_AJAXSuccess(data, ARRAY_FILTRE) {
 			option_precedemment_selectionnee.setAttribute('selected',
 					'selected');
 			filtre.appendChild(option_precedemment_selectionnee);
-		} else {			
+		} else {
 			var option = document.createElement('option');
 			option.value = data[element][0];
 			option.text = data[element][1];
-			option.id = filtre_ID + "_" + data[element][0];	
-			// Si le filtre est pays ou ville alors on y ajoute les coordonnes GPS
-			if (filtre_ID == ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID] || filtre_ID == ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID]){
+			option.id = filtre_ID + "_" + data[element][0];
+			// Si le filtre est pays ou ville alors on y ajoute les coordonnes
+			// GPS
+			if (filtre_ID == ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID]
+					|| filtre_ID == ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID]) {
 				option.setAttribute('latitude', data[element][2]);
-				option.setAttribute('longitude', data[element][3]);		
+				option.setAttribute('longitude', data[element][3]);
 			}
 			filtre.appendChild(option);
 		}

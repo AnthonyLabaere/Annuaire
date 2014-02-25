@@ -1,7 +1,14 @@
-/** Ce fichier contient les constantes et variables globales utiles au fonctionnement des filtres
+/**
+ * -----------------------------------------------------------------------------
+ * Ce fichier contient TOUTES les constantes et variables globales de la partie client
+ * -----------------------------------------------------------------------------
+ */
 
-/** Constantes contenant le nombre total de filtre */
-var NOMBRE_TOTAL_FILTRES = 7;
+/**
+ * -----------------------------------------------------------------------------
+ * Celles portant sur le fonctionnement des filtres
+ * -----------------------------------------------------------------------------
+ */
 
 /**
  * Ces tableaux de constantes permettent de retenir des informations sur chacun
@@ -91,3 +98,31 @@ var ARRAY_FILTRES_VILLE = 6;
  */
 var ECOLE_OU_ENTREPRISE_INACTIF = "ECOLE_OU_ENTREPRISE_INACTIF";
 
+/**
+ * -----------------------------------------------------------------------------
+ * Celles portant sur le fonctionnement de la carte
+ * -----------------------------------------------------------------------------
+ */
+
+/**
+ * Variable globale contenant la carte, la "map" d'openlayers
+ */
+var CARTE;
+
+/** Id de la balise div qui contient la carte openlayers */
+var DIV_CARTE_ID = "carte";
+
+/** Position initiale centree sur Nantes */
+var POSITION_INITIALE = new OpenLayers.LonLat(-1.583, 47.233);
+
+/** Zoom initial */
+var ZOOM_INITIAL = 6;
+
+/**
+ * -----------------------------------------------------------------------------
+ * Celles dites de "service"
+ * -----------------------------------------------------------------------------
+ */
+
+/** Constante chaine de caractere vide */
+var VIDE = "";

@@ -19,15 +19,15 @@ http://www.gnu.org/licenses/.
 <div id="carte"></div>
 
 <script src="/assets/javascripts/services.js" type="text/javascript"></script>
-<script src="/assets/javascripts/OpenLayers/OpenLayers.js"
-	type="text/javascript"></script>
+<script src="/assets/javascripts/OpenLayers/OpenLayers.js" type="text/javascript"></script>
+
 <script src="@routes.RoutingAjax.javascriptRoutes" type="text/javascript"></script>
 
 
 <div id="panneau">
 	<div id="entete_panneau">
 		<h2>Recherche</h2>
-		<img src="/assets/images/reset.png" id="bouton_reset_all" alt="bouton_reset_all" onClick="resetAll()" title="R&eacute;initialisation des champs" />
+		<img src="/assets/images/reset.png" id="bouton_reset_all" alt="bouton_reset_all" onClick="action_resetAll()" title="R&eacute;initialisation des champs" />
 		@logOut() 
 		<img src="/assets/images/fleche_panneau.png" id="bouton_fermeture_panneau" alt="bouton_fermeture_panneau" onClick="glisserPanneau()" class="ouvert" title="R&eacute;duire"/>
         <!-- TODO bouton help ? avec le but, les developpeurs, le createur, les tuteurs, des explications sur le fonctionnement de l'application -->
@@ -41,19 +41,19 @@ http://www.gnu.org/licenses/.
 		<tr>
 			<td>Centraliens</td>
 			<td>
-				<select name="Centralien" id="filtre_centralien" onChange="miseAJourDesFiltres(this.id)"></select>
+				<select name="Centralien" id="filtre_centralien" onChange="action_modificationFiltre(this.id)"></select>
 			</td>
 			<td>
-				<img src="/assets/images/reset.png" id="bouton_reset_centralien" alt="bouton_reset_centralien" onClick="reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Centralien" />
+				<img src="/assets/images/reset.png" id="bouton_reset_centralien" alt="bouton_reset_centralien" onClick="action_reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Centralien" />
 			</td>
 		</tr>
 		<tr>
 			<td>Ann&eacute;e de promotion</td>
 			<td>
-				<select name="Annee_de_promotion" id="filtre_anneePromotion" onChange="miseAJourDesFiltres(this.id)"></select>
+				<select name="Annee_de_promotion" id="filtre_anneePromotion" onChange="action_modificationFiltre(this.id)"></select>
 			</td>
 			<td>
-				<img src="/assets/images/reset.png" id="bouton_reset_anneePromotion" alt="bouton_reset_anneePromotion" onClick="reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Ann&eacute;e de promotion" />
+				<img src="/assets/images/reset.png" id="bouton_reset_anneePromotion" alt="bouton_reset_anneePromotion" onClick="action_reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Ann&eacute;e de promotion" />
 			</td>
 		</tr>
 		<tr>
@@ -64,10 +64,10 @@ http://www.gnu.org/licenses/.
 				</select>
 			</td>
 			<td id="td_ecoleOuEntreprise">
-				<select name="Entreprise" id="filtre_entreprise" onChange="miseAJourDesFiltres(this.id)"></select>
+				<select name="Entreprise" id="filtre_entreprise" onChange="action_modificationFiltre(this.id)"></select>
 			</td>
 			<td id="td_ecoleOuEntreprise_reset">
-				<img src="/assets/images/reset.png" id="bouton_reset_entreprise" alt="bouton_reset_entreprise" onClick="reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Entreprise" />
+				<img src="/assets/images/reset.png" id="bouton_reset_entreprise" alt="bouton_reset_entreprise" onClick="action_reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Entreprise" />
 			</td>
 		</tr>
 		<tr>
@@ -80,19 +80,19 @@ http://www.gnu.org/licenses/.
 		<tr>
 			<td>Secteur</td>
 			<td>
-				<select name="Secteur" id="filtre_secteur" onChange="miseAJourDesFiltres(this.id)"></select>
+				<select name="Secteur" id="filtre_secteur" onChange="action_modificationFiltre(this.id)"></select>
 			</td>
 			<td>
-				<img src="/assets/images/reset.png" id="bouton_reset_secteur" alt="bouton_reset_secteur" onClick="reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Secteur" />
+				<img src="/assets/images/reset.png" id="bouton_reset_secteur" alt="bouton_reset_secteur" onClick="action_reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Secteur" />
 			</td>
 		</tr>
 		<tr>
 			<td>Pays</td>
 			<td>
-				<select name="Pays" id="filtre_pays" onChange="miseAJourDesFiltres(this.id)"></select>
+				<select name="Pays" id="filtre_pays" onChange="action_modificationFiltre(this.id)"></select>
 			</td>
 			<td>
-				<img src="/assets/images/reset.png" id="bouton_reset_pays" alt="bouton_reset_pays" onClick="reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Pays" />
+				<img src="/assets/images/reset.png" id="bouton_reset_pays" alt="bouton_reset_pays" onClick="action_reset(this.id)" class="bouton_reset" title="R&eacute;initialisation du champ Pays" />
 			</td>
 		</tr>
 	</table>
@@ -100,10 +100,13 @@ http://www.gnu.org/licenses/.
 
 <div id="modale" class="modale_block"></div>
 
+<script src="/assets/javascripts/globales.js" type="text/javascript"></script>
+
 <script src="/assets/javascripts/carte.js" type="text/javascript"></script>
-<script src="/assets/javascripts/filtres-cst.js" type="text/javascript"></script>
 <script src="/assets/javascripts/filtres-init.js" type="text/javascript"></script>
 <script src="/assets/javascripts/filtres.js" type="text/javascript"></script>
-<script src="/assets/javascripts/markers.js" type="text/javascript"></script>
-<script src="/assets/javascripts/init.js" type="text/javascript"></script>
+<script src="/assets/javascripts/marqueurs.js" type="text/javascript"></script>
+
+<script src="/assets/javascripts/initialisation.js" type="text/javascript"></script>
+<script src="/assets/javascripts/actions.js" type="text/javascript"></script>
 }

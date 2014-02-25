@@ -1,6 +1,11 @@
+/**
+ * -----------------------------------------------------------------------------
+ * Ce fichier contient les fonctions portant sur les marqueurs de la carte
+ * -----------------------------------------------------------------------------
+ */
+
 // TODO : faire en sorte de savoir s'il y a eu des modifications dans les
 // villes... bref ne pas tout recharger a chaque fois
-
 /** Le layer des marqueurs */
 var MARKER_LAYER;
 
@@ -28,6 +33,9 @@ function init_marqueur() {
 
 	CARTE.addControl(SELECT_CONTROL);
 	SELECT_CONTROL.activate();
+
+	// On cree les marqueurs (un par pays)
+	miseAjourDesMarqueurs();
 }
 
 /** Cette fonction definit l'action a effectuer lors d'un clic sur un marqueur */
@@ -40,7 +48,7 @@ function clicSurMarqueur(feature) {
 		// le pays du marqueur et on met a jour les filtres (et donc les
 		// marqueurs)
 		HTML(ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID]).value = id;
-		miseAJourDesFiltres(ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID]);
+		action_modificationFiltre(ARRAY_FILTRE_PAYS[ARRAY_FILTRE_ID]);
 	} else {
 		// Si le marqueur est de type ville alors on affiche une modale avec les
 		// informations sur les centraliens correspondants aux filtres

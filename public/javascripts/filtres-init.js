@@ -1,3 +1,13 @@
+/**
+ * -----------------------------------------------------------------------------
+ * Ce fichier contient les fonctions portant sur l'initialisation des filtres
+ * -----------------------------------------------------------------------------
+ */
+
+/**
+ * Cette fonction appelle les fonctions d'initialisation des filtres et donc les
+ * initialise
+ */
 function initialisationFiltres() {
 	initialisationFiltreCentralien();
 	initialisationFiltreAnneePromotion();
@@ -104,16 +114,15 @@ function initialisationFiltrePays() {
 	});
 }
 
-// Creation du filtre des villes
+/** Creation du filtre des villes */
 function creation_filtreVille(pays_nom) {
-	// Creation du filtre
 	var villeTd1 = document.createElement('td');
 	villeTd1.innerHTML = 'Ville';
 
 	var filtre_ville = document.createElement('select');
 	filtre_ville.setAttribute('name', 'Ville');
 	filtre_ville.setAttribute('id', ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID]);
-	filtre_ville.setAttribute('onChange', 'miseAJourDesFiltres(this.id)');
+	filtre_ville.setAttribute('onChange', 'action_modificationFiltre(this.id)');
 
 	var villeTd2 = document.createElement('td');
 	villeTd2.appendChild(filtre_ville);
@@ -122,7 +131,7 @@ function creation_filtreVille(pays_nom) {
 	bouton_reset.setAttribute('src', '/assets/images/reset.png');
 	bouton_reset.setAttribute('id', 'bouton_reset_ville');
 	bouton_reset.setAttribute('alt', 'bouton_reset_ville');
-	bouton_reset.setAttribute('onClick', 'reset(this.id)');
+	bouton_reset.setAttribute('onClick', 'action_reset(this.id)');
 	bouton_reset.setAttribute('class', 'bouton_reset');
 	bouton_reset
 			.setAttribute('title', 'R&eacute;initialisation du champ Ville');

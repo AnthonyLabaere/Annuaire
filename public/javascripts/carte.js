@@ -1,15 +1,8 @@
-/** Variable globale contenant la carte, la "map" d'openlayers
+/**
+ * -----------------------------------------------------------------------------
+ * Ce fichier contient les fonctions portant sur la carte
+ * -----------------------------------------------------------------------------
  */
-var CARTE;
-
-/** Id de la balise div qui contient la carte openlayers */
-var DIV_CARTE_ID = "carte";
-
-/** Position initiale centree sur Nantes */
-var POSITION_INITIALE = new OpenLayers.LonLat(-1.583, 47.233);
-
-/** Zoom initial */
-var ZOOM_INITIAL = 6;
 
 /**
  * Initialisation de la carte OpenLayers
@@ -66,9 +59,9 @@ function glisserPanneau() {
  * (pays ou ville) donnee en parametre
  */
 function zoom(optionID) {
-	
-	var option = HTML(optionID); 
-	
+
+	var option = HTML(optionID);
+
 	var position = new OpenLayers.LonLat(option.getAttribute("longitude"),
 			option.getAttribute("latitude"));
 	// var niveauDeZoom = option.getAttribute("zoom");
@@ -81,7 +74,7 @@ function zoom(optionID) {
  * base de donnee selon chaque pays
  */
 function testZoom(optionID) {
-	
+
 	console.log(optionID);
 	var option = HTML(optionID);
 	console.log(option);
