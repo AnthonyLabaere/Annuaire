@@ -1,3 +1,5 @@
+// On initialise la carte
+map_init(DIV_CARTE_ID);
 
 // On initialise les filtres au demarrage de l'application web
 initialisationFiltres();
