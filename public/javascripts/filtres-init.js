@@ -40,6 +40,7 @@ function initialisationFiltre_AJAX_Success(data, ARRAY_FILTRE) {
 				|| filtre_ID == ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID]) {
 			option.setAttribute('latitude', data[element][2]);
 			option.setAttribute('longitude', data[element][3]);
+			option.setAttribute('zoom', data[element][4]);
 		}
 		filtre.appendChild(option);
 	}

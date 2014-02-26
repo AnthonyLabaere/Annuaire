@@ -111,7 +111,9 @@ function miseAjourDesMarqueurs() {
 			// Si le filtre pays est renseigne mais pas le filtre ville
 			// l'application affiche les villes du pays apres avoir effectue un
 			// zoom sur le pays
-
+			console.log(filtre_pays.options[filtre_pays.selectedIndex]);
+			zoom(filtre_pays.options[filtre_pays.selectedIndex]);
+			
 			var nombre_ville = filtre_ville.options.length;
 			for ( var i = 1; i < nombre_ville; i++) {
 				ajout_marqueur(TYPES_MARQUEUR[TYPE_MARQUEUR_VILLE_ID],
@@ -121,15 +123,12 @@ function miseAjourDesMarqueurs() {
 		} else {
 			// Si le filtre ville est renseigne l'application affiche un
 			// marqueur sur la ville apres un zoom sur cette derniere
-
 			var filtreville_ID = filtre_ville.selectedIndex;
 			ajout_marqueur(TYPES_MARQUEUR[TYPE_MARQUEUR_VILLE_ID],
 					filtre_ville.options[filtreville_ID]);
 
 		}
 	}
-
-	// TODO : on effectue le zoom a la fin si on n'a qu'un seul marqueur place
 }
 
 /**

@@ -58,30 +58,23 @@ function glisserPanneau() {
  * Zoom sur la position et avec le niveau de zoom contenu dans la balise option
  * (pays ou ville) donnee en parametre
  */
-function zoom(optionID) {
-
-	var option = HTML(optionID);
+function zoom(option) {
 
 	var position = new OpenLayers.LonLat(option.getAttribute("longitude"),
 			option.getAttribute("latitude"));
-	// var niveauDeZoom = option.getAttribute("zoom");
+	var niveauDeZoom = option.getAttribute("zoom");
 
-	window.map.setCenter(position, niveauDeZoom);
+	window.map.setCenter(getPositionCarte(position), niveauDeZoom);
 }
 
 /**
  * Teste de la fonction precedente pour connaitre le niveau de zoom a mettre en
  * base de donnee selon chaque pays
  */
-function testZoom(optionID) {
-
-	console.log(optionID);
-	var option = HTML(optionID);
-	console.log(option);
-
+function testZoom(option) {
 	var position = new OpenLayers.LonLat(option.getAttribute("longitude"),
 			option.getAttribute("latitude"));
 	var niveauDeZoom = 6;
 
-	window.map.setCenter(position, niveauDeZoom);
+	window.map.setCenter(getPositionCarte(position), niveauDeZoom);
 }
