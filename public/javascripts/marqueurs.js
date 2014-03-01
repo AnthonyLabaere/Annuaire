@@ -111,7 +111,9 @@ function miseAjourDesMarqueurs() {
 			// Si le filtre pays est renseigne mais pas le filtre ville
 			// l'application affiche les villes du pays apres avoir effectue un
 			// zoom sur le pays
-
+			console.log(filtre_pays.options[filtre_pays.selectedIndex]);
+			zoom(filtre_pays.options[filtre_pays.selectedIndex]);
+			
 			var nombre_ville = filtre_ville.options.length;
 			for ( var i = 1; i < nombre_ville; i++) {
 				ajout_marqueur(TYPES_MARQUEUR[TYPE_MARQUEUR_VILLE_ID],
@@ -121,15 +123,12 @@ function miseAjourDesMarqueurs() {
 		} else {
 			// Si le filtre ville est renseigne l'application affiche un
 			// marqueur sur la ville apres un zoom sur cette derniere
-
 			var filtreville_ID = filtre_ville.selectedIndex;
 			ajout_marqueur(TYPES_MARQUEUR[TYPE_MARQUEUR_VILLE_ID],
 					filtre_ville.options[filtreville_ID]);
 
 		}
 	}
-	
-	console.log(MARKER_LAYER.features.length);
 }
 
 /**
@@ -144,10 +143,6 @@ function afficherModale() {
 	// fermeture
 	jQuery('#' + popID)
 			.fadeIn()
-			.css({
-				'width' : 800,
-				'height' : 500
-			})
 			.prepend(
 					'<a href="#" class="fermer"><img src="/assets/images/fermer.png" class="bouton_fermeture" title="Close Window" alt="Close" /></a>');
 
@@ -176,7 +171,7 @@ function afficherModale() {
 /**
  * Cette fonction alimente la modale en fonction des informations a afficher
  */
-function alimenterModale(ville_ID) {
+function alimenterModale(ville_ID, tri) {
 
 	// On enregistre les valeurs des filtres dans des variables pour l'appel
 	// Ajax
@@ -185,6 +180,10 @@ function alimenterModale(ville_ID) {
 	var ecole_ID;
 	var entreprise_ID;
 	var secteur_ID;
+	
+	if (!tri){
+		tri = "centralien_nom ASC, centralien_prenom ASC";
+	}
 
 	// On indique au serveur quel est le filtre ignore entre Ecole
 	// ou Entreprise
@@ -217,7 +216,7 @@ function alimenterModale(ville_ID) {
 	modale.innerHTML = '';
 
 	// On rappelle a l'utilisateur les criteres precedemments renseignes :
-	var rappel = document.createElement('p');
+	var rappel = document.createElement('div');
 	var rappelTexte = '';
 	if (centralien_ID) {
 		rappelTexte += 'Coordonn&eacute;es de l\'activit&eacute; ';
@@ -265,18 +264,24 @@ function alimenterModale(ville_ID) {
 
 	// On insere la base du tableau dans la modale
 	var prenomTh = document.createElement('th');
+	prenomTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"centralien_prenom");afficherModale();');
 	prenomTh.innerHTML = 'Pr&eacute;nom';
 	var nomTh = document.createElement('th');
+	nomTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"centralien_nom");afficherModale();');
 	nomTh.innerHTML = 'Nom';
 	var anneePromotionTh = document.createElement('th');
+	anneePromotionTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"anneePromotion_libelle");afficherModale();');
 	anneePromotionTh.innerHTML = 'Promotion';
 	var ecoleOuEntrepriseTh = document.createElement('th');
 	if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
+		ecoleOuEntrepriseTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"ecole_nom");afficherModale();');
 		ecoleOuEntrepriseTh.innerHTML = "Ecole";
 	} else {
+		ecoleOuEntrepriseTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"entreprise_nom");afficherModale();');
 		ecoleOuEntrepriseTh.innerHTML = "Entreprise";
 	}
 	var secteurTh = document.createElement('th');
+	secteurTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"secteur_nom");afficherModale();');
 	secteurTh.innerHTML = 'Secteur';
 
 	var bodyTr = document.createElement('tr');
@@ -285,10 +290,13 @@ function alimenterModale(ville_ID) {
 	bodyTr.appendChild(anneePromotionTh);
 	bodyTr.appendChild(ecoleOuEntrepriseTh);
 	bodyTr.appendChild(secteurTh);
-
+	
+	var enTeteTableau = document.createElement('thead');
+	enTeteTableau.appendChild(bodyTr);
+	
 	var tableau_coordonnees = document.createElement('table');
 	tableau_coordonnees.setAttribute('id', 'tableau_coordonnees');
-	tableau_coordonnees.appendChild(bodyTr);
+	tableau_coordonnees.appendChild(enTeteTableau);
 
 	modale.appendChild(tableau_coordonnees);
 
@@ -300,7 +308,9 @@ function alimenterModale(ville_ID) {
 					anneePromotion_ID ? anneePromotion_ID : "",
 					ecole_ID ? ecole_ID : "",
 					entreprise_ID ? entreprise_ID : "",
-					secteur_ID ? secteur_ID : "", ville_ID ? ville_ID : "")
+					secteur_ID ? secteur_ID : "",
+					ville_ID ? ville_ID : "",
+					tri ? tri : "")
 			.ajax({
 				async : false,
 				success : function(data, textStatus, jqXHR) {

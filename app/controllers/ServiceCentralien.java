@@ -214,7 +214,7 @@ public class ServiceCentralien extends Controller {
 	 */
 	public static Result AJAX_listeDesCoordonneesDesCentraliens(
 	        String centralien_ID, String anneePromotion_ID, String ecole_ID,
-	        String entreprise_ID, String secteur_ID, String ville_ID) {
+	        String entreprise_ID, String secteur_ID, String ville_ID, String tri) {
 		Boolean[] parametresPresents = new Boolean[] {
 		        centralien_ID != null && !centralien_ID.isEmpty(),
 		        anneePromotion_ID != null && !anneePromotion_ID.isEmpty(),
@@ -323,7 +323,7 @@ public class ServiceCentralien extends Controller {
 			sql += ")";
 		}
 
-		sql += " ORDER BY centralien_nom ASC, centralien_prenom ASC";
+		sql += " ORDER BY " + tri;
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {

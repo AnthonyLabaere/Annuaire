@@ -22,7 +22,7 @@ import constantes.IConstantes;
 public class ServicePays extends Controller {
 
 	public static Result AJAX_listeDesPays() {
-		String sql = "SELECT pays_ID, pays_nom, pays_latitude, pays_longitude FROM Pays ORDER BY pays_nom ASC";
+		String sql = "SELECT pays_ID, pays_nom, pays_latitude, pays_longitude, pays_zoom FROM Pays ORDER BY pays_nom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> listSqlRow = sqlQuery.findList();
@@ -33,7 +33,8 @@ public class ServicePays extends Controller {
 			String nom = sqlRow.get("pays_nom").toString();
 			String latitude = sqlRow.get("pays_latitude").toString();
 			String longitude = sqlRow.get("pays_longitude").toString();
-			listeDesPays.add(new String[] { identifiant, nom, latitude, longitude });
+			String zoom = sqlRow.get("pays_zoom").toString();
+			listeDesPays.add(new String[] { identifiant, nom, latitude, longitude, zoom });
 		}
 
 		return ok(Json.toJson(listeDesPays));
@@ -58,7 +59,7 @@ public class ServicePays extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT pays_ID, pays_nom, pays_latitude, pays_longitude FROM Pays";
+		String sql = "SELECT pays_ID, pays_nom, pays_latitude, pays_longitude, pays_zoom FROM Pays";
 
 		if (parametresPresents[0]) {
 			wherePlace = true;
@@ -196,7 +197,8 @@ public class ServicePays extends Controller {
 			String nom = sqlRow.get("pays_nom").toString();
 			String latitude = sqlRow.get("pays_latitude").toString();
 			String longitude = sqlRow.get("pays_longitude").toString();
-			listeDesPaysParCriteres.add(new String[] { identifiant, nom, latitude, longitude });
+			String zoom = sqlRow.get("pays_zoom").toString();
+			listeDesPaysParCriteres.add(new String[] { identifiant, nom, latitude, longitude, zoom });
 		}
 
 		return ok(Json.toJson(listeDesPaysParCriteres));

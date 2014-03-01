@@ -84,7 +84,8 @@ CREATE TABLE Pays (
   pays_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PaysSequence'),
   pays_nom VARCHAR(50) NOT NULL,
   pays_latitude NUMERIC,
-  pays_longitude NUMERIC  
+  pays_longitude NUMERIC,
+  pays_zoom INTEGER 
 );
 
 CREATE TABLE Ville (
@@ -179,9 +180,9 @@ INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centra
 INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Black', 'MrCafe', 1);--8
 
 -- TODO : Latitude et longitude doivent etre insere par un webservice ou une API, le zoom est a definir a la main...
-INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude) VALUES (nextval('PaysSequence'), 'France', 46.0558887, 1.8142930);
-INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude) VALUES (nextval('PaysSequence'), 'Espagne', 40.4636670, -3.7492200);
-INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude) VALUES (nextval('PaysSequence'), 'Allemagne', 51.1656910, 10.4515260);
+INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude, pays_zoom) VALUES (nextval('PaysSequence'), 'France', 46.0558887, 1.8142930, 6);
+INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude, pays_zoom) VALUES (nextval('PaysSequence'), 'Espagne', 40.4636670, -3.7492200, 6);
+INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude, pays_zoom) VALUES (nextval('PaysSequence'), 'Allemagne', 51.1656910, 10.4515260, 6);
 
 -- TODO : Latitude et longitude doivent etre insere par un webservice ou une API
 INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID, ville_latitude, ville_longitude) VALUES (nextval('VilleSequence'), 'Nantes', 1, 47.2183710, -1.5536210);

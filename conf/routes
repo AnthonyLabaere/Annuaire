@@ -15,7 +15,7 @@ GET   /pays                         controllers.Application.showCarte()
 #Methodes AJAX des Services de connexion a la BDD
 POST    /AJAX_listeDesCentraliens                        controllers.ServiceCentralien.AJAX_listeDesCentraliens()
 POST    /AJAX_listeDesCentraliensSelonCriteres           controllers.ServiceCentralien.AJAX_listeDesCentraliensSelonCriteres(anneePromotion_ID: String, ecole_ID: String, entreprise_ID: String, secteur_ID: String, pays_ID: String, ville_ID: String)
-POST    /AJAX_listeDesCoordonneesDesCentraliens          controllers.ServiceCentralien.AJAX_listeDesCoordonneesDesCentraliens(centralien_ID: String, anneePromotion_ID: String, ecole_ID: String, entreprise_ID: String, secteur_ID: String, ville_ID: String)
+POST    /AJAX_listeDesCoordonneesDesCentraliens          controllers.ServiceCentralien.AJAX_listeDesCoordonneesDesCentraliens(centralien_ID: String, anneePromotion_ID: String, ecole_ID: String, entreprise_ID: String, secteur_ID: String, ville_ID: String, tri:String)
 POST    /AJAX_listeDesAnneesPromotion                    controllers.ServiceAnneePromotion.AJAX_listeDesAnneesPromotion()
 POST    /AJAX_listeDesAnneesPromotionSelonCriteres       controllers.ServiceAnneePromotion.AJAX_listeDesAnneesPromotionSelonCriteres(centralien_ID: String, ecole_ID: String, entreprise_ID: String, secteur_ID: String, pays_ID: String, ville_ID: String)
 POST    /AJAX_listeDesEcoles                             controllers.ServiceEcole.AJAX_listeDesEcoles()
