@@ -128,8 +128,8 @@ function miseAjourDesMarqueurs() {
 
 		}
 	}
-
-	// TODO : on effectue le zoom a la fin si on n'a qu'un seul marqueur place
+	
+	console.log(MARKER_LAYER.features.length);
 }
 
 /**

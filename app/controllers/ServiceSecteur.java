@@ -13,6 +13,12 @@ import com.avaje.ebean.SqlRow;
 
 import constantes.IConstantes;
 
+/**
+ * Service Ajax concernant la table Secteur
+ * 
+ * @author Anthony
+ * 
+ */
 public class ServiceSecteur extends Controller {
 
 	public static Result AJAX_listeDesSecteurs() {

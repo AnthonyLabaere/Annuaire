@@ -4,6 +4,12 @@ import play.Routes;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+/**
+ * Routing des differents service Ajax de l'application
+ * 
+ * @author Anthony
+ * 
+ */
 public class RoutingAjax extends Controller {
 
 	// Javascript routing

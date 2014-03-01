@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------------------------------------------------------
--- Ce script crée les séquences suivantes :
+-- Ce script cree les sequences suivantes :
 ------------------------------------------------------------------------------------------------------------------------------
 -- AnneePromotionSequence
 -- CentralienSequence
@@ -13,7 +13,7 @@
 -- EcoleSecteurSequence
 -- EcoleSecteurCentralienSequence
 ------------------------------------------------------------------------------------------------------------------------------
--- et les tables suivantes :
+-- Ce script cree les tables suivantes :
 ------------------------------------------------------------------------------------------------------------------------------
 -- AnneePromotion
 -- Centralien
@@ -27,7 +27,11 @@
 -- EcoleSecteur
 -- EcoleSecteurCentralien
 ------------------------------------------------------------------------------------------------------------------------------
--- et insere des donnees de test dans les tables suivantes :
+-- Ce script cree les fonctions suivantes :
+------------------------------------------------------------------------------------------------------------------------------
+-- getCoordonneesSelonPays
+------------------------------------------------------------------------------------------------------------------------------
+-- Ce script cree insere des donnees de test dans les tables suivantes :
 ------------------------------------------------------------------------------------------------------------------------------
 -- AnneePromotion
 -- Centralien
@@ -45,6 +49,9 @@
 
 # --- !Ups
 
+------------------------------------------------------------------------------------------------------------------------------
+-- Creation des sequences
+------------------------------------------------------------------------------------------------------------------------------
 CREATE SEQUENCE AnneePromotionSequence;
 CREATE SEQUENCE CentralienSequence;
 CREATE SEQUENCE EntrepriseSequence;
@@ -58,7 +65,9 @@ CREATE SEQUENCE EcoleSecteurSequence;
 CREATE SEQUENCE EcoleSecteurCentralienSequence;
 CREATE SEQUENCE PosteActuelSequence;
 
-
+------------------------------------------------------------------------------------------------------------------------------
+-- Creation des tables
+------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE AnneePromotion (
   anneePromotion_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('AnneePromotionSequence'),
   anneePromotion_libelle INTEGER NOT NULL 
@@ -135,6 +144,16 @@ CREATE TABLE EcoleSecteurCentralien (
 --  CHECK (posteActuel_ecoleCentralien_ID IS NULL OR posteActuel_ecoleCentralien_ID IS NULL)
 -- );
 
+------------------------------------------------------------------------------------------------------------------------------
+-- Creation des fonctions
+------------------------------------------------------------------------------------------------------------------------------
+-- CREATE OR REPLACE FUNCTION getCoordonneesSelonPays ()
+-- AS 'GeocoderUtil.test()'
+-- LANGUAGE java;
+
+------------------------------------------------------------------------------------------------------------------------------
+-- Insertion des donnees
+------------------------------------------------------------------------------------------------------------------------------
 INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2003);
 INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2004);
 INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2005);
@@ -259,6 +278,9 @@ INSERT INTO EcoleSecteurCentralien (ecoleSecteurCentralien_ID, ecoleSecteurCentr
 
 # --- !Downs
 
+------------------------------------------------------------------------------------------------------------------------------
+-- Suppression des sequences
+------------------------------------------------------------------------------------------------------------------------------
 DROP SEQUENCE IF EXISTS AnneePromotionSequence CASCADE;
 DROP SEQUENCE IF EXISTS CentralienSequence CASCADE;
 DROP SEQUENCE IF EXISTS EntrepriseSequence CASCADE;
@@ -272,6 +294,14 @@ DROP SEQUENCE IF EXISTS EcoleSecteurSequence CASCADE;
 DROP SEQUENCE IF EXISTS EcoleSecteurCentralienSequence CASCADE;
 DROP SEQUENCE IF EXISTS PosteActuelSequence CASCADE;
 
+------------------------------------------------------------------------------------------------------------------------------
+-- Suppression des fonctions
+------------------------------------------------------------------------------------------------------------------------------
+DROP FUNCTION IF EXISTS getCoordonneesSelonPays;
+
+------------------------------------------------------------------------------------------------------------------------------
+-- Suppression des tables
+------------------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS AnneePromotion CASCADE;
 DROP TABLE IF EXISTS Centralien CASCADE;
 DROP TABLE IF EXISTS Entreprise CASCADE;

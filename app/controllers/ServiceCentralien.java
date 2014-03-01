@@ -13,6 +13,12 @@ import com.avaje.ebean.SqlRow;
 
 import constantes.IConstantes;
 
+/**
+ * Service Ajax concernant la table Centralien
+ * 
+ * @author Anthony
+ * 
+ */
 public class ServiceCentralien extends Controller {
 
 	public static Result AJAX_listeDesCentraliens() {

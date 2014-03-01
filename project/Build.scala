@@ -9,7 +9,8 @@ object ApplicationBuild extends Build {
 
   val appDependencies = Seq(
     // Add your project dependencies here,
-    "mysql" % "mysql-connector-java" % "5.1.18",
+    "postgresql" % "postgresql" % "9.1-901.jdbc4",
+    "com.google.code.geocoder-java" % "geocoder-java" % "0.15",
     javaCore,
     javaJdbc,
     javaEbean

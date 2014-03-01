@@ -11,6 +11,12 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 
+/**
+ * Service Ajax concernant la table Ecole
+ * 
+ * @author Anthony
+ * 
+ */
 public class ServiceEcole extends Controller {
 
 	public static Result AJAX_listeDesEcoles() {

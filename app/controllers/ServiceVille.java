@@ -13,6 +13,12 @@ import com.avaje.ebean.SqlRow;
 
 import constantes.IConstantes;
 
+/**
+ * Service Ajax concernant la table Ville
+ * 
+ * @author Anthony
+ * 
+ */
 public class ServiceVille extends Controller {
 
 	public static Result AJAX_listeDesVillesDuPays(String pays_ID) {
