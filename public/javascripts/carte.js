@@ -71,6 +71,7 @@ function zoom(option) {
  * Teste de la fonction precedente pour connaitre le niveau de zoom a mettre en
  * base de donnee selon chaque pays
  */
+
 function testZoom(option) {
 	var position = new OpenLayers.LonLat(option.getAttribute("longitude"),
 			option.getAttribute("latitude"));

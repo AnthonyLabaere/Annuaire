@@ -24,12 +24,6 @@
 package controllers;
 
 import geography.GeocoderUtil;
-
-import com.google.code.geocoder.Geocoder;
-import com.google.code.geocoder.GeocoderRequestBuilder;
-import com.google.code.geocoder.model.GeocodeResponse;
-import com.google.code.geocoder.model.GeocoderRequest;
-
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
@@ -50,6 +44,8 @@ public class Application extends Controller {
 	 * @return la page d'index si l'uid est null ou la carte sinon
 	 */
 	public static Result index() {
+		GeocoderUtil.alimenterPays();
+		
 		if (session("uid") == null) {
 			return ok(views.html.index.render());
 		} else {

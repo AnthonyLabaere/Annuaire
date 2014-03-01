@@ -1,5 +1,12 @@
 package geography;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlQuery;
+import com.avaje.ebean.SqlRow;
+import com.avaje.ebean.SqlUpdate;
 import com.google.code.geocoder.Geocoder;
 import com.google.code.geocoder.GeocoderRequestBuilder;
 import com.google.code.geocoder.model.GeocodeResponse;
@@ -57,9 +64,6 @@ public class GeocoderUtil {
 		GeocodeResponse geocoderResponse = appelWebserviceGeocoder(adresse);
 		Coordonnees coordonnees = getCoordonneesSelonGeocodeResponse(geocoderResponse);
 
-		System.out.println("lat : " + coordonnees.getLatitude() + "\nlong : "
-		        + coordonnees.getLongitude());
-
 		return coordonnees;
 	}
 
@@ -80,7 +84,30 @@ public class GeocoderUtil {
 		return getCoordonneesSelonAdresse(ville + ", " + pays);
 	}
 	
-	public static String test() {
-		return "test";
+	public static void alimenterPays() {
+		String sql = "SELECT pays_ID, pays_nom FROM Pays WHERE pays_latitude IS NULL OR pays_latitude IS NULL";
+
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		List<SqlRow> listSqlRow = sqlQuery.findList();
+
+		List<String[]> listeDesPays = new ArrayList<String[]>();
+		for (SqlRow sqlRow : listSqlRow) {
+			String identifiant = sqlRow.get("pays_ID").toString();
+			String nom = sqlRow.get("pays_nom").toString();
+			listeDesPays.add(new String[] { identifiant, nom });
+		}
+		
+		for (String[] pays : listeDesPays){
+			Coordonnees coordonnees = getCoordonneesSelonPays(pays[1]);
+			
+			sql = "UPDATE Pays SET pays_latitude = :latitude, pays_longitude = :longitude WHERE pays_ID = :identifiant";
+			SqlUpdate sqlUpdate = Ebean.createSqlUpdate(sql);
+			sqlUpdate.setParameter("latitude", coordonnees.getLatitude());
+			sqlUpdate.setParameter("longitude", coordonnees.getLongitude());
+			sqlUpdate.setParameter("identifiant", Integer.parseInt(pays[0]));
+			sqlUpdate.execute();	
+		}
+		
+		
 	}
 }

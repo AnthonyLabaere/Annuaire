@@ -27,10 +27,6 @@
 -- EcoleSecteur
 -- EcoleSecteurCentralien
 ------------------------------------------------------------------------------------------------------------------------------
--- Ce script cree les fonctions suivantes :
-------------------------------------------------------------------------------------------------------------------------------
--- getCoordonneesSelonPays
-------------------------------------------------------------------------------------------------------------------------------
 -- Ce script cree insere des donnees de test dans les tables suivantes :
 ------------------------------------------------------------------------------------------------------------------------------
 -- AnneePromotion
@@ -146,13 +142,6 @@ CREATE TABLE EcoleSecteurCentralien (
 -- );
 
 ------------------------------------------------------------------------------------------------------------------------------
--- Creation des fonctions
-------------------------------------------------------------------------------------------------------------------------------
--- CREATE OR REPLACE FUNCTION getCoordonneesSelonPays ()
--- AS 'GeocoderUtil.test()'
--- LANGUAGE java;
-
-------------------------------------------------------------------------------------------------------------------------------
 -- Insertion des donnees
 ------------------------------------------------------------------------------------------------------------------------------
 INSERT INTO AnneePromotion (anneePromotion_ID, anneePromotion_libelle) VALUES (nextval('AnneePromotionSequence'), 2003);
@@ -180,9 +169,10 @@ INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centra
 INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Black', 'MrCafe', 1);--8
 
 -- TODO : Latitude et longitude doivent etre insere par un webservice ou une API, le zoom est a definir a la main...
-INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude, pays_zoom) VALUES (nextval('PaysSequence'), 'France', 46.0558887, 1.8142930, 6);
-INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude, pays_zoom) VALUES (nextval('PaysSequence'), 'Espagne', 40.4636670, -3.7492200, 6);
-INSERT INTO Pays (pays_ID, pays_nom, pays_latitude, pays_longitude, pays_zoom) VALUES (nextval('PaysSequence'), 'Allemagne', 51.1656910, 10.4515260, 6);
+INSERT INTO Pays (pays_ID, pays_nom/*, pays_latitude, pays_longitude*/) VALUES (nextval('PaysSequence'), 'France');
+INSERT INTO Pays (pays_ID, pays_nom) VALUES (nextval('PaysSequence'), 'Espagne');
+INSERT INTO Pays (pays_ID, pays_nom) VALUES (nextval('PaysSequence'), 'Allemagne');
+
 
 -- TODO : Latitude et longitude doivent etre insere par un webservice ou une API
 INSERT INTO Ville (ville_ID, ville_nom, ville_pays_ID, ville_latitude, ville_longitude) VALUES (nextval('VilleSequence'), 'Nantes', 1, 47.2183710, -1.5536210);
@@ -294,11 +284,6 @@ DROP SEQUENCE IF EXISTS EcoleSequence CASCADE;
 DROP SEQUENCE IF EXISTS EcoleSecteurSequence CASCADE;
 DROP SEQUENCE IF EXISTS EcoleSecteurCentralienSequence CASCADE;
 DROP SEQUENCE IF EXISTS PosteActuelSequence CASCADE;
-
-------------------------------------------------------------------------------------------------------------------------------
--- Suppression des fonctions
-------------------------------------------------------------------------------------------------------------------------------
-DROP FUNCTION IF EXISTS getCoordonneesSelonPays;
 
 ------------------------------------------------------------------------------------------------------------------------------
 -- Suppression des tables
