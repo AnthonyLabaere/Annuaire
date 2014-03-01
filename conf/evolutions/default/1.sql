@@ -169,9 +169,9 @@ INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centra
 INSERT INTO Centralien (centralien_ID, centralien_prenom, centralien_nom, centralien_anneePromotion_ID) VALUES (nextval('CentralienSequence'), 'Black', 'MrCafe', 1);--8
 
 -- TODO : Latitude et longitude doivent etre insere par un webservice ou une API, le zoom est a definir a la main...
-INSERT INTO Pays (pays_ID, pays_nom/*, pays_latitude, pays_longitude*/) VALUES (nextval('PaysSequence'), 'France');
-INSERT INTO Pays (pays_ID, pays_nom) VALUES (nextval('PaysSequence'), 'Espagne');
-INSERT INTO Pays (pays_ID, pays_nom) VALUES (nextval('PaysSequence'), 'Allemagne');
+INSERT INTO Pays (pays_ID, pays_nom/*, pays_latitude, pays_longitude*/, pays_zoom) VALUES (nextval('PaysSequence'), 'France', 6);
+INSERT INTO Pays (pays_ID, pays_nom, pays_zoom) VALUES (nextval('PaysSequence'), 'Espagne', 6);
+INSERT INTO Pays (pays_ID, pays_nom, pays_zoom) VALUES (nextval('PaysSequence'), 'Allemagne', 6);
 
 
 -- TODO : Latitude et longitude doivent etre insere par un webservice ou une API
