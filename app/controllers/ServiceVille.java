@@ -66,6 +66,7 @@ public class ServiceVille extends Controller {
 
 		String sql = "SELECT ville_ID, ville_nom, ville_latitude, ville_longitude FROM Ville";
 
+		// Si le filtre centralien est actif
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
@@ -90,6 +91,7 @@ public class ServiceVille extends Controller {
 			}
 		}
 
+		// Si le filtre anneePromotion est actif
 		if (parametresPresents[1]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -116,7 +118,8 @@ public class ServiceVille extends Controller {
 				sql += ")";
 			}
 		}
-
+		
+		// Si le filtre ecole est actif
 		if (parametresPresents[2]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -130,6 +133,7 @@ public class ServiceVille extends Controller {
 
 		}
 
+		// Si le filtre entreprise est actif
 		if (parametresPresents[3]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -141,7 +145,8 @@ public class ServiceVille extends Controller {
 			sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_entreprise_ID = :entreprise_ID";
 			sql += ")";
 		}
-
+		
+		// Si le filtre secteur est actif
 		if (parametresPresents[4]) {
 			if (wherePlace) {
 				sql += " AND ";

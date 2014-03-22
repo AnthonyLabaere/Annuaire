@@ -58,6 +58,7 @@ public class ServiceSecteur extends Controller {
 
 		String sql = "SELECT secteur_ID, secteur_nom FROM Secteur";
 
+		// Si le filtre centralien est actif
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
@@ -80,6 +81,7 @@ public class ServiceSecteur extends Controller {
 			}
 		}
 
+		// Si le filtre anneePromotion est actif
 		if (parametresPresents[1]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -105,7 +107,8 @@ public class ServiceSecteur extends Controller {
 				sql += ")";
 			}
 		}
-
+		
+		// Si le filtre ecole est actif
 		if (parametresPresents[2]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -119,6 +122,7 @@ public class ServiceSecteur extends Controller {
 
 		}
 
+		// Si le filtre entreprise est actif
 		if (parametresPresents[3]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -130,7 +134,8 @@ public class ServiceSecteur extends Controller {
 			sql += "SELECT entrepriseVilleSecteur_secteur_ID FROM EntrepriseVilleSecteur, Entreprise WHERE entrepriseVilleSecteur_entreprise_ID = :entreprise_ID";
 			sql += ")";
 		}
-
+		
+		// Si le filtre pays est actif mais pas le filtre ville
 		if (parametresPresents[4] && !parametresPresents[5]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -154,7 +159,8 @@ public class ServiceSecteur extends Controller {
 				sql += ")";
 			}
 		}
-
+		
+		// Si le filtre ville est actif
 		if (parametresPresents[5]) {
 			if (wherePlace) {
 				sql += " AND ";

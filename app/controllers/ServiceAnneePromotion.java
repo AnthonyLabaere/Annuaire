@@ -57,7 +57,8 @@ public class ServiceAnneePromotion extends Controller {
 		Boolean wherePlace = false;
 
 		String sql = "SELECT anneePromotion_ID, anneePromotion_libelle FROM AnneePromotion";
-
+		
+		// Si le filtre centralien est actif
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
@@ -66,6 +67,7 @@ public class ServiceAnneePromotion extends Controller {
 			sql += ")";
 		}
 
+		// Si le filtre ecole est actif
 		if (parametresPresents[1]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -81,6 +83,7 @@ public class ServiceAnneePromotion extends Controller {
 			sql += "))";
 		}
 
+		// Si le filtre entreprise est actif
 		if (parametresPresents[2]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -95,7 +98,8 @@ public class ServiceAnneePromotion extends Controller {
 			sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID ";
 			sql += "))";
 		}
-
+		
+		// Si le filtre secteur est actif
 		if (parametresPresents[3]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -120,7 +124,8 @@ public class ServiceAnneePromotion extends Controller {
 				sql += "))";						
 			}
 		}
-
+		
+		// Si le filtre pays est actif mais pas le filtre ville
 		if (parametresPresents[4] && !parametresPresents[5]) {
 			if (wherePlace) {
 				sql += " AND ";
@@ -150,7 +155,8 @@ public class ServiceAnneePromotion extends Controller {
 				sql += "))";		
 			}
 		}
-
+		
+		// Si le filtre ville est actif
 		if (parametresPresents[5]) {
 			if (wherePlace) {
 				sql += " AND ";
