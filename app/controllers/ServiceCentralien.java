@@ -359,7 +359,7 @@ public class ServiceCentralien extends Controller {
 	 * informations les concernant
 	 */
 	public static Result AJAX_listeDesCoordonneesDesCentraliens(
-	        String centralien_ID, String anneePromotion_ID, String ecole_ID,
+	        boolean historique, String centralien_ID, String anneePromotion_ID, String ecole_ID,
 	        String entreprise_ID, String secteur_ID, String ville_ID, String limite, String offset, String tri) {
 		
 		Boolean[] parametresPresents = new Boolean[] {
@@ -375,18 +375,20 @@ public class ServiceCentralien extends Controller {
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
 		        secteur_ID != null && !secteur_ID.isEmpty(),
 		        ville_ID != null && !ville_ID.isEmpty() };
+		
+		boolean entrepriseActif = ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF);
 
 		// Les informations renvoyees sont le prenom, le nom, l'annee de
 		// Promotion, l'ecole ou l'entreprise, le secteur
 		String sql = "SELECT centralien_prenom, centralien_nom, anneePromotion_libelle";
-		if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
+		if (entrepriseActif) {
 			sql += ", entreprise_nom";
 		} else {
 			sql += ", ecole_nom";
 		}
 		sql += ", secteur_nom";
 		sql += " FROM Centralien, AnneePromotion";
-		if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
+		if (entrepriseActif) {
 			sql += ", Entreprise, EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien";
 		} else {
 			sql += ", Ecole, EcoleSecteur, EcoleSecteurCentralien";
@@ -395,28 +397,45 @@ public class ServiceCentralien extends Controller {
 		sql += " WHERE ";
 		sql += " anneePromotion_ID = centralien_anneePromotion_ID";
 		sql += " AND ";
-		if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
+		if (entrepriseActif) {
 			sql += "entreprise_ID = entrepriseVilleSecteur_entreprise_ID AND entrepriseVilleSecteur_ID = entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID AND entrepriseVilleSecteurCentralien_centralien_ID = centralien_ID";
 		} else {
 			sql += "ecole_ID = ecoleSecteur_ecole_ID AND ecoleSecteur_ID = ecoleSecteurCentralien_ecolesecteur_ID AND ecoleSecteurCentralien_centralien_ID = centralien_ID";
 		}
 		sql += " AND ";
-		if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
+		if (entrepriseActif) {
 			sql += "entrepriseVilleSecteur_secteur_ID = secteur_ID";
 		} else {
 			sql += "ecoleSecteur_secteur_ID = secteur_ID";
 		}
+		
+		// On ajoute la contrainte d'historique
+		if (!historique){
+			sql += " AND ";
+			if (entrepriseActif){
+				sql += "entrepriseVilleSecteurCentralien_centralien_ID IN (";
+				sql += "SELECT posteActuel_entrepriseVilleSecteurCentralien_ID FROM PosteActuel";
+				sql += ")";
+			} else {
+				sql += "ecoleSecteurCentralien_ID IN (";
+				sql += "SELECT posteActuel_ecoleSecteurCentralien_ID FROM PosteActuel";
+				sql += ")";
+			}			
+		}
 
+		// Si le filtre centralien est actif
 		if (parametresPresents[0]) {
 			sql += " AND ";
 			sql += "centralien_ID = :centralien_ID";
 		}
 
+		// Si le filtre anneePromotion est actif
 		if (parametresPresents[1]) {
 			sql += " AND ";
 			sql += "centralien_anneePromotion_ID = :anneePromotion_ID";
 		}
 
+		// Si le filtre ecole est actif
 		if (parametresPresents[2]) {
 			sql += " AND ";
 			sql += "centralien_ID IN (";
@@ -426,6 +445,7 @@ public class ServiceCentralien extends Controller {
 			sql += ")";
 		}
 
+		// Si le filtre entreprise est actif
 		if (parametresPresents[3]) {
 			sql += " AND ";
 			sql += "centralien_ID IN (";
@@ -435,6 +455,7 @@ public class ServiceCentralien extends Controller {
 			sql += ")";
 		}
 
+		// Si le filtre secteur est actif
 		if (parametresPresents[4]) {
 			sql += " AND ";
 			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
