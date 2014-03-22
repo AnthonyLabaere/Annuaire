@@ -111,7 +111,6 @@ function miseAjourDesMarqueurs() {
 			// Si le filtre pays est renseigne mais pas le filtre ville
 			// l'application affiche les villes du pays apres avoir effectue un
 			// zoom sur le pays
-			console.log(filtre_pays.options[filtre_pays.selectedIndex]);
 			zoom(filtre_pays.options[filtre_pays.selectedIndex]);
 			
 			var nombre_ville = filtre_ville.options.length;

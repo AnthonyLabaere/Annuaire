@@ -24,6 +24,7 @@
 package controllers;
 
 import geography.GeocoderUtil;
+import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
@@ -43,9 +44,7 @@ public class Application extends Controller {
 	 * 
 	 * @return la page d'index si l'uid est null ou la carte sinon
 	 */
-	public static Result index() {
-		GeocoderUtil.alimenterPays();
-		
+	public static Result index() {		
 		if (session("uid") == null) {
 			return ok(views.html.index.render());
 		} else {
@@ -84,7 +83,13 @@ public class Application extends Controller {
 	 * 
 	 * @return la page de la carte
 	 */
-	public static Result showCarte() {	
+	public static Result showCarte() {
+		
+		// Avant de montrer la carte on verifie que la base est correctement alimentee en coordonnees GPS (uniquement en mode developpeur)
+		if(Play.application().configuration().getString("developpeur.mode").equals("on")){
+			GeocoderUtil.alimenterPays();
+			GeocoderUtil.alimenterVilles();
+		}
 		
 		return ok(views.html.carte.render());
 	}

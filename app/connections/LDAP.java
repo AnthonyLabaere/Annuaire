@@ -50,7 +50,7 @@ public class LDAP{
 	 * @return VRAI si le login et le mot de passe sont corrects, FAUX sinon.
 	 */
 	public static boolean check(String login, String passw){
-		if(Play.application().configuration().getString("test.mode").equals("on") && login.startsWith("test")){
+		if(Play.application().configuration().getString("developpeur.mode").equals("on") && login.startsWith("test")){
 			return true;
 		}
 		Hashtable<String,String> properties = new Hashtable<String,String>();

@@ -45,13 +45,16 @@ public class GeocoderUtil {
 		// Si le status est "OK"
 		if (geocoderResponse.getStatus().toString()
 		        .equals(IConstantes.GEOCODER_STATUS_OK)) {
+			System.out.println("STATUS OK DU WEBSERVICE GEOCODER");
 			latlng = geocoderResponse.getResults().get(0).getGeometry()
 			        .getLocation();
 			coordonnees = new Coordonnees(latlng.getLng().doubleValue(), latlng
 			        .getLat().doubleValue());
 		} else {
+			System.out.println("STATUS EN ERREUR DU WEBSERVICE GEOCODER");
 			coordonnees = new Coordonnees();
 		}
+		System.out.println("Latitude : " + coordonnees.getLatitude() + " longitude : " + coordonnees.getLongitude());
 
 		return coordonnees;
 	}
@@ -72,6 +75,8 @@ public class GeocoderUtil {
 	 * pays
 	 */
 	public static Coordonnees getCoordonneesSelonPays(String pays) {
+		System.out.println("Pays : " + pays);
+		
 		return getCoordonneesSelonAdresse(pays);
 	}
 
@@ -85,15 +90,19 @@ public class GeocoderUtil {
 	}
 	
 	public static void alimenterPays() {
-		String sql = "SELECT pays_ID, pays_nom FROM Pays WHERE pays_latitude IS NULL OR pays_latitude IS NULL";
-
+		String sql = "SELECT pays_ID, pays_nomMinuscule FROM Pays";
+		sql += " WHERE ";
+		sql += "(pays_latitude IS NULL OR pays_latitude = 0)";
+		sql += " OR ";
+		sql += "pays_longitude IS NULL OR pays_longitude = 0";
+		
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> listSqlRow = sqlQuery.findList();
 
 		List<String[]> listeDesPays = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("pays_ID").toString();
-			String nom = sqlRow.get("pays_nom").toString();
+			String nom = sqlRow.get("pays_nomMinuscule").toString();
 			listeDesPays.add(new String[] { identifiant, nom });
 		}
 		
@@ -106,8 +115,31 @@ public class GeocoderUtil {
 			sqlUpdate.setParameter("longitude", coordonnees.getLongitude());
 			sqlUpdate.setParameter("identifiant", Integer.parseInt(pays[0]));
 			sqlUpdate.execute();	
+		}		
+	}
+	
+	public static void alimenterVilles() {
+		String sql = "SELECT ville_ID, ville_nom FROM Ville WHERE ville_latitude IS NULL OR ville_longitude IS NULL";
+
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		List<SqlRow> listSqlRow = sqlQuery.findList();
+
+		List<String[]> listeDesVilles = new ArrayList<String[]>();
+		for (SqlRow sqlRow : listSqlRow) {
+			String identifiant = sqlRow.get("ville_ID").toString();
+			String nom = sqlRow.get("ville_nom").toString();
+			listeDesVilles.add(new String[] { identifiant, nom });
 		}
 		
-		
+		for (String[] ville : listeDesVilles){
+			Coordonnees coordonnees = getCoordonneesSelonPays(ville[1]);
+			
+			sql = "UPDATE Ville SET ville_latitude = :latitude, ville_longitude = :longitude WHERE ville_ID = :identifiant";
+			SqlUpdate sqlUpdate = Ebean.createSqlUpdate(sql);
+			sqlUpdate.setParameter("latitude", coordonnees.getLatitude());
+			sqlUpdate.setParameter("longitude", coordonnees.getLongitude());
+			sqlUpdate.setParameter("identifiant", Integer.parseInt(ville[0]));
+			sqlUpdate.execute();	
+		}		
 	}
 }
