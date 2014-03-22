@@ -100,6 +100,14 @@ public interface IConstantesBDD {
 	public static final String ECOLESECTEURCENTRALIEN = "EcoleSecteurCentralien";	
 	public static final String ECOLESECTEURCENTRALIEN_ID = "ecoleSecteurCentralien_ID";	
 	public static final String ECOLESECTEURCENTRALIEN_ECOLESECTEUR_ID = "ecoleSecteurCentralien_ecoleSecteur_ID";	
-	public static final String ECOLESECTEURCENTRALIEN_CENTRALIEN_ID = "ecoleSecteurCentralien_centralien_ID";	
-
+	public static final String ECOLESECTEURCENTRALIEN_CENTRALIEN_ID = "ecoleSecteurCentralien_centralien_ID";
+	
+	/** Tri des colonnes */
+	public static final String TRI_DEFAUT = "defaut";
+	public static final String TRI_PRENOM = "prenom";
+	public static final String TRI_NOM = "nom";
+	public static final String TRI_ANNEEPROMOTION = "anneePromotion";
+	public static final String TRI_ECOLE = "ecole";
+	public static final String TRI_ENTREPRISE = "entreprise";
+	public static final String TRI_SECTEUR = "secteur";
 }

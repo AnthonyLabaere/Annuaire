@@ -55,7 +55,7 @@ function alimenterModale(ville_ID, tri) {
 	var secteur_ID;
 	
 	if (!tri){
-		tri = "centralien_nom ASC, centralien_prenom ASC";
+		tri = "defaut";
 	}
 
 	// On indique au serveur quel est le filtre ignore entre Ecole
@@ -137,24 +137,24 @@ function alimenterModale(ville_ID, tri) {
 
 	// On insere la base du tableau dans la modale
 	var prenomTh = document.createElement('th');
-	prenomTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"centralien_prenom");afficherModale();');
+	prenomTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"prenom");afficherModale();');
 	prenomTh.innerHTML = 'Pr&eacute;nom';
 	var nomTh = document.createElement('th');
-	nomTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"centralien_nom");afficherModale();');
+	nomTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"nom");afficherModale();');
 	nomTh.innerHTML = 'Nom';
 	var anneePromotionTh = document.createElement('th');
-	anneePromotionTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"anneePromotion_libelle");afficherModale();');
+	anneePromotionTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"anneePromotion");afficherModale();');
 	anneePromotionTh.innerHTML = 'Promotion';
 	var ecoleOuEntrepriseTh = document.createElement('th');
 	if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
-		ecoleOuEntrepriseTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"ecole_nom");afficherModale();');
+		ecoleOuEntrepriseTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"ecole");afficherModale();');
 		ecoleOuEntrepriseTh.innerHTML = "Ecole";
 	} else {
-		ecoleOuEntrepriseTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"entreprise_nom");afficherModale();');
+		ecoleOuEntrepriseTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"entreprise");afficherModale();');
 		ecoleOuEntrepriseTh.innerHTML = "Entreprise";
 	}
 	var secteurTh = document.createElement('th');
-	secteurTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"secteur_nom");afficherModale();');
+	secteurTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"secteur");afficherModale();');
 	secteurTh.innerHTML = 'Secteur';
 
 	var bodyTr = document.createElement('tr');

@@ -469,7 +469,27 @@ public class ServiceCentralien extends Controller {
 			sql += ")";
 		}
 
-		sql += " ORDER BY " + tri;
+		if (tri != null && !tri.isEmpty()){
+			sql += " ORDER BY ";
+			
+			if (tri.equals(IConstantesBDD.TRI_DEFAUT)){
+				sql += "centralien_nom, centralien_prenom";
+			} else if (tri.equals(IConstantesBDD.TRI_PRENOM)) {
+				sql += "centralien_prenom";				
+			} else if (tri.equals(IConstantesBDD.TRI_NOM)) {
+				sql += "centralien_nom";				
+			} else if (tri.equals(IConstantesBDD.TRI_ANNEEPROMOTION)) {
+				sql += "anneePromotion_libelle";				
+			} else if (tri.equals(IConstantesBDD.TRI_ECOLE)) {
+				sql += "ecole_nom";				
+			} else if (tri.equals(IConstantesBDD.TRI_ENTREPRISE)) {
+				sql += "entreprise_nom";				
+			} else if (tri.equals(IConstantesBDD.TRI_SECTEUR)) {
+				sql += "secteur_nom";				
+			}
+		} else {
+			sql += " ORDER BY centralien_nom, centralien_prenom";
+		}
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
