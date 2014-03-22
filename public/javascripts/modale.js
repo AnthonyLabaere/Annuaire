@@ -44,7 +44,7 @@ function afficherModale() {
 /**
  * Cette fonction alimente la modale en fonction des informations a afficher
  */
-function alimenterModale(ville_ID, tri) {
+function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 
 	// On enregistre les valeurs des filtres dans des variables pour l'appel
 	// Ajax
@@ -55,9 +55,12 @@ function alimenterModale(ville_ID, tri) {
 	var secteur_ID;
 	
 	if (!tri){
-		tri = "centralien_nom ASC, centralien_prenom ASC";
+		tri = "defaut";
 	}
-
+	
+	// On indique au serveur a partir de quelles lignes il doit chercher les resultats
+	var offset = (numeroBloc-1)*limite;
+	
 	// On indique au serveur quel est le filtre ignore entre Ecole
 	// ou Entreprise
 	if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
@@ -137,24 +140,24 @@ function alimenterModale(ville_ID, tri) {
 
 	// On insere la base du tableau dans la modale
 	var prenomTh = document.createElement('th');
-	prenomTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"centralien_prenom");afficherModale();');
+	prenomTh.setAttribute('onClick', 'alimenterModale('+ville_ID+', '+limite+', '+numeroBloc+', "prenom");afficherModale();');
 	prenomTh.innerHTML = 'Pr&eacute;nom';
 	var nomTh = document.createElement('th');
-	nomTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"centralien_nom");afficherModale();');
+	nomTh.setAttribute('onClick', 'alimenterModale('+ville_ID+', '+limite+', '+numeroBloc+', "nom");afficherModale();');
 	nomTh.innerHTML = 'Nom';
 	var anneePromotionTh = document.createElement('th');
-	anneePromotionTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"anneePromotion_libelle");afficherModale();');
+	anneePromotionTh.setAttribute('onClick', 'alimenterModale('+ville_ID+', '+limite+', '+numeroBloc+', "anneePromotion");afficherModale();');
 	anneePromotionTh.innerHTML = 'Promotion';
 	var ecoleOuEntrepriseTh = document.createElement('th');
 	if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
-		ecoleOuEntrepriseTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"ecole_nom");afficherModale();');
+		ecoleOuEntrepriseTh.setAttribute('onClick', 'alimenterModale('+ville_ID+', '+limite+', '+numeroBloc+', "ecole");afficherModale();');
 		ecoleOuEntrepriseTh.innerHTML = "Ecole";
 	} else {
-		ecoleOuEntrepriseTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"entreprise_nom");afficherModale();');
+		ecoleOuEntrepriseTh.setAttribute('onClick', 'alimenterModale('+ville_ID+', '+limite+', '+numeroBloc+', "entreprise");afficherModale();');
 		ecoleOuEntrepriseTh.innerHTML = "Entreprise";
 	}
 	var secteurTh = document.createElement('th');
-	secteurTh.setAttribute('onClick', 'alimenterModale('+ville_ID+',"secteur_nom");afficherModale();');
+	secteurTh.setAttribute('onClick', 'alimenterModale('+ville_ID+', '+limite+', '+numeroBloc+', "secteur");afficherModale();');
 	secteurTh.innerHTML = 'Secteur';
 
 	var bodyTr = document.createElement('tr');
@@ -183,7 +186,9 @@ function alimenterModale(ville_ID, tri) {
 					entreprise_ID ? entreprise_ID : "",
 					secteur_ID ? secteur_ID : "",
 					ville_ID ? ville_ID : "",
-					tri ? tri : "")
+					limite,
+					offset,
+				    tri ? tri : "")
 			.ajax({
 				async : false,
 				success : function(data, textStatus, jqXHR) {

@@ -53,7 +53,7 @@ function clicSurMarqueur(feature) {
 		// Si le marqueur est de type ville alors on affiche une modale avec les
 		// informations sur les centraliens correspondants aux filtres
 		// selectionnes
-		alimenterModale(id);
+		alimenterModale(id, NOMBRE_LIGNES, 1);
 		afficherModale();
 		SELECT_CONTROL.unselect(feature);
 	}

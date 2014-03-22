@@ -360,7 +360,8 @@ public class ServiceCentralien extends Controller {
 	 */
 	public static Result AJAX_listeDesCoordonneesDesCentraliens(
 	        String centralien_ID, String anneePromotion_ID, String ecole_ID,
-	        String entreprise_ID, String secteur_ID, String ville_ID, String tri) {
+	        String entreprise_ID, String secteur_ID, String ville_ID, String limite, String offset, String tri) {
+		
 		Boolean[] parametresPresents = new Boolean[] {
 		        centralien_ID != null && !centralien_ID.isEmpty(),
 		        anneePromotion_ID != null && !anneePromotion_ID.isEmpty(),
@@ -469,7 +470,31 @@ public class ServiceCentralien extends Controller {
 			sql += ")";
 		}
 
-		sql += " ORDER BY " + tri;
+		if (tri != null && !tri.isEmpty()){
+			sql += " ORDER BY ";
+			
+			if (tri.equals(IConstantesBDD.TRI_DEFAUT)){
+				sql += "centralien_nom, centralien_prenom";
+			} else if (tri.equals(IConstantesBDD.TRI_PRENOM)) {
+				sql += "centralien_prenom";				
+			} else if (tri.equals(IConstantesBDD.TRI_NOM)) {
+				sql += "centralien_nom";				
+			} else if (tri.equals(IConstantesBDD.TRI_ANNEEPROMOTION)) {
+				sql += "anneePromotion_libelle";				
+			} else if (tri.equals(IConstantesBDD.TRI_ECOLE)) {
+				sql += "ecole_nom";				
+			} else if (tri.equals(IConstantesBDD.TRI_ENTREPRISE)) {
+				sql += "entreprise_nom";				
+			} else if (tri.equals(IConstantesBDD.TRI_SECTEUR)) {
+				sql += "secteur_nom";				
+			}
+		} else {
+			sql += " ORDER BY centralien_nom, centralien_prenom";
+		}
+		
+		// On met les parametres en integer pour des raisons de securite
+		sql += " LIMIT " + Integer.parseInt(limite);
+		sql += " OFFSET " + Integer.parseInt(offset);
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {

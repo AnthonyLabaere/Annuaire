@@ -226,6 +226,7 @@ img.bouton_fermeture {
 	text-align : center;
 	background-color : #e65c00;
 	padding : 2px 20px;
+	cursor: pointer;
 }
 
 #modale td{
