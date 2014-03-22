@@ -9,7 +9,7 @@
 /** Cette action reinitialise un filtre et met a jour les marqueurs */
 function action_reset(bouton_reset_ID) {
 	// Reinitialisation du filtre en question
-	reset(bouton_reset_ID)
+	reset(bouton_reset_ID);
 	
 	// Mise a jour des marqueurs
 	miseAjourDesMarqueurs();
@@ -32,3 +32,13 @@ function action_modificationFiltre(filtre_ID){
 	// Mise a jour des marqueurs
 	miseAjourDesMarqueurs();
 }
+
+/** Cette action met a jour les filtres EcoleOuEntreprise et les marqueurs*/
+function action_miseAJourEcoleOuEntreprise(){
+	// Mise a jour du filtre
+	miseAJourEcoleOuEntreprise();
+	
+	// Mise a jour des marqueurs
+	miseAjourDesMarqueurs();
+}
+

@@ -208,7 +208,7 @@ public class ServiceCentralien extends Controller {
 	}
 
 	/**
-	 * Cette methode renvoie au client la liste des centraliens ayant etudie ou
+	 * Cette methode renvoie au client la liste des coordonnees des centraliens ayant etudie ou
 	 * travaille dans une ville donnee avec differentes informations les
 	 * concernant
 	 */
