@@ -98,6 +98,9 @@ var ARRAY_FILTRES_VILLE = 6;
  */
 var ECOLE_OU_ENTREPRISE_INACTIF = "ECOLE_OU_ENTREPRISE_INACTIF";
 
+/** ID de la checkbox historique */
+var CHECKBOX_HISTORIQUE_ID = "historique";
+
 /**
  * -----------------------------------------------------------------------------
  * Celles portant sur le fonctionnement de la carte
@@ -125,7 +128,7 @@ var ZOOM_INITIAL = 6;
  */
 
 /** Nombre de lignes par défaut */
-var NOMBRE_LIGNES = 2;
+var NOMBRE_LIGNES = 20;
 
 /**
  * -----------------------------------------------------------------------------

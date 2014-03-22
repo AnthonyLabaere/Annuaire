@@ -138,13 +138,13 @@ CREATE TABLE EcoleSecteurCentralien (
   ecoleSecteurCentralien_centralien_ID INTEGER REFERENCES Centralien (centralien_ID) NOT NULL
 );
 
--- CREATE TABLE PosteActuel (
---  posteActuel_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PosteActuelSequence'),
---   posteActuel_entrepriseCentralien_ID INTEGER REFERENCES EntrepriseCentralien (entrepriseCentralien_ID),
---   posteActuel_ecoleCentralien_ID INTEGER REFERENCES EcoleCentralien (ecoleCentralien_ID),
---   CHECK (posteActuel_ecoleCentralien_ID IS NOT NULL OR posteActuel_ecoleCentralien_ID IS NOT NULL),
---  CHECK (posteActuel_ecoleCentralien_ID IS NULL OR posteActuel_ecoleCentralien_ID IS NULL)
--- );
+CREATE TABLE PosteActuel (
+  posteActuel_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('PosteActuelSequence'),
+  posteActuel_entrepriseVilleSecteurCentralien_ID INTEGER REFERENCES EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_ID),
+  posteActuel_ecoleSecteurCentralien_ID INTEGER REFERENCES EcoleSecteurCentralien (ecoleSecteurCentralien_ID),
+  CHECK (posteActuel_entrepriseVilleSecteurCentralien_ID IS NOT NULL OR posteActuel_ecoleSecteurCentralien_ID IS NOT NULL),
+  CHECK (posteActuel_entrepriseVilleSecteurCentralien_ID IS NULL OR posteActuel_ecoleSecteurCentralien_ID IS NULL)
+);
 
 
 ------------------------------------------------------------------------------------------------------------------------------
@@ -494,7 +494,11 @@ INSERT INTO EntrepriseVilleSecteurCentralien (entrepriseVilleSecteurCentralien_I
 (nextval('EntrepriseVilleSecteurCentralienSequence'), 5, 27),
 (nextval('EntrepriseVilleSecteurCentralienSequence'), 6, 33),
 (nextval('EntrepriseVilleSecteurCentralienSequence'), 7, 26),
-(nextval('EntrepriseVilleSecteurCentralienSequence'), 8, 36);
+(nextval('EntrepriseVilleSecteurCentralienSequence'), 8, 36),
+(nextval('EntrepriseVilleSecteurCentralienSequence'), 1, 2),
+(nextval('EntrepriseVilleSecteurCentralienSequence'), 2, 20),
+(nextval('EntrepriseVilleSecteurCentralienSequence'), 3, 19),
+(nextval('EntrepriseVilleSecteurCentralienSequence'), 4, 27);
 
 INSERT INTO Ecole (ecole_ID, ecole_nom, ecole_ville_ID) VALUES
 (nextval('EcoleSequence'), 'Centrale Nantes', 1),
@@ -514,12 +518,23 @@ INSERT INTO EcoleSecteur (ecoleSecteur_ID, ecoleSecteur_ecole_ID, ecoleSecteur_s
 (nextval('EcoleSecteurSequence'),5,3),
 (nextval('EcoleSecteurSequence'),6,3);
 
-INSERT INTO EcoleSecteurCentralien (ecoleSecteurCentralien_ID, ecoleSecteurCentralien_ecoleSecteur_ID, ecoleSecteurCentralien_centralien_ID) VALUES
+INSERT INTO EcoleSecteurCentralien (ecoleSecteurCentralien_ID, ecoleSecteurCentralien_centralien_ID, ecoleSecteurCentralien_ecoleSecteur_ID) VALUES
 (nextval('EcoleSecteurCentralienSequence'),1,1),
-(nextval('EcoleSecteurCentralienSequence'),5,1),
-(nextval('EcoleSecteurCentralienSequence'),2,4),
-(nextval('EcoleSecteurCentralienSequence'),3,5),
-(nextval('EcoleSecteurCentralienSequence'),4,6);
+(nextval('EcoleSecteurCentralienSequence'),1,5),
+(nextval('EcoleSecteurCentralienSequence'),4,2),
+(nextval('EcoleSecteurCentralienSequence'),5,3),
+(nextval('EcoleSecteurCentralienSequence'),6,4);
+
+-- TODO : Necessite une fonction sql de controle pour verifier : une seule ligne par centralien
+INSERT INTO PosteActuel (posteActuel_ID, posteActuel_entrepriseVilleSecteurCentralien_ID, posteActuel_ecoleSecteurCentralien_ID) VALUES
+(nextval('PosteActuelSequence'),2,NULL),
+(nextval('PosteActuelSequence'),4,NULL),
+(nextval('PosteActuelSequence'),5,NULL),
+(nextval('PosteActuelSequence'),6,NULL),
+(nextval('PosteActuelSequence'),7,NULL),
+(nextval('PosteActuelSequence'),8,NULL),
+(nextval('PosteActuelSequence'),NULL,1),
+(nextval('PosteActuelSequence'),NULL,3);
 
 # --- !Downs
 

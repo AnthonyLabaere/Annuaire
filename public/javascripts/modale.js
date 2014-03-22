@@ -180,6 +180,7 @@ function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 	// "AJAX_listeDesCoordonneesDesCentraliens"
 	jsRoutes.controllers.ServiceCentralien
 			.AJAX_listeDesCoordonneesDesCentraliens(
+					HTML(CHECKBOX_HISTORIQUE_ID).checked,
 					centralien_ID ? centralien_ID : "",
 					anneePromotion_ID ? anneePromotion_ID : "",
 					ecole_ID ? ecole_ID : "",

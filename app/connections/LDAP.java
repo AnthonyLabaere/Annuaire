@@ -46,10 +46,10 @@ public class LDAP{
 	/**
 	 * Vérifie que le login et le mot de passe sont corrects et sont ceux d'un professeur.
 	 * @param login
-	 * @param passw
+	 * @param mdp
 	 * @return VRAI si le login et le mot de passe sont corrects, FAUX sinon.
 	 */
-	public static boolean check(String login, String passw){
+	public static boolean verification(String login, String mdp){
 		if(Play.application().configuration().getString("developpeur.mode").equals("on") && login.startsWith("test")){
 			return true;
 		}
@@ -58,11 +58,11 @@ public class LDAP{
 		properties.put(Context.PROVIDER_URL, serveur);
 		properties.put(Context.SECURITY_AUTHENTICATION, "simple");
 		properties.put(Context.SECURITY_PRINCIPAL, "uid="+login+", ou=people, dc=ec-nantes, dc=fr");
-		properties.put(Context.SECURITY_CREDENTIALS, passw);
+		properties.put(Context.SECURITY_CREDENTIALS, mdp);
         try {
-        	System.out.println("trying to get identified...");
+        	System.out.println("en cours d'identification...");
         	DirContext ctx = new InitialDirContext(properties);
-        	System.out.println("identified");
+        	System.out.println("identifie");
             ctx.close();
 		    return true;
         } catch (NamingException e) {

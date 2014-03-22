@@ -60,7 +60,7 @@ public class Application extends Controller {
 	public static Result login() {
 		DynamicForm info = Form.form().bindFromRequest();
 		String login = info.get("login");
-		if (LDAP.check(login, info.get("passw"))) {
+		if (LDAP.verification(login, info.get("passw"))) {
 			session("uid", login);
 			return showCarte();
 		} else {
