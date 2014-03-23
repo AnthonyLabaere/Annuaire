@@ -95,6 +95,7 @@ function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 
 	// On rappelle a l'utilisateur les criteres precedemments renseignes :
 	var rappel = document.createElement('div');
+	rappel.setAttribute('id', 'rappel');
 	var rappelTexte = '';
 	if (centralien_ID) {
 		rappelTexte += 'Coordonn&eacute;es de l\'activit&eacute; ';
@@ -244,22 +245,33 @@ function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 					ecole_ID ? ecole_ID : "",
 					entreprise_ID ? entreprise_ID : "",
 					secteur_ID ? secteur_ID : "", ville_ID ? ville_ID : "",
-					limite, offset, true, tri ? tri : "").ajax({
-				async : false,
-				success : function(data, textStatus, jqXHR) {
-					var nombre_pages = Math.ceil(data / NOMBRE_LIGNES);
+					limite, offset, true, tri ? tri : "").ajax(
+					{
+						async : false,
+						success : function(data, textStatus, jqXHR) {
+							var nombre_pages = Math.ceil(data / NOMBRE_LIGNES);
 
-					if (nombre_pages > 1) {
-						var pagination = document.createElement('p');
-						pagination.innerHTML = '';
-						for ( var i = 1; i < nombre_pages; i++) {
-							pagination.innerHTML += i + ' - ';
+							if (nombre_pages > 1) {
+								var pagination = document.createElement('ul');
+								pagination.setAttribute('id', 'pagination');
+								pagination.innerHTML = '';
+								for ( var i = 1; i <= nombre_pages; i++) {
+									var li = document.createElement('li');
+									if (i != numeroBloc){
+										li.setAttribute('onClick', 'alimenterModale(' + ville_ID + ', '
+												+ limite + ', ' + i + ');afficherModale();');
+										li.className= "page_autre"; 	
+									} else {	
+										li.className= "page_selectionnee"; 
+									}
+									li.innerHTML = i;
+									pagination.appendChild(li);
+								}
+								
+								modale.appendChild(pagination);
+							}
 						}
-						pagination.innerHTML += nombre_pages;
-						modale.appendChild(pagination);
-					}
-				}
-			});
+					});
 }
 
 /**

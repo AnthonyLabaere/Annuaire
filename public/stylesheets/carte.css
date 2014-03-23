@@ -215,9 +215,34 @@ img.bouton_fermeture {
 	margin: -55px -50px 0 0;
 }
 
-#modale div{
+#modale #rappel {
 	text-align : center;
 }
+
+#modale ul {
+}
+
+#modale li {
+	display:inline;
+	padding:0 10px;	
+}
+
+.page_selectionnee{
+}
+
+.page_autre{
+	cursor: pointer;
+	color:  #e65c00;
+}
+
+.page_autre:hover{
+	color: white;
+	border:1px solid #e65c00;
+	background-color: #e65c00;
+	border-radius: 5px;
+}
+
+
 
 #modale tr{
 	text-align : center;

@@ -218,10 +218,8 @@ public class ServiceVille extends Controller {
 			        Integer.parseInt(entreprise_ID));
 		}
 		if (parametresPresents[4]) {
-			System.out.println(secteur_ID);
 			sqlQuery.setParameter("secteur_ID", Integer.parseInt(secteur_ID));
 		}
-		System.out.println(pays_ID);
 		sqlQuery.setParameter("pays_ID", Integer.parseInt(pays_ID));
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();

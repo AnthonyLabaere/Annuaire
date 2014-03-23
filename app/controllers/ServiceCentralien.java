@@ -415,10 +415,9 @@ public class ServiceCentralien extends Controller {
 		// Les informations renvoyees sont le prenom, le nom, l'annee de
 		// Promotion, l'ecole ou l'entreprise, le secteur
 		String sql = "SELECT ";
-		sql += IConstantesBDD.SQL_DISTINCT;
 
-		// Si le client veut uniquement le nombre total de lignes
 		if (!nombreLignes) {
+			sql += IConstantesBDD.SQL_DISTINCT;
 			sql += "centralien_prenom, centralien_nom, anneePromotion_libelle";
 			if (entrepriseActif) {
 				sql += ", entreprise_nom";
@@ -427,7 +426,8 @@ public class ServiceCentralien extends Controller {
 			}
 			sql += ", secteur_nom";
 		} else {
-			sql += "COUNT(centralien_prenom) AS nombreLignes";
+			// Si le client veut uniquement le nombre total de lignes
+			sql += "COUNT(DISTINCT CONCAT(centralien_prenom, centralien_nom, anneePromotion_libelle, entreprise_nom, secteur_nom)) AS nombreLignes";
 		}
 
 		sql += " FROM Centralien, AnneePromotion";
@@ -495,7 +495,7 @@ public class ServiceCentralien extends Controller {
 			sql += " LIMIT " + limite;
 			sql += " OFFSET " + offset;
 		}
-
+		
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
 			sqlQuery.setParameter("anneePromotion_ID",
