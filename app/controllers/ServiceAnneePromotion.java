@@ -150,7 +150,6 @@ public class ServiceAnneePromotion extends Controller {
 				wherePlace = true;
 			}
 			sql += IConstantesBDD.ANNEEPROMOTION_ID
-					+ IConstantesBDD.ANNEEPROMOTION_ID
 					+ IConstantesBDD.SQL_IN
 					+ IConstantesBDD.SQL_BRACKET_OPEN
 					+ IConstantesBDD.SQL_SELECT
@@ -233,6 +232,7 @@ public class ServiceAnneePromotion extends Controller {
 						+ IConstantesBDD.ECOLESECTEURCENTRALIEN_CENTRALIEN_ID 
 						+ IConstantesBDD.SQL_FROM 
 						+ IConstantesBDD.ECOLESECTEURCENTRALIEN
+						+ IConstantesBDD.SQL_COMMA
 						+ IConstantesBDD.ECOLESECTEUR 
 						+ IConstantesBDD.SQL_WHERE 
 						+ IConstantesBDD.ECOLESECTEUR_SECTEUR_ID 
@@ -267,7 +267,7 @@ public class ServiceAnneePromotion extends Controller {
 						+ IConstantesBDD.SQL_WHERE
 						+ IConstantesBDD.CENTRALIEN_ID 
 						+ IConstantesBDD.SQL_IN
-						+ IConstantesBDD.SQL_BRACKET_OPEN
+						+ IConstantesBDD.SQL_BRACKET_OPEN		
 						+ IConstantesBDD.SQL_SELECT
 						+ IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN_ID 
 						+ IConstantesBDD.SQL_FROM 
@@ -285,7 +285,7 @@ public class ServiceAnneePromotion extends Controller {
 						+ IConstantesBDD.SQL_WHERE
 						+ IConstantesBDD.VILLE_PAYS_ID 
 						+ IConstantesBDD.SQL_EQUAL
-						+ IConstantesBDD.SQL_COMMA
+						+ IConstantesBDD.SQL_COLON
 						+ IConstantesBDD.PAYS_ID
 						+ IConstantesBDD.SQL_BRACKET_CLOSE
 						+ IConstantesBDD.SQL_AND
