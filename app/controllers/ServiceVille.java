@@ -72,6 +72,17 @@ public class ServiceVille extends Controller {
 	        String anneePromotion_ID, String ecole_ID, String entreprise_ID,
 	        String secteur_ID, String pays_ID) {
 
+		String param_centralien_ID = "centralien_ID";
+		String param_anneePromotion_ID ="anneePromotion_ID";
+		String param_ecole_ID = "ecole_ID";
+		String param_entreprise_ID = "entreprise_ID";
+		String param_secteur_ID = "secteur_ID";
+		String param_pays_ID = "pays_ID";
+		String param_ville_ID = "ville_ID";
+		String param_ville_nom = "ville_nom";
+		String param_ville_latitude = "ville_latitude";
+		String param_ville_longitude = "ville_longitude";
+		
 		Boolean[] parametresPresents = new Boolean[] {
 		        centralien_ID != null && !centralien_ID.isEmpty(),
 		        anneePromotion_ID != null && !anneePromotion_ID.isEmpty(),
@@ -87,149 +98,291 @@ public class ServiceVille extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT ville_ID, ville_nom, ville_latitude, ville_longitude FROM Ville";
+		String sql = IConstantesBDD.SQL_SELECT 
+				+ IConstantesBDD.VILLE_ID
+				+ IConstantesBDD.SQL_COMMA
+				+ IConstantesBDD.VILLE_NOM
+				+ IConstantesBDD.SQL_COMMA
+				+ IConstantesBDD.VILLE_LATITUDE
+				+ IConstantesBDD.SQL_COMMA
+				+ IConstantesBDD.VILLE_LONGITUDE 
+				+ IConstantesBDD.SQL_FROM 
+				+ IConstantesBDD.VILLE;
 
 		// Si le filtre centralien est actif
 		if (parametresPresents[0]) {
 			wherePlace = true;
-			sql += " WHERE ";
+			sql += IConstantesBDD.SQL_WHERE;
 			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
-				sql += "ville_ID IN (";
-				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_ID = :centralien_ID";
-				sql += " AND ";
-				sql += "centralien_ID = entrepriseVilleSecteurCentralien_centralien_ID";
-				sql += " AND ";
-				sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
-				sql += ")";
+				sql += IConstantesBDD.VILLE_ID
+						+ IConstantesBDD.SQL_IN
+						+ IConstantesBDD.SQL_BRACKET_OPEN
+						+ IConstantesBDD.SQL_SELECT
+						+ IConstantesBDD.ENTREPRISEVILLESECTEUR_VILLE_ID 
+						+ IConstantesBDD.SQL_FROM
+						+ IConstantesBDD.ENTREPRISEVILLESECTEUR
+						+ IConstantesBDD.SQL_COMMA
+						+ IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN
+						+ IConstantesBDD.SQL_COMMA
+						+ IConstantesBDD.CENTRALIEN
+						+ IConstantesBDD.SQL_WHERE 
+						+ IConstantesBDD.CENTRALIEN_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.SQL_COLON
+						+ IConstantesBDD.CENTRALIEN_ID
+						+ IConstantesBDD.SQL_AND
+						+ IConstantesBDD.CENTRALIEN_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN_CENTRALIEN_ID
+						+ IConstantesBDD.SQL_AND
+						+ IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN_ENTREPRISEVILLESECTEUR_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.ENTREPRISEVILLESECTEUR_ID
+						+ IConstantesBDD.SQL_BRACKET_CLOSE;
 			} else {
-				sql += "ville_ID IN (";
-				sql += "SELECT ecole_ville_ID FROM Centralien, Ecole, EcoleSecteur, EcoleSecteurCentralien WHERE centralien_ID = :centralien_ID";
-				sql += " AND ";
-				sql += "centralien_ID = ecoleSecteurCentralien_centralien_ID";
-				sql += " AND ";
-				sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID";
-				sql += " AND ";
-				sql += "ecoleSecteur_ecole_ID = ecole_ID";
-				sql += ")";
+				sql += IConstantesBDD.VILLE_ID
+						+ IConstantesBDD.SQL_IN
+						+ IConstantesBDD.SQL_BRACKET_OPEN
+						+ IConstantesBDD.SQL_SELECT
+						+ IConstantesBDD.ECOLE_VILLE_ID
+						+ IConstantesBDD.SQL_FROM
+						+ IConstantesBDD.CENTRALIEN
+						+ IConstantesBDD.SQL_COMMA
+						+ IConstantesBDD.ECOLE
+						+ IConstantesBDD.SQL_COMMA
+						+ IConstantesBDD.ECOLESECTEUR
+						+ IConstantesBDD.SQL_COMMA
+						+ IConstantesBDD.ECOLESECTEURCENTRALIEN
+						+ IConstantesBDD.SQL_WHERE
+						+ IConstantesBDD.CENTRALIEN_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.SQL_COLON
+						+ IConstantesBDD.CENTRALIEN_ID
+						+ IConstantesBDD.SQL_AND
+						+ IConstantesBDD.CENTRALIEN_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.ECOLESECTEURCENTRALIEN_CENTRALIEN_ID
+						+ IConstantesBDD.SQL_AND
+						+ IConstantesBDD.ECOLESECTEURCENTRALIEN_ECOLESECTEUR_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.ECOLESECTEUR_ID
+						+ IConstantesBDD.SQL_AND
+						+ IConstantesBDD.ECOLESECTEUR_ECOLE_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.ECOLE_ID
+						+ IConstantesBDD.SQL_BRACKET_CLOSE;
 			}
 		}
 
 		// Si le filtre anneePromotion est actif
 		if (parametresPresents[1]) {
 			if (wherePlace) {
-				sql += " AND ";
+				sql += IConstantesBDD.SQL_AND;
 			} else {
-				sql += " WHERE ";
+				sql += IConstantesBDD.SQL_WHERE;
 				wherePlace = true;
 			}
 			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
-				sql += "ville_ID IN (";
-				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien WHERE entrepriseVilleSecteurCentralien_centralien_ID IN (";
-				sql += "SELECT centralien_ID FROM Centralien WHERE centralien_anneePromotion_ID = :anneePromotion_ID";
-				sql += " AND ";
-				sql += "entrepriseVilleSecteurCentralien_entrepriseVilleSecteur_ID = entrepriseVilleSecteur_ID";
-				sql += "))";
+				sql += IConstantesBDD.VILLE_ID
+						+ IConstantesBDD.SQL_IN
+						+ IConstantesBDD.SQL_BRACKET_OPEN
+						+ IConstantesBDD.SQL_SELECT
+						+ IConstantesBDD.ENTREPRISEVILLESECTEUR_VILLE_ID 
+						+ IConstantesBDD.SQL_FROM 
+						+ IConstantesBDD.ENTREPRISEVILLESECTEUR
+						+ IConstantesBDD.SQL_COMMA
+						+ IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN
+						+ IConstantesBDD.SQL_WHERE
+						+ IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN_CENTRALIEN_ID
+						+ IConstantesBDD.SQL_IN
+						+ IConstantesBDD.SQL_BRACKET_OPEN
+						+ IConstantesBDD.SQL_SELECT
+						+ IConstantesBDD.CENTRALIEN_ID 
+						+ IConstantesBDD.SQL_FROM 
+						+ IConstantesBDD.CENTRALIEN 
+						+ IConstantesBDD.SQL_WHERE 
+						+ IConstantesBDD.CENTRALIEN_ANNEEPROMOTION_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.SQL_COLON
+						+ IConstantesBDD.ANNEEPROMOTION_ID
+						+ IConstantesBDD.SQL_AND
+						+ IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN_ENTREPRISEVILLESECTEUR_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.ENTREPRISEVILLESECTEUR_ID
+						+ IConstantesBDD.SQL_BRACKET_CLOSE
+						+ IConstantesBDD.SQL_BRACKET_CLOSE;
 			} else {
-				sql += "ville_ID IN (";
-				sql += "SELECT ecole_ville_ID FROM Centralien, Ecole, EcoleSecteur, EcoleSecteurCentralien WHERE centralien_anneePromotion_ID = :anneePromotion_ID";
-				sql += " AND ";
-				sql += "centralien_ID = ecoleSecteurCentralien_centralien_ID";
-				sql += " AND ";
-				sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID";
-				sql += " AND ";
-				sql += "ecoleSecteur_ecole_ID = ecole_ID";
-				sql += ")";
+				sql += IConstantesBDD.VILLE_ID
+						+ IConstantesBDD.SQL_IN
+						+ IConstantesBDD.SQL_BRACKET_OPEN
+						+ IConstantesBDD.SQL_SELECT
+						+ IConstantesBDD.ECOLE_VILLE_ID 
+						+ IConstantesBDD.SQL_FROM 
+						+ IConstantesBDD.CENTRALIEN
+						+ IConstantesBDD.SQL_COMMA
+						+ IConstantesBDD.ECOLE
+						+ IConstantesBDD.SQL_COMMA
+						+ IConstantesBDD.ECOLESECTEUR
+						+ IConstantesBDD.SQL_COMMA
+						+ IConstantesBDD.ECOLESECTEURCENTRALIEN 
+						+ IConstantesBDD.SQL_WHERE 
+						+ IConstantesBDD.CENTRALIEN_ANNEEPROMOTION_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.SQL_COLON
+						+ IConstantesBDD.ANNEEPROMOTION_ID
+						+ IConstantesBDD.SQL_AND
+						+ IConstantesBDD.CENTRALIEN_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.ECOLESECTEURCENTRALIEN_CENTRALIEN_ID
+						+ IConstantesBDD.SQL_AND
+						+ IConstantesBDD.ECOLESECTEURCENTRALIEN_ECOLESECTEUR_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.ECOLESECTEUR_ID
+						+ IConstantesBDD.SQL_AND
+						+ IConstantesBDD.ECOLESECTEUR_ECOLE_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.ECOLE_ID
+						+ IConstantesBDD.SQL_BRACKET_CLOSE;
 			}
 		}
 
 		// Si le filtre ecole est actif
 		if (parametresPresents[2]) {
 			if (wherePlace) {
-				sql += " AND ";
+				sql += IConstantesBDD.SQL_AND;
 			} else {
-				sql += " WHERE ";
+				sql += IConstantesBDD.SQL_WHERE;
 				wherePlace = true;
 			}
-			sql += "ville_ID IN (";
-			sql += "SELECT ecole_ville_ID FROM Ecole WHERE ecole_ID = :ecole_ID";
-			sql += ")";
-
+			sql += IConstantesBDD.VILLE_ID
+					+ IConstantesBDD.SQL_IN
+					+ IConstantesBDD.SQL_BRACKET_OPEN
+					+ IConstantesBDD.SQL_SELECT
+					+ IConstantesBDD.ECOLE_VILLE_ID
+					+ IConstantesBDD.SQL_FROM 
+					+ IConstantesBDD.ECOLE
+					+ IConstantesBDD.SQL_WHERE
+					+ IConstantesBDD.ECOLE_ID
+					+ IConstantesBDD.SQL_EQUAL
+					+ IConstantesBDD.SQL_COLON
+					+ IConstantesBDD.ECOLE_ID
+					+ IConstantesBDD.SQL_BRACKET_CLOSE;
 		}
 
 		// Si le filtre entreprise est actif
 		if (parametresPresents[3]) {
 			if (wherePlace) {
-				sql += " AND ";
+				sql += IConstantesBDD.SQL_AND;
 			} else {
-				sql += " WHERE ";
+				sql += IConstantesBDD.SQL_WHERE;
 				wherePlace = true;
 			}
-			sql += "ville_ID IN (";
-			sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_entreprise_ID = :entreprise_ID";
-			sql += ")";
+			sql += IConstantesBDD.VILLE_ID
+					+ IConstantesBDD.SQL_IN
+					+ IConstantesBDD.SQL_BRACKET_OPEN
+					+ IConstantesBDD.SQL_SELECT
+					+ IConstantesBDD.ENTREPRISEVILLESECTEUR_VILLE_ID
+					+ IConstantesBDD.SQL_FROM
+					+ IConstantesBDD.ENTREPRISEVILLESECTEUR
+					+ IConstantesBDD.SQL_WHERE
+					+ IConstantesBDD.ENTREPRISEVILLESECTEUR_ENTREPRISE_ID
+					+ IConstantesBDD.SQL_EQUAL
+					+ IConstantesBDD.SQL_COLON
+					+ IConstantesBDD.ENTREPRISE_ID
+					+ IConstantesBDD.SQL_BRACKET_CLOSE;
 		}
 
 		// Si le filtre secteur est actif
 		if (parametresPresents[4]) {
 			if (wherePlace) {
-				sql += " AND ";
+				sql += IConstantesBDD.SQL_AND;
 			} else {
-				sql += " WHERE ";
+				sql += IConstantesBDD.SQL_WHERE;
 				wherePlace = true;
 			}
 			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
-				sql += "ville_ID IN (";
-				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = :secteur_ID";
-				sql += ")";
+				sql += IConstantesBDD.VILLE_ID
+						+ IConstantesBDD.SQL_IN
+						+ IConstantesBDD.SQL_BRACKET_OPEN
+						+ IConstantesBDD.SQL_SELECT
+						+ IConstantesBDD.ENTREPRISEVILLESECTEUR_VILLE_ID
+						+ IConstantesBDD.SQL_FROM
+						+ IConstantesBDD.ENTREPRISEVILLESECTEUR
+						+ IConstantesBDD.SQL_WHERE
+						+ IConstantesBDD.ENTREPRISEVILLESECTEUR_SECTEUR_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.SQL_COLON
+						+ IConstantesBDD.SECTEUR_ID
+						+ IConstantesBDD.SQL_BRACKET_CLOSE;
 			} else {
-				sql += "ville_ID IN (";
-				sql += "SELECT ecole_ville_ID FROM Ecole, EcoleSecteur WHERE ecoleSecteur_secteur_ID = :secteur_ID";
-				sql += " AND ";
-				sql += "ecoleSecteur_ecole_ID = ecole_ID";
-				sql += ")";
+				sql += IConstantesBDD.VILLE_ID
+						+ IConstantesBDD.SQL_IN
+						+ IConstantesBDD.SQL_BRACKET_OPEN
+						+ IConstantesBDD.SQL_SELECT
+						+ IConstantesBDD.ECOLE_VILLE_ID
+						+ IConstantesBDD.SQL_FROM
+						+ IConstantesBDD.ECOLE
+						+ IConstantesBDD.SQL_COMMA
+						+ IConstantesBDD.ECOLESECTEUR
+						+ IConstantesBDD.SQL_WHERE 
+						+ IConstantesBDD.ECOLESECTEUR_SECTEUR_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.SQL_COLON
+						+ IConstantesBDD.SECTEUR_ID
+						+ IConstantesBDD.SQL_AND
+						+ IConstantesBDD.ECOLESECTEUR_ECOLE_ID
+						+ IConstantesBDD.SQL_EQUAL
+						+ IConstantesBDD.ECOLE_ID
+						+ IConstantesBDD.SQL_BRACKET_CLOSE;
 			}
 		}
 
 		// pays_ID est forcement present
 		if (wherePlace) {
-			sql += " AND ";
+			sql += IConstantesBDD.SQL_AND;
 		} else {
-			sql += " WHERE ";
+			sql += IConstantesBDD.SQL_WHERE;
 			wherePlace = true;
 		}
-		sql += "ville_pays_ID = :pays_ID";
-
-		sql += " ORDER BY ville_nom ASC";
+		sql += IConstantesBDD.VILLE_PAYS_ID
+				+ IConstantesBDD.SQL_EQUAL
+				+ IConstantesBDD.SQL_COLON
+				+ IConstantesBDD.PAYS_ID
+				+ IConstantesBDD.SQL_ORDER_BY
+				+ IConstantesBDD.VILLE_NOM;
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
-			sqlQuery.setParameter("centralien_ID",
+			sqlQuery.setParameter(param_centralien_ID,
 			        Integer.parseInt(centralien_ID));
 		}
 		if (parametresPresents[1]) {
-			sqlQuery.setParameter("anneePromotion_ID",
+			sqlQuery.setParameter(param_anneePromotion_ID,
 			        Integer.parseInt(anneePromotion_ID));
 		}
 		if (parametresPresents[2]) {
-			sqlQuery.setParameter("ecole_ID", Integer.parseInt(ecole_ID));
+			sqlQuery.setParameter(param_ecole_ID,
+					Integer.parseInt(ecole_ID));
 		}
 		if (parametresPresents[3]) {
-			sqlQuery.setParameter("entreprise_ID",
+			sqlQuery.setParameter(param_entreprise_ID,
 			        Integer.parseInt(entreprise_ID));
 		}
 		if (parametresPresents[4]) {
-			sqlQuery.setParameter("secteur_ID", Integer.parseInt(secteur_ID));
+			sqlQuery.setParameter(param_secteur_ID,
+					Integer.parseInt(secteur_ID));
 		}
-		sqlQuery.setParameter("pays_ID", Integer.parseInt(pays_ID));
+		sqlQuery.setParameter(param_pays_ID,
+					Integer.parseInt(pays_ID));
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
 		// Liste de 4 String : ID, nom, latitude et longitude
 		List<String[]> listeDesVillesParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			String identifiant = sqlRow.get("ville_ID").toString();
-			String nom = sqlRow.get("ville_nom").toString();
-			String latitude = sqlRow.get("ville_latitude").toString();
-			String longitude = sqlRow.get("ville_longitude").toString();
+			String identifiant = sqlRow.get(param_ville_ID).toString();
+			String nom = sqlRow.get(param_ville_nom).toString();
+			String latitude = sqlRow.get(param_ville_latitude).toString();
+			String longitude = sqlRow.get(param_ville_longitude).toString();
 			listeDesVillesParCriteres.add(new String[] { identifiant, nom,
 			        latitude, longitude });
 		}
@@ -239,15 +392,31 @@ public class ServiceVille extends Controller {
 
 	/** Cette fonction retourne les villes sans coordonnees */
 	public static List<String[]> villesSansCoordonnees() {
-		String sql = "SELECT ville_ID, ville_nom FROM Ville WHERE ville_latitude IS NULL OR ville_longitude IS NULL";
+		String param_ville_ID = "ville_ID";
+		String param_ville_nom = "ville_nom";
+		
+		String sql = IConstantesBDD.SQL_SELECT
+				+ IConstantesBDD.VILLE_ID
+				+ IConstantesBDD.SQL_COMMA
+				+ IConstantesBDD.VILLE_NOM 
+				+ IConstantesBDD.SQL_FROM
+				+ IConstantesBDD.VILLE 
+				+ IConstantesBDD.SQL_WHERE 
+				+ IConstantesBDD.VILLE_LATITUDE
+				+ IConstantesBDD.SQL_IS
+				+ IConstantesBDD.SQL_NULL
+				+ IConstantesBDD.SQL_OR
+				+ IConstantesBDD.VILLE_LONGITUDE
+				+ IConstantesBDD.SQL_IS
+				+ IConstantesBDD.SQL_NULL;
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		List<SqlRow> listSqlRow = sqlQuery.findList();
 
 		List<String[]> listeDesVilles = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			String identifiant = sqlRow.get("ville_ID").toString();
-			String nom = sqlRow.get("ville_nom").toString();
+			String identifiant = sqlRow.get(param_ville_ID).toString();
+			String nom = sqlRow.get(param_ville_nom).toString();
 			listeDesVilles.add(new String[] { identifiant, nom });
 		}
 
@@ -258,12 +427,32 @@ public class ServiceVille extends Controller {
 	/** Cette fonction met a jour les coordonnees d'une ville */
 	public static void updateCoordonneesVille(String ville,
 	        Coordonnees coordonnees) {
-		String sql = "UPDATE Ville SET ville_latitude = :latitude, ville_longitude = :longitude WHERE ville_ID = :identifiant";
+		String param_latitude = "latitude";
+		String param_longitude = "longitude";
+		String param_identifiant = "identifiant";
+		
+		String sql = IConstantesBDD.SQL_UPDATE
+				+ IConstantesBDD.VILLE
+				+ IConstantesBDD.SQL_SET
+				+ IConstantesBDD.VILLE_LATITUDE
+				+ IConstantesBDD.SQL_EQUAL
+				+ IConstantesBDD.SQL_COLON
+				+ param_latitude
+				+ IConstantesBDD.SQL_COMMA
+				+ IConstantesBDD.VILLE_LONGITUDE
+				+ IConstantesBDD.SQL_EQUAL
+				+ IConstantesBDD.SQL_COLON
+				+ param_longitude 
+				+ IConstantesBDD.SQL_WHERE
+				+ IConstantesBDD.VILLE_ID
+				+ IConstantesBDD.SQL_EQUAL
+				+ IConstantesBDD.SQL_COLON
+				+ param_identifiant;
 		
 		SqlUpdate sqlUpdate = Ebean.createSqlUpdate(sql);
-		sqlUpdate.setParameter("latitude", coordonnees.getLatitude());
-		sqlUpdate.setParameter("longitude", coordonnees.getLongitude());
-		sqlUpdate.setParameter("identifiant", Integer.parseInt(ville));
+		sqlUpdate.setParameter(param_latitude, coordonnees.getLatitude());
+		sqlUpdate.setParameter(param_longitude, coordonnees.getLongitude());
+		sqlUpdate.setParameter(param_identifiant, Integer.parseInt(ville));
 		sqlUpdate.execute();
 	}
 }
