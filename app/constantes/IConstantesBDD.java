@@ -28,7 +28,8 @@ public interface IConstantesBDD {
 	public static final String SQL_COMMA = ", ";	
 	public static final String SQL_COLON = ":";	
 	public static final String SQL_IS = " IS ";	
-	public static final String SQL_NULL = " NULL ";	
+	public static final String SQL_NULL = " NULL ";
+	public static final String SQL_DISTINCT = "DISTINCT ";
 	
 	/** Principales fonctions sql */
 	public static final String SQL_CONCAT = "CONCAT";
