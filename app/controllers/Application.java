@@ -24,6 +24,7 @@
 package controllers;
 
 import geography.GeocoderUtil;
+import geography.ThreadGeocoder;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -87,8 +88,7 @@ public class Application extends Controller {
 		
 		// Avant de montrer la carte on verifie que la base est correctement alimentee en coordonnees GPS (uniquement en mode developpeur)
 		if(Play.application().configuration().getString("developpeur.mode").equals("on")){
-			GeocoderUtil.alimenterPays();
-			GeocoderUtil.alimenterVilles();
+			new ThreadGeocoder().start();
 		}
 		
 		return ok(views.html.carte.render());
