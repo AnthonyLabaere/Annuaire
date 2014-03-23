@@ -42,3 +42,12 @@ function action_miseAJourEcoleOuEntreprise(){
 	miseAjourDesMarqueurs();
 }
 
+/** Cette action met a jour les filtres et les marqueurs*/
+function action_historique(){
+	// Mise a jour des filtres
+	resetAll()
+	
+	// Mise a jour des marqueurs
+	miseAjourDesMarqueurs();
+}
+
