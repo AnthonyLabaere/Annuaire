@@ -1,0 +1,1 @@
+map_init(DIV_CARTE_ID);initialisationFiltres();init_marqueur();

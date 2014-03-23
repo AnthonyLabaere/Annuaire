@@ -1,0 +1,1 @@
+var ATTRIBUTION='Ce site utilise <a href="http://openlayers.org/" target="_blank">OpenLayers</a> pour l\'affichage d\' <a href="http://www.openstreetmap.org/" target="_blank">Openstreet Maps</a>, sous license ODbL';function HTML(element_id){return document.getElementById(element_id)}
