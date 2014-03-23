@@ -1,12 +1,9 @@
 package geography;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.SqlQuery;
-import com.avaje.ebean.SqlRow;
-import com.avaje.ebean.SqlUpdate;
+import controllers.ServicePays;
+import controllers.ServiceVille;
 
 /**
  * Ce thread appelle le webservice de Google pour alimenter les bases en
@@ -22,13 +19,13 @@ public class ThreadGeocoder extends Thread {
 	 * par seconde limitees)
 	 */
 	private static final int TEMPS_ENTRE_REQUETE = 500;
-	
+
 	/**
 	 * Il ne peut avoir qu'un seul Thread de ce type en instance
 	 */
 	public static boolean actif = false;
-	
-	public ThreadGeocoder(){
+
+	public ThreadGeocoder() {
 		actif = true;
 	}
 
@@ -43,32 +40,11 @@ public class ThreadGeocoder extends Thread {
 	 * depourvus
 	 */
 	private void alimenterPays() {
-		String sql = "SELECT pays_ID, pays_nomMinuscule FROM Pays";
-		sql += " WHERE ";
-		sql += "(pays_latitude IS NULL OR pays_latitude = 0)";
-		sql += " OR ";
-		sql += "pays_longitude IS NULL OR pays_longitude = 0";
-
-		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
-		List<SqlRow> listSqlRow = sqlQuery.findList();
-
-		List<String[]> listeDesPays = new ArrayList<String[]>();
-		for (SqlRow sqlRow : listSqlRow) {
-			String identifiant = sqlRow.get("pays_ID").toString();
-			String nom = sqlRow.get("pays_nomMinuscule").toString();
-			listeDesPays.add(new String[] { identifiant, nom });
-		}
+		List<String[]> listeDesPays = ServicePays.paysSansCoordonnees();
 
 		for (String[] pays : listeDesPays) {
-			Coordonnees coordonnees = GeocoderUtil
-			        .getCoordonneesSelonPays(pays[1]);
-
-			sql = "UPDATE Pays SET pays_latitude = :latitude, pays_longitude = :longitude WHERE pays_ID = :identifiant";
-			SqlUpdate sqlUpdate = Ebean.createSqlUpdate(sql);
-			sqlUpdate.setParameter("latitude", coordonnees.getLatitude());
-			sqlUpdate.setParameter("longitude", coordonnees.getLongitude());
-			sqlUpdate.setParameter("identifiant", Integer.parseInt(pays[0]));
-			sqlUpdate.execute();
+			ServicePays.updateCoordonneesPays(pays[0],
+			        GeocoderUtil.getCoordonneesSelonPays(pays[1]));
 
 			// On attend TEMPS_ENTRE_REQUETE/1000 secondes avant la requete
 			// suivante
@@ -85,28 +61,11 @@ public class ThreadGeocoder extends Thread {
 	 * sont depourvus
 	 */
 	private void alimenterVilles() {
-		String sql = "SELECT ville_ID, ville_nom FROM Ville WHERE ville_latitude IS NULL OR ville_longitude IS NULL";
-
-		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
-		List<SqlRow> listSqlRow = sqlQuery.findList();
-
-		List<String[]> listeDesVilles = new ArrayList<String[]>();
-		for (SqlRow sqlRow : listSqlRow) {
-			String identifiant = sqlRow.get("ville_ID").toString();
-			String nom = sqlRow.get("ville_nom").toString();
-			listeDesVilles.add(new String[] { identifiant, nom });
-		}
+		List<String[]> listeDesVilles = ServiceVille.villesSansCoordonnees();
 
 		for (String[] ville : listeDesVilles) {
-			Coordonnees coordonnees = GeocoderUtil
-			        .getCoordonneesSelonPays(ville[1]);
-
-			sql = "UPDATE Ville SET ville_latitude = :latitude, ville_longitude = :longitude WHERE ville_ID = :identifiant";
-			SqlUpdate sqlUpdate = Ebean.createSqlUpdate(sql);
-			sqlUpdate.setParameter("latitude", coordonnees.getLatitude());
-			sqlUpdate.setParameter("longitude", coordonnees.getLongitude());
-			sqlUpdate.setParameter("identifiant", Integer.parseInt(ville[0]));
-			sqlUpdate.execute();
+			ServiceVille.updateCoordonneesVille(ville[0],
+			        GeocoderUtil.getCoordonneesSelonPays(ville[1]));
 
 			// On attend TEMPS_ENTRE_REQUETE/1000 secondes avant la requete
 			// suivante

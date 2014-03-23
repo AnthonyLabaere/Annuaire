@@ -1,5 +1,7 @@
 package controllers;
 
+import geography.Coordonnees;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import play.mvc.Result;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
+import com.avaje.ebean.SqlUpdate;
 
 import constantes.IConstantes;
 
@@ -34,19 +37,19 @@ public class ServicePays extends Controller {
 			String latitude = sqlRow.get("pays_latitude").toString();
 			String longitude = sqlRow.get("pays_longitude").toString();
 			String zoom = sqlRow.get("pays_zoom").toString();
-			listeDesPays.add(new String[] { identifiant, nom, latitude, longitude, zoom });
+			listeDesPays.add(new String[] { identifiant, nom, latitude,
+			        longitude, zoom });
 		}
 
 		return ok(Json.toJson(listeDesPays));
 	}
 
 	public static Result AJAX_listeDesPaysSelonCriteres(String centralien_ID,
-	        String anneePromotion_ID, String ecole_ID,
-	        String entreprise_ID, String secteur_ID) {
+	        String anneePromotion_ID, String ecole_ID, String entreprise_ID,
+	        String secteur_ID) {
 		Boolean[] parametresPresents = new Boolean[] {
-				centralien_ID != null && !centralien_ID.isEmpty(),
-		        anneePromotion_ID != null
-		                && !anneePromotion_ID.isEmpty(),
+		        centralien_ID != null && !centralien_ID.isEmpty(),
+		        anneePromotion_ID != null && !anneePromotion_ID.isEmpty(),
 		        ecole_ID != null
 		                && !ecole_ID.isEmpty()
 		                && !ecole_ID
@@ -65,7 +68,7 @@ public class ServicePays extends Controller {
 		if (parametresPresents[0]) {
 			wherePlace = true;
 			sql += " WHERE ";
-			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 				sql += "pays_ID IN (";
 				sql += "SELECT ville_pays_ID FROM Ville WHERE ville_ID = (";
 				sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_ID = :centralien_ID";
@@ -84,7 +87,7 @@ public class ServicePays extends Controller {
 				sql += "ecoleSecteurCentralien_ecoleSecteur_ID = ecoleSecteur_ID";
 				sql += " AND ";
 				sql += "ecoleSecteur_ecole_ID = ecole_ID";
-				sql += "))";	
+				sql += "))";
 			}
 		}
 
@@ -96,7 +99,7 @@ public class ServicePays extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 				sql += "pays_ID IN (";
 				sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_anneePromotion_ID = :anneePromotion_ID";
 				sql += " AND ";
@@ -117,9 +120,9 @@ public class ServicePays extends Controller {
 				sql += " AND ";
 				sql += "ecoleSecteur_ecole_ID = ecole_ID";
 				sql += "))";
-			}			
+			}
 		}
-		
+
 		// Si le filtre ecole est actif
 		if (parametresPresents[2]) {
 			if (wherePlace) {
@@ -149,7 +152,7 @@ public class ServicePays extends Controller {
 			sql += "ville_ID = entrepriseVilleSecteur_ville_ID";
 			sql += ")";
 		}
-		
+
 		// Si le filtre secteur est actif
 		if (parametresPresents[4]) {
 			if (wherePlace) {
@@ -158,7 +161,7 @@ public class ServicePays extends Controller {
 				sql += " WHERE ";
 				wherePlace = true;
 			}
-			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)){
+			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 				sql += "pays_ID IN (";
 				sql += "SELECT ville_pays_ID FROM Ville, EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_secteur_ID = :secteur_ID";
 				sql += " AND ";
@@ -178,7 +181,8 @@ public class ServicePays extends Controller {
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
-			sqlQuery.setParameter("centralien_ID", Integer.parseInt(centralien_ID));
+			sqlQuery.setParameter("centralien_ID",
+			        Integer.parseInt(centralien_ID));
 		}
 		if (parametresPresents[1]) {
 			sqlQuery.setParameter("anneePromotion_ID",
@@ -188,7 +192,8 @@ public class ServicePays extends Controller {
 			sqlQuery.setParameter("ecole_ID", Integer.parseInt(ecole_ID));
 		}
 		if (parametresPresents[3]) {
-			sqlQuery.setParameter("entreprise_ID", Integer.parseInt(entreprise_ID));
+			sqlQuery.setParameter("entreprise_ID",
+			        Integer.parseInt(entreprise_ID));
 		}
 		if (parametresPresents[4]) {
 			sqlQuery.setParameter("secteur_ID", Integer.parseInt(secteur_ID));
@@ -203,10 +208,41 @@ public class ServicePays extends Controller {
 			String latitude = sqlRow.get("pays_latitude").toString();
 			String longitude = sqlRow.get("pays_longitude").toString();
 			String zoom = sqlRow.get("pays_zoom").toString();
-			listeDesPaysParCriteres.add(new String[] { identifiant, nom, latitude, longitude, zoom });
+			listeDesPaysParCriteres.add(new String[] { identifiant, nom,
+			        latitude, longitude, zoom });
 		}
 
 		return ok(Json.toJson(listeDesPaysParCriteres));
 	}
 
+	/** Cette fonction retourne les pays sans coordonnees */
+	public static List<String[]> paysSansCoordonnees() {
+		String sql = "SELECT pays_ID, pays_nomMinuscule FROM Pays";
+		sql += " WHERE ";
+		sql += "(pays_latitude IS NULL OR pays_latitude = 0)";
+		sql += " OR ";
+		sql += "pays_longitude IS NULL OR pays_longitude = 0";
+
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		List<SqlRow> listSqlRow = sqlQuery.findList();
+
+		List<String[]> listeDesPays = new ArrayList<String[]>();
+		for (SqlRow sqlRow : listSqlRow) {
+			String identifiant = sqlRow.get("pays_ID").toString();
+			String nom = sqlRow.get("pays_nomMinuscule").toString();
+			listeDesPays.add(new String[] { identifiant, nom });
+		}
+		return listeDesPays;
+	}
+
+	/** Cette fonction met a jour les coordonnees d'un pays */
+	public static void updateCoordonneesPays(String pays,
+	        Coordonnees coordonnees) {
+		String sql = "UPDATE Pays SET pays_latitude = :latitude, pays_longitude = :longitude WHERE pays_ID = :identifiant";
+		SqlUpdate sqlUpdate = Ebean.createSqlUpdate(sql);
+		sqlUpdate.setParameter("latitude", coordonnees.getLatitude());
+		sqlUpdate.setParameter("longitude", coordonnees.getLongitude());
+		sqlUpdate.setParameter("identifiant", Integer.parseInt(pays));
+		sqlUpdate.execute();
+	}
 }

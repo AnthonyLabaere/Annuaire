@@ -1,5 +1,7 @@
 package controllers;
 
+import geography.Coordonnees;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import play.mvc.Result;
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
+import com.avaje.ebean.SqlUpdate;
 
 import constantes.IConstantes;
 
@@ -37,21 +40,20 @@ public class ServiceVille extends Controller {
 			String nom = sqlRow.get("ville_nom").toString();
 			String latitude = sqlRow.get("ville_latitude").toString();
 			String longitude = sqlRow.get("ville_longitude").toString();
-			listeDesVilles.add(new String[] { identifiant, nom, latitude, longitude });
+			listeDesVilles.add(new String[] { identifiant, nom, latitude,
+			        longitude });
 		}
 
 		return ok(Json.toJson(listeDesVilles));
 	}
 
-	public static Result AJAX_listeDesVillesSelonCriteres(
-	        String centralien_ID, String anneePromotion_ID,
-	        String ecole_ID, String entreprise_ID, String secteur_ID,
-	        String pays_ID) {
+	public static Result AJAX_listeDesVillesSelonCriteres(String centralien_ID,
+	        String anneePromotion_ID, String ecole_ID, String entreprise_ID,
+	        String secteur_ID, String pays_ID) {
 
 		Boolean[] parametresPresents = new Boolean[] {
-				centralien_ID != null && !centralien_ID.isEmpty(),
-						anneePromotion_ID != null
-		                && !anneePromotion_ID.isEmpty(),
+		        centralien_ID != null && !centralien_ID.isEmpty(),
+		        anneePromotion_ID != null && !anneePromotion_ID.isEmpty(),
 		        ecole_ID != null
 		                && !ecole_ID.isEmpty()
 		                && !ecole_ID
@@ -118,7 +120,7 @@ public class ServiceVille extends Controller {
 				sql += ")";
 			}
 		}
-		
+
 		// Si le filtre ecole est actif
 		if (parametresPresents[2]) {
 			if (wherePlace) {
@@ -145,7 +147,7 @@ public class ServiceVille extends Controller {
 			sql += "SELECT entrepriseVilleSecteur_ville_ID FROM EntrepriseVilleSecteur WHERE entrepriseVilleSecteur_entreprise_ID = :entreprise_ID";
 			sql += ")";
 		}
-		
+
 		// Si le filtre secteur est actif
 		if (parametresPresents[4]) {
 			if (wherePlace) {
@@ -166,7 +168,7 @@ public class ServiceVille extends Controller {
 				sql += ")";
 			}
 		}
-		
+
 		// pays_ID est forcement present
 		if (wherePlace) {
 			sql += " AND ";
@@ -177,10 +179,11 @@ public class ServiceVille extends Controller {
 		sql += "ville_pays_ID = :pays_ID";
 
 		sql += " ORDER BY ville_nom ASC";
-		
+
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
-			sqlQuery.setParameter("centralien_ID", Integer.parseInt(centralien_ID));
+			sqlQuery.setParameter("centralien_ID",
+			        Integer.parseInt(centralien_ID));
 		}
 		if (parametresPresents[1]) {
 			sqlQuery.setParameter("anneePromotion_ID",
@@ -190,7 +193,8 @@ public class ServiceVille extends Controller {
 			sqlQuery.setParameter("ecole_ID", Integer.parseInt(ecole_ID));
 		}
 		if (parametresPresents[3]) {
-			sqlQuery.setParameter("entreprise_ID", Integer.parseInt(entreprise_ID));
+			sqlQuery.setParameter("entreprise_ID",
+			        Integer.parseInt(entreprise_ID));
 		}
 		if (parametresPresents[4]) {
 			sqlQuery.setParameter("secteur_ID", Integer.parseInt(secteur_ID));
@@ -205,9 +209,40 @@ public class ServiceVille extends Controller {
 			String nom = sqlRow.get("ville_nom").toString();
 			String latitude = sqlRow.get("ville_latitude").toString();
 			String longitude = sqlRow.get("ville_longitude").toString();
-			listeDesVillesParCriteres.add(new String[] { identifiant, nom, latitude, longitude });
+			listeDesVillesParCriteres.add(new String[] { identifiant, nom,
+			        latitude, longitude });
 		}
 
 		return ok(Json.toJson(listeDesVillesParCriteres));
+	}
+
+	/** Cette fonction retourne les villes sans coordonnees */
+	public static List<String[]> villesSansCoordonnees() {
+		String sql = "SELECT ville_ID, ville_nom FROM Ville WHERE ville_latitude IS NULL OR ville_longitude IS NULL";
+
+		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
+		List<SqlRow> listSqlRow = sqlQuery.findList();
+
+		List<String[]> listeDesVilles = new ArrayList<String[]>();
+		for (SqlRow sqlRow : listSqlRow) {
+			String identifiant = sqlRow.get("ville_ID").toString();
+			String nom = sqlRow.get("ville_nom").toString();
+			listeDesVilles.add(new String[] { identifiant, nom });
+		}
+
+		return listeDesVilles;
+
+	}
+
+	/** Cette fonction met a jour les coordonnees d'une ville */
+	public static void updateCoordonneesVille(String ville,
+	        Coordonnees coordonnees) {
+		String sql = "UPDATE Ville SET ville_latitude = :latitude, ville_longitude = :longitude WHERE ville_ID = :identifiant";
+		
+		SqlUpdate sqlUpdate = Ebean.createSqlUpdate(sql);
+		sqlUpdate.setParameter("latitude", coordonnees.getLatitude());
+		sqlUpdate.setParameter("longitude", coordonnees.getLongitude());
+		sqlUpdate.setParameter("identifiant", Integer.parseInt(ville));
+		sqlUpdate.execute();
 	}
 }
