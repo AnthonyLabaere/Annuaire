@@ -117,7 +117,7 @@ CREATE TABLE Centralien (
   centralien_ID INTEGER NOT NULL PRIMARY KEY DEFAULT nextval('CentralienSequence'),
   centralien_nom VARCHAR(50) NOT NULL,
   centralien_prenom VARCHAR(50) NOT NULL,
-  centralien_telephone INTEGER,
+  centralien_telephone VARCHAR(50),
   centralien_mail VARCHAR(50),
   centralien_anneePromotion_ID INTEGER REFERENCES AnneePromotion (anneePromotion_ID) NOT NULL
 );

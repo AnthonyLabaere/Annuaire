@@ -529,9 +529,9 @@ public class ServiceCentralien extends Controller {
 				} else if (tri.equals(IConstantesBDD.TRI_NOM)) {
 					sql += "centralien_nom";
 				} else if (tri.equals(IConstantesBDD.TRI_TELEPHONE)) {
-					sql += "telephone";
+					sql += "centralien_telephone";
 				} else if (tri.equals(IConstantesBDD.TRI_MAIL)) {
-					sql += "mail";
+					sql += "centralien_mail";
 				} else if (tri.equals(IConstantesBDD.TRI_ANNEEPROMOTION)) {
 					sql += "anneePromotion_libelle";
 				} else if (tri.equals(IConstantesBDD.TRI_POSTE)) {
