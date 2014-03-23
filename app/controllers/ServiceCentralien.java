@@ -500,8 +500,6 @@ public class ServiceCentralien extends Controller {
 		} else {
 			sql += "ecoleSecteur_secteur_ID = secteur_ID";
 		}
-		
-		System.out.println(sql);
 
 		// On ajoute les filtres
 		String conditionsSql = conditionsSelonFiltres(historique,
@@ -552,8 +550,6 @@ public class ServiceCentralien extends Controller {
 			sql += " LIMIT " + limite;
 			sql += " OFFSET " + offset;
 		}
-
-		System.out.println(sql);
 		
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
