@@ -11,6 +11,9 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 
+import constantes.IConstantes;
+import constantes.IConstantesBDD;
+
 /**
  * Service Ajax concernant la table Ecole
  * 
@@ -36,7 +39,7 @@ public class ServiceEcole extends Controller {
 	}
 
 	public static Result AJAX_listeDesEcolesSelonCriteres(
-	        String centralien_ID, String anneePromotion_ID,
+			boolean historique, String centralien_ID, String anneePromotion_ID,
 	        String secteur_ID, String pays_ID, String ville_ID) {
 		Boolean[] parametresPresents = new Boolean[] {
 				centralien_ID != null && !centralien_ID.isEmpty(),
@@ -47,13 +50,30 @@ public class ServiceEcole extends Controller {
 		        ville_ID != null && !ville_ID.isEmpty() };
 
 		Boolean wherePlace = false;
-
-		String sql = "SELECT ecole_ID, ecole_nom FROM Ecole";
+		
+		String sql = "SELECT DISTINCT ecole_ID, ecole_nom FROM Ecole";
+		
+		// On ajoute la contrainte d'historique
+		if (!historique) {
+			wherePlace = true;
+			
+			sql += ", EcoleSecteurCentralien, EcoleSecteur, Centralien";
+			sql += " WHERE ";
+			sql += "ecole_ID = ecoleSecteur_ecole_ID AND ecoleSecteur_ID = ecoleSecteurCentralien_ecolesecteur_ID AND ecoleSecteurCentralien_centralien_ID = centralien_ID";		
+			sql += " AND ";			
+			sql += "ecoleSecteurCentralien_ID IN (";
+			sql += "SELECT posteActuel_ecoleSecteurCentralien_ID FROM PosteActuel";
+			sql += ")";
+		}
 
 		// Si le filtre centralien est actif
 		if (parametresPresents[0]) {
-			wherePlace = true;
-			sql += " WHERE ";
+			if (wherePlace) {
+				sql += " AND ";
+			} else {
+				sql += " WHERE ";
+				wherePlace = true;
+			}
 			sql += "ecole_ID IN (";
 			sql += "SELECT ecoleSecteur_ecole_ID FROM EcoleSecteur, EcoleSecteurCentralien, Centralien WHERE centralien_ID = :centralien_ID";
 			sql += " AND ";

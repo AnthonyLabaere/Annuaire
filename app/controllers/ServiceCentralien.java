@@ -497,22 +497,22 @@ public class ServiceCentralien extends Controller {
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
-			sqlQuery.setParameter("centralien_ID",
-			        Integer.parseInt(centralien_ID));
-		}
-		if (parametresPresents[1]) {
 			sqlQuery.setParameter("anneePromotion_ID",
 			        Integer.parseInt(anneePromotion_ID));
 		}
-		if (parametresPresents[2]) {
+		if (parametresPresents[1]) {
 			sqlQuery.setParameter("ecole_ID", Integer.parseInt(ecole_ID));
 		}
-		if (parametresPresents[3]) {
+		if (parametresPresents[2]) {
 			sqlQuery.setParameter("entreprise_ID",
 			        Integer.parseInt(entreprise_ID));
 		}
-		if (parametresPresents[4]) {
+		if (parametresPresents[3]) {
 			sqlQuery.setParameter("secteur_ID", Integer.parseInt(secteur_ID));
+		}
+		if (parametresPresents[4]) {
+			sqlQuery.setParameter("centralien_ID",
+			        Integer.parseInt(centralien_ID));
 		}
 		// La ville est nécessairement indiquee
 		sqlQuery.setParameter("ville_ID", Integer.parseInt(ville_ID));
