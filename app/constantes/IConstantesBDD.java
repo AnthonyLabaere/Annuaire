@@ -10,10 +10,13 @@ package constantes;
 public interface IConstantesBDD {
 	
 	/** Principaux termes sql */
-	public static final String SQL_SELECT = "SELECT ";	
+	public static final String SQL_SELECT = "SELECT ";
+	public static final String SQL_UPDATE = "UPDATE ";
+	public static final String SQL_SET = "SET ";
 	public static final String SQL_WHERE = " WHERE ";	
 	public static final String SQL_FROM = " FROM ";	
 	public static final String SQL_AND = " AND ";	
+	public static final String SQL_OR = " OR ";	
 	public static final String SQL_ORDER_BY = " ORDER BY ";	
 	public static final String SQL_ASC = " ASC";	
 	public static final String SQL_DESC = " DESC";	
@@ -24,6 +27,8 @@ public interface IConstantesBDD {
 	public static final String SQL_BRACKET_CLOSE = ")";	
 	public static final String SQL_COMMA = ", ";	
 	public static final String SQL_COLON = ":";	
+	public static final String SQL_IS = " IS ";	
+	public static final String SQL_NULL = " NULL ";
 	public static final String SQL_DISTINCT = "DISTINCT ";
 	
 	/** Principales fonctions sql */

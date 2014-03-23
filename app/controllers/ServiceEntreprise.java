@@ -11,8 +11,6 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 
-import constantes.IConstantesBDD;
-
 /**
  * Service Ajax concernant la table Entreprise
  * 

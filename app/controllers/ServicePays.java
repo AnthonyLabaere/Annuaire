@@ -15,7 +15,6 @@ import com.avaje.ebean.SqlRow;
 import com.avaje.ebean.SqlUpdate;
 
 import constantes.IConstantes;
-import constantes.IConstantesBDD;
 
 /**
  * Service Ajax concernant la table Pays
