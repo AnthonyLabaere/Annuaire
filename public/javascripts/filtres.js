@@ -492,6 +492,7 @@ function miseAJourDuFiltreAnneePromotion(centralien_ID, ecole_ID,
 function miseAJourDuFiltreEcole(centralien_ID, anneePromotion_ID, secteur_ID,
 		pays_ID, ville_ID) {
 	jsRoutes.controllers.ServiceEcole.AJAX_listeDesEcolesSelonCriteres(
+			HTML(CHECKBOX_HISTORIQUE_ID).checked,
 			centralien_ID ? centralien_ID : "",
 			anneePromotion_ID ? anneePromotion_ID : "",
 			secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "",
@@ -510,6 +511,7 @@ function miseAJourDuFiltreEntreprise(centralien_ID, anneePromotion_ID,
 		secteur_ID, pays_ID, ville_ID) {
 	jsRoutes.controllers.ServiceEntreprise
 			.AJAX_listeDesEntreprisesSelonCriteres(
+					HTML(CHECKBOX_HISTORIQUE_ID).checked,
 					centralien_ID ? centralien_ID : "",
 					anneePromotion_ID ? anneePromotion_ID : "",
 					secteur_ID ? secteur_ID : "", pays_ID ? pays_ID : "",

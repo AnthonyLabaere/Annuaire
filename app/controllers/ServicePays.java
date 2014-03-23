@@ -15,6 +15,7 @@ import com.avaje.ebean.SqlRow;
 import com.avaje.ebean.SqlUpdate;
 
 import constantes.IConstantes;
+import constantes.IConstantesBDD;
 
 /**
  * Service Ajax concernant la table Pays
@@ -62,11 +63,16 @@ public class ServicePays extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT pays_ID, pays_nom, pays_latitude, pays_longitude, pays_zoom FROM Pays";
+		String sql = "SELECT DISTINCT pays_ID, pays_nom, pays_latitude, pays_longitude, pays_zoom FROM Pays";
 
 		// Si le filtre centralien est actif
 		if (parametresPresents[0]) {
-			wherePlace = true;
+			if (wherePlace) {
+				sql += " AND ";
+			} else {
+				sql += " WHERE ";
+				wherePlace = true;
+			}
 			sql += " WHERE ";
 			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 				sql += "pays_ID IN (";

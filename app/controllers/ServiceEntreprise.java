@@ -11,6 +11,8 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
 import com.avaje.ebean.SqlRow;
 
+import constantes.IConstantesBDD;
+
 /**
  * Service Ajax concernant la table Entreprise
  * 
@@ -36,7 +38,7 @@ public class ServiceEntreprise extends Controller {
 	}
 
 	public static Result AJAX_listeDesEntreprisesSelonCriteres(
-	        String centralien_ID, String anneePromotion_ID,
+	        boolean historique, String centralien_ID, String anneePromotion_ID,
 	        String secteur_ID, String pays_ID, String ville_ID) {
 		Boolean[] parametresPresents = new Boolean[] {
 				centralien_ID != null && !centralien_ID.isEmpty(),
@@ -48,12 +50,27 @@ public class ServiceEntreprise extends Controller {
 
 		Boolean wherePlace = false;
 
-		String sql = "SELECT entreprise_ID, entreprise_nom FROM Entreprise";
+		String sql = "SELECT DISTINCT entreprise_ID, entreprise_nom FROM Entreprise";
+		
+		// On ajoute la contrainte d'historique
+		if (!historique) {
+			wherePlace = true;
+			
+			sql += ", EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien";
+			sql += " WHERE ";
+				sql += "entrepriseVilleSecteurCentralien_centralien_ID IN (";
+				sql += "SELECT posteActuel_entrepriseVilleSecteurCentralien_ID FROM PosteActuel";
+				sql += ")";
+		}
 
 		// Si le filtre centralien est actif
 		if (parametresPresents[0]) {
-			wherePlace = true;
-			sql += " WHERE ";
+			if (wherePlace) {
+				sql += " AND ";
+			} else {
+				sql += " WHERE ";
+				wherePlace = true;
+			}
 			sql += "entreprise_ID IN (";
 			sql += "SELECT entrepriseVilleSecteur_entreprise_ID FROM EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien WHERE centralien_ID = :centralien_ID";
 			sql += " AND ";

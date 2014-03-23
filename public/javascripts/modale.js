@@ -110,15 +110,19 @@ function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 				+ HTML(ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID] + "_" + ville_ID).text;
 	} else {
 		rappelTexte += 'Coordonn&eacute;es des Centraliens';
-		if (historique) {
-			rappelTexte += ' ayant';
-		} else {
-			rappelTexte += ' travaillant';
-		}
+
 		if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
-			rappelTexte += ' &eacute;tudi&eacute; &agrave; ';
+			if (historique) {
+				rappelTexte += ' ayant &eacute;tudi&eacute; &agrave; ';
+			} else {
+				rappelTexte += ' &eacute;tudiant &agrave; ';
+			}
 		} else {
-			rappelTexte += ' travaill&eacute; &agrave; ';
+			if (historique) {
+				rappelTexte += ' ayant travaill&eacute; &agrave; ';
+			} else {
+				rappelTexte += ' travaillant &agrave; ';
+			}
 		}
 		rappelTexte += HTML(ARRAY_FILTRE_VILLE[ARRAY_FILTRE_ID] + "_"
 				+ ville_ID).text;
@@ -243,13 +247,13 @@ function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 					limite, offset, true, tri ? tri : "").ajax({
 				async : false,
 				success : function(data, textStatus, jqXHR) {
-					var nombre_pages = Math.ceil(data/NOMBRE_LIGNES);
-					
-					if (nombre_pages > 1){
+					var nombre_pages = Math.ceil(data / NOMBRE_LIGNES);
+
+					if (nombre_pages > 1) {
 						var pagination = document.createElement('p');
 						pagination.innerHTML = '';
-						for (var i = 1 ; i<nombre_pages ; i++){
-							pagination.innerHTML +=	i + ' - ';					
+						for ( var i = 1; i < nombre_pages; i++) {
+							pagination.innerHTML += i + ' - ';
 						}
 						pagination.innerHTML += nombre_pages;
 						modale.appendChild(pagination);
