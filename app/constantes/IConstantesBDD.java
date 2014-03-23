@@ -154,7 +154,10 @@ public interface IConstantesBDD {
 	public static final String TRI_DEFAUT = "defaut";
 	public static final String TRI_PRENOM = "prenom";
 	public static final String TRI_NOM = "nom";
+	public static final String TRI_TELEPHONE = "telephone";
+	public static final String TRI_MAIL = "mail";
 	public static final String TRI_ANNEEPROMOTION = "anneePromotion";
+	public static final String TRI_POSTE = "poste";
 	public static final String TRI_ECOLE = "ecole";
 	public static final String TRI_ENTREPRISE = "entreprise";
 	public static final String TRI_SECTEUR = "secteur";

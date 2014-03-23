@@ -38,7 +38,7 @@ Le fait que vous puissiez accéder à cet en-tête signifie que vous avez
 pris connaissance de la licence CeCILL et que vous en avez accepté les
 termes.
 
-******************************************************************************/
+ ******************************************************************************/
 
 package controllers;
 
@@ -266,11 +266,12 @@ public class ServiceCentralien extends Controller {
 	}
 
 	public static Result AJAX_listeDesCentraliensSelonCriteres(
-			boolean historique, String anneePromotion_ID, String ecole_ID, String entreprise_ID,
-	        String secteur_ID, String pays_ID, String ville_ID) {
+	        boolean historique, String anneePromotion_ID, String ecole_ID,
+	        String entreprise_ID, String secteur_ID, String pays_ID,
+	        String ville_ID) {
 		String identifiant = "identifiant";
 		String nomPrenom = "nomPrenom";
-		
+
 		boolean entrepriseActif = ecole_ID
 		        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF);
 
@@ -288,17 +289,17 @@ public class ServiceCentralien extends Controller {
 		        pays_ID != null && !pays_ID.isEmpty(),
 		        ville_ID != null && !ville_ID.isEmpty() };
 
-		String sql = IConstantesBDD.SQL_SELECT + IConstantesBDD.SQL_DISTINCT + IConstantesBDD.CENTRALIEN_ID
-		        + IConstantesBDD.SQL_AS + identifiant
-		        + IConstantesBDD.SQL_COMMA + IConstantesBDD.SQL_CONCAT
-		        + IConstantesBDD.SQL_BRACKET_OPEN
+		String sql = IConstantesBDD.SQL_SELECT + IConstantesBDD.SQL_DISTINCT
+		        + IConstantesBDD.CENTRALIEN_ID + IConstantesBDD.SQL_AS
+		        + identifiant + IConstantesBDD.SQL_COMMA
+		        + IConstantesBDD.SQL_CONCAT + IConstantesBDD.SQL_BRACKET_OPEN
 		        + IConstantesBDD.CENTRALIEN_NOM + IConstantesBDD.SQL_COMMA
 		        + "' '" + IConstantesBDD.SQL_COMMA
 		        + IConstantesBDD.CENTRALIEN_PRENOM
 		        + IConstantesBDD.SQL_BRACKET_CLOSE + IConstantesBDD.SQL_AS
 		        + nomPrenom + IConstantesBDD.SQL_FROM
-		        + IConstantesBDD.CENTRALIEN;		
-		
+		        + IConstantesBDD.CENTRALIEN;
+
 		sql += ", AnneePromotion";
 		if (entrepriseActif) {
 			sql += ", Entreprise, EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien";
@@ -322,9 +323,9 @@ public class ServiceCentralien extends Controller {
 		}
 
 		// On ajoute les filtres
-		String conditionsSql = conditionsSelonFiltres(historique, anneePromotion_ID,
-		        ecole_ID, entreprise_ID, secteur_ID, ville_ID,
-		        parametresPresents);
+		String conditionsSql = conditionsSelonFiltres(historique,
+		        anneePromotion_ID, ecole_ID, entreprise_ID, secteur_ID,
+		        ville_ID, parametresPresents);
 		if (!conditionsSql.isEmpty()) {
 			sql += conditionsSql;
 		}
@@ -460,7 +461,7 @@ public class ServiceCentralien extends Controller {
 
 		if (!nombreLignes) {
 			sql += IConstantesBDD.SQL_DISTINCT;
-			sql += "centralien_prenom, centralien_nom, centralien_telephone, centralien_mail, anneePromotion_libelle";
+			sql += "centralien_prenom, centralien_nom, centralien_telephone, centralien_mail, anneePromotion_libelle, poste_nom";
 			if (entrepriseActif) {
 				sql += ", entreprise_nom";
 			} else {
@@ -469,10 +470,16 @@ public class ServiceCentralien extends Controller {
 			sql += ", secteur_nom";
 		} else {
 			// Si le client veut uniquement le nombre total de lignes
-			sql += "COUNT(DISTINCT CONCAT(centralien_prenom, centralien_nom, centralien_telephone, centralien_mail, anneePromotion_libelle, entreprise_nom, secteur_nom)) AS nombreLignes";
+			sql += "COUNT(DISTINCT CONCAT(centralien_prenom, centralien_nom, centralien_telephone, centralien_mail, anneePromotion_libelle, poste_nom";
+			if (entrepriseActif) {
+				sql += ", entreprise_nom";
+			} else {
+				sql += ", ecole_nom";
+			}
+			sql += ", secteur_nom)) AS nombreLignes";
 		}
 
-		sql += " FROM Centralien, AnneePromotion";
+		sql += " FROM Centralien, AnneePromotion, Poste";
 		if (entrepriseActif) {
 			sql += ", Entreprise, EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien";
 		} else {
@@ -495,9 +502,9 @@ public class ServiceCentralien extends Controller {
 		}
 
 		// On ajoute les filtres
-		String conditionsSql = conditionsSelonFiltres(historique, anneePromotion_ID,
-		        ecole_ID, entreprise_ID, secteur_ID, ville_ID,
-		        parametresPresents);
+		String conditionsSql = conditionsSelonFiltres(historique,
+		        anneePromotion_ID, ecole_ID, entreprise_ID, secteur_ID,
+		        ville_ID, parametresPresents);
 		if (!conditionsSql.isEmpty()) {
 			sql += conditionsSql;
 		}
@@ -521,8 +528,14 @@ public class ServiceCentralien extends Controller {
 					sql += "centralien_prenom";
 				} else if (tri.equals(IConstantesBDD.TRI_NOM)) {
 					sql += "centralien_nom";
+				} else if (tri.equals(IConstantesBDD.TRI_TELEPHONE)) {
+					sql += "telephone";
+				} else if (tri.equals(IConstantesBDD.TRI_MAIL)) {
+					sql += "mail";
 				} else if (tri.equals(IConstantesBDD.TRI_ANNEEPROMOTION)) {
 					sql += "anneePromotion_libelle";
+				} else if (tri.equals(IConstantesBDD.TRI_POSTE)) {
+					sql += "poste_nom";
 				} else if (tri.equals(IConstantesBDD.TRI_ECOLE)) {
 					sql += "ecole_nom";
 				} else if (tri.equals(IConstantesBDD.TRI_ENTREPRISE)) {
@@ -537,7 +550,7 @@ public class ServiceCentralien extends Controller {
 			sql += " LIMIT " + limite;
 			sql += " OFFSET " + offset;
 		}
-		
+
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
 			sqlQuery.setParameter("anneePromotion_ID",
@@ -570,19 +583,20 @@ public class ServiceCentralien extends Controller {
 				String prenom = sqlRow.get("centralien_prenom").toString();
 				String nom = sqlRow.get("centralien_nom").toString();
 				String telephone;
-				if (sqlRow.get("centralien_telephone") != null){
+				if (sqlRow.get("centralien_telephone") != null) {
 					telephone = sqlRow.get("centralien_telephone").toString();
 				} else {
 					telephone = IConstantes.CHAMP_NON_RENSEIGNE;
 				}
 				String mail;
-				if (sqlRow.get("centralien_mail") != null){
+				if (sqlRow.get("centralien_mail") != null) {
 					mail = sqlRow.get("centralien_mail").toString();
 				} else {
 					mail = IConstantes.CHAMP_NON_RENSEIGNE;
 				}
 				String anneePromotion = sqlRow.get("anneePromotion_libelle")
 				        .toString();
+				String poste = sqlRow.get("poste_nom").toString();
 				String ecoleOuEntreprise;
 				if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
 					ecoleOuEntreprise = sqlRow.get("entreprise_nom").toString();
@@ -591,7 +605,8 @@ public class ServiceCentralien extends Controller {
 				}
 				String secteur = sqlRow.get("secteur_nom").toString();
 				listeDesCoordonneesDesCentraliens.add(new String[] { prenom,
-				        nom, telephone, mail, anneePromotion, ecoleOuEntreprise, secteur });
+				        nom, telephone, mail, anneePromotion, poste,
+				        ecoleOuEntreprise, secteur });
 			}
 
 			return ok(Json.toJson(listeDesCoordonneesDesCentraliens));

@@ -42,13 +42,13 @@ termes.
 
 package controllers;
 
+import connections.LDAP;
 import geography.ThreadGeocoder;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import connections.LDAP;
 
 /**
  * Classe Application : detaille les pages a afficher

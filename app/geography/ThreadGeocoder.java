@@ -47,6 +47,7 @@ import java.util.List;
 import controllers.ServicePays;
 import controllers.ServiceVille;
 
+
 /**
  * Ce thread appelle le webservice de Google pour alimenter les bases en
  * coordonnees geographiques

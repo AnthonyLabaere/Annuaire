@@ -214,6 +214,11 @@ function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 			+ ', ' + limite + ', ' + numeroBloc
 			+ ', "anneePromotion");afficherModale();');
 	anneePromotionTh.innerHTML = 'Promotion';
+	var posteTh = document.createElement('th');
+	posteTh.setAttribute('onClick', 'alimenterModale(' + ville_ID
+			+ ', ' + limite + ', ' + numeroBloc
+			+ ', "poste");afficherModale();');
+	posteTh.innerHTML = 'Poste';
 	var ecoleOuEntrepriseTh = document.createElement('th');
 	if (HTML(ARRAY_FILTRE_ECOLE[ARRAY_FILTRE_ID])) {
 		ecoleOuEntrepriseTh.setAttribute('onClick', 'alimenterModale('
@@ -237,6 +242,7 @@ function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 	bodyTr.appendChild(telephoneTh);
 	bodyTr.appendChild(mailTh);
 	bodyTr.appendChild(anneePromotionTh);
+	bodyTr.appendChild(posteTh);
 	bodyTr.appendChild(ecoleOuEntrepriseTh);
 	bodyTr.appendChild(secteurTh);
 
@@ -276,10 +282,12 @@ function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 						mailTd.innerHTML = data[element][3];
 						var anneePromotionTd = document.createElement('td');
 						anneePromotionTd.innerHTML = data[element][4];
+						var posteTd = document.createElement('td');
+						posteTd.innerHTML = data[element][5];
 						var ecoleOuEntrepriseTd = document.createElement('td');
-						ecoleOuEntrepriseTd.innerHTML = data[element][5];
+						ecoleOuEntrepriseTd.innerHTML = data[element][6];
 						var secteurTd = document.createElement('td');
-						secteurTd.innerHTML = data[element][6];
+						secteurTd.innerHTML = data[element][7];
 
 						var modaleTr = document.createElement('tr');
 						modaleTr.appendChild(prenomTd);
@@ -287,6 +295,7 @@ function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 						modaleTr.appendChild(telephoneTd);
 						modaleTr.appendChild(mailTd);
 						modaleTr.appendChild(anneePromotionTd);
+						modaleTr.appendChild(posteTd);
 						modaleTr.appendChild(ecoleOuEntrepriseTd);
 						modaleTr.appendChild(secteurTd);
 

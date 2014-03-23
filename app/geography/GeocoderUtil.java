@@ -50,6 +50,7 @@ import com.google.code.geocoder.model.LatLng;
 
 import constantes.IConstantes;
 
+
 /**
  * Cette classe liste des fonctions appelant le webservice "Google geocoder"
  * (Utilisation de classes internes (Coords et non LatLng) afin de garder une
