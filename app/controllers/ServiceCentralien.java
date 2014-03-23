@@ -359,9 +359,11 @@ public class ServiceCentralien extends Controller {
 	 * informations les concernant
 	 */
 	public static Result AJAX_listeDesCoordonneesDesCentraliens(
-	        boolean historique, String centralien_ID, String anneePromotion_ID, String ecole_ID,
-	        String entreprise_ID, String secteur_ID, String ville_ID, Integer limite, Integer offset, String tri) {
-		
+	        boolean historique, String centralien_ID, String anneePromotion_ID,
+	        String ecole_ID, String entreprise_ID, String secteur_ID,
+	        String ville_ID, Integer limite, Integer offset,
+	        boolean nombreLignes, String tri) {
+
 		Boolean[] parametresPresents = new Boolean[] {
 		        centralien_ID != null && !centralien_ID.isEmpty(),
 		        anneePromotion_ID != null && !anneePromotion_ID.isEmpty(),
@@ -375,18 +377,27 @@ public class ServiceCentralien extends Controller {
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
 		        secteur_ID != null && !secteur_ID.isEmpty(),
 		        ville_ID != null && !ville_ID.isEmpty() };
-		
-		boolean entrepriseActif = ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF);
+
+		boolean entrepriseActif = ecole_ID
+		        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF);
 
 		// Les informations renvoyees sont le prenom, le nom, l'annee de
 		// Promotion, l'ecole ou l'entreprise, le secteur
-		String sql = "SELECT centralien_prenom, centralien_nom, anneePromotion_libelle";
-		if (entrepriseActif) {
-			sql += ", entreprise_nom";
+		String sql = "SELECT ";
+
+		// Si le client veut uniquement le nombre total de lignes
+		if (!nombreLignes) {
+			sql += "centralien_prenom, centralien_nom, anneePromotion_libelle";
+			if (entrepriseActif) {
+				sql += ", entreprise_nom";
+			} else {
+				sql += ", ecole_nom";
+			}
+			sql += ", secteur_nom";
 		} else {
-			sql += ", ecole_nom";
+			sql += "COUNT(centralien_prenom) AS nombreLignes";
 		}
-		sql += ", secteur_nom";
+
 		sql += " FROM Centralien, AnneePromotion";
 		if (entrepriseActif) {
 			sql += ", Entreprise, EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien";
@@ -408,11 +419,11 @@ public class ServiceCentralien extends Controller {
 		} else {
 			sql += "ecoleSecteur_secteur_ID = secteur_ID";
 		}
-		
+
 		// On ajoute la contrainte d'historique
-		if (!historique){
+		if (!historique) {
 			sql += " AND ";
-			if (entrepriseActif){
+			if (entrepriseActif) {
 				sql += "entrepriseVilleSecteurCentralien_centralien_ID IN (";
 				sql += "SELECT posteActuel_entrepriseVilleSecteurCentralien_ID FROM PosteActuel";
 				sql += ")";
@@ -420,7 +431,7 @@ public class ServiceCentralien extends Controller {
 				sql += "ecoleSecteurCentralien_ID IN (";
 				sql += "SELECT posteActuel_ecoleSecteurCentralien_ID FROM PosteActuel";
 				sql += ")";
-			}			
+			}
 		}
 
 		// Si le filtre centralien est actif
@@ -491,31 +502,35 @@ public class ServiceCentralien extends Controller {
 			sql += ")";
 		}
 
-		if (tri != null && !tri.isEmpty()){
-			sql += " ORDER BY ";
-			
-			if (tri.equals(IConstantesBDD.TRI_DEFAUT)){
-				sql += "centralien_nom, centralien_prenom";
-			} else if (tri.equals(IConstantesBDD.TRI_PRENOM)) {
-				sql += "centralien_prenom";				
-			} else if (tri.equals(IConstantesBDD.TRI_NOM)) {
-				sql += "centralien_nom";				
-			} else if (tri.equals(IConstantesBDD.TRI_ANNEEPROMOTION)) {
-				sql += "anneePromotion_libelle";				
-			} else if (tri.equals(IConstantesBDD.TRI_ECOLE)) {
-				sql += "ecole_nom";				
-			} else if (tri.equals(IConstantesBDD.TRI_ENTREPRISE)) {
-				sql += "entreprise_nom";				
-			} else if (tri.equals(IConstantesBDD.TRI_SECTEUR)) {
-				sql += "secteur_nom";				
+		// Si le client veut uniquement le nombre total de lignes, il ne faut
+		// pas limiter ce nombre ou trier les resultat
+		if (!nombreLignes) {
+
+			if (tri != null && !tri.isEmpty()) {
+				sql += " ORDER BY ";
+
+				if (tri.equals(IConstantesBDD.TRI_DEFAUT)) {
+					sql += "centralien_nom, centralien_prenom";
+				} else if (tri.equals(IConstantesBDD.TRI_PRENOM)) {
+					sql += "centralien_prenom";
+				} else if (tri.equals(IConstantesBDD.TRI_NOM)) {
+					sql += "centralien_nom";
+				} else if (tri.equals(IConstantesBDD.TRI_ANNEEPROMOTION)) {
+					sql += "anneePromotion_libelle";
+				} else if (tri.equals(IConstantesBDD.TRI_ECOLE)) {
+					sql += "ecole_nom";
+				} else if (tri.equals(IConstantesBDD.TRI_ENTREPRISE)) {
+					sql += "entreprise_nom";
+				} else if (tri.equals(IConstantesBDD.TRI_SECTEUR)) {
+					sql += "secteur_nom";
+				}
+			} else {
+				sql += " ORDER BY centralien_nom, centralien_prenom";
 			}
-		} else {
-			sql += " ORDER BY centralien_nom, centralien_prenom";
+
+			sql += " LIMIT " + limite;
+			sql += " OFFSET " + offset;
 		}
-		
-		// On met les parametres en integer pour des raisons de securite
-		sql += " LIMIT " +limite;
-		sql += " OFFSET " + offset;
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
 		if (parametresPresents[0]) {
@@ -539,28 +554,35 @@ public class ServiceCentralien extends Controller {
 		// La ville est nécessairement indiquee
 		sqlQuery.setParameter("ville_ID", Integer.parseInt(ville_ID));
 
-		List<SqlRow> listSqlRow = sqlQuery.findList();
+		if (!nombreLignes) {
+			List<SqlRow> listSqlRow = sqlQuery.findList();
 
-		// Liste de double String : le premier est l'ID et le deuxième est le
-		// prenomNom
-		List<String[]> listeDesCoordonneesDesCentraliens = new ArrayList<String[]>();
-		for (SqlRow sqlRow : listSqlRow) {
-			String prenom = sqlRow.get("centralien_prenom").toString();
-			String nom = sqlRow.get("centralien_nom").toString();
-			String anneePromotion = sqlRow.get("anneePromotion_libelle")
-			        .toString();
-			String ecoleOuEntreprise;
-			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
-				ecoleOuEntreprise = sqlRow.get("entreprise_nom").toString();
-			} else {
-				ecoleOuEntreprise = sqlRow.get("ecole_nom").toString();
+			// Liste de double String : le premier est l'ID et le deuxième est
+			// le
+			// prenomNom
+			List<String[]> listeDesCoordonneesDesCentraliens = new ArrayList<String[]>();
+			for (SqlRow sqlRow : listSqlRow) {
+				String prenom = sqlRow.get("centralien_prenom").toString();
+				String nom = sqlRow.get("centralien_nom").toString();
+				String anneePromotion = sqlRow.get("anneePromotion_libelle")
+				        .toString();
+				String ecoleOuEntreprise;
+				if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
+					ecoleOuEntreprise = sqlRow.get("entreprise_nom").toString();
+				} else {
+					ecoleOuEntreprise = sqlRow.get("ecole_nom").toString();
+				}
+				String secteur = sqlRow.get("secteur_nom").toString();
+				listeDesCoordonneesDesCentraliens.add(new String[] { prenom,
+				        nom, anneePromotion, ecoleOuEntreprise, secteur });
 			}
-			String secteur = sqlRow.get("secteur_nom").toString();
-			listeDesCoordonneesDesCentraliens.add(new String[] { prenom, nom,
-			        anneePromotion, ecoleOuEntreprise, secteur });
+
+			return ok(Json.toJson(listeDesCoordonneesDesCentraliens));
+		} else {
+			SqlRow sqlRow = sqlQuery.findUnique();
+			return ok(Json.toJson(sqlRow.get("nombreLignes").toString()));
 		}
 
-		return ok(Json.toJson(listeDesCoordonneesDesCentraliens));
 	}
 
 }
