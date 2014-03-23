@@ -25,8 +25,9 @@ public class ServiceSecteur extends Controller {
 		String sql = "SELECT secteur_ID, secteur_nom FROM Secteur ORDER BY secteur_nom ASC";
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
-		List<SqlRow> listSqlRow = sqlQuery.findList();		
-		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		List<SqlRow> listSqlRow = sqlQuery.findList();
+		// Liste de double String : le premier est l'ID et le deuxième est le
+		// nom
 		List<String[]> listeDesSecteurs = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("secteur_ID").toString();
@@ -43,7 +44,7 @@ public class ServiceSecteur extends Controller {
 		Boolean[] parametresPresents = new Boolean[] {
 		        centralien_ID != null && !centralien_ID.isEmpty(),
 		        anneePromotion_ID != null && !anneePromotion_ID.isEmpty(),
-		        		ecole_ID != null
+		        ecole_ID != null
 		                && !ecole_ID.isEmpty()
 		                && !ecole_ID
 		                        .equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF),
@@ -107,7 +108,7 @@ public class ServiceSecteur extends Controller {
 				sql += ")";
 			}
 		}
-		
+
 		// Si le filtre ecole est actif
 		if (parametresPresents[2]) {
 			if (wherePlace) {
@@ -134,7 +135,7 @@ public class ServiceSecteur extends Controller {
 			sql += "SELECT entrepriseVilleSecteur_secteur_ID FROM EntrepriseVilleSecteur, Entreprise WHERE entrepriseVilleSecteur_entreprise_ID = :entreprise_ID";
 			sql += ")";
 		}
-		
+
 		// Si le filtre pays est actif mais pas le filtre ville
 		if (parametresPresents[4] && !parametresPresents[5]) {
 			if (wherePlace) {
@@ -159,7 +160,7 @@ public class ServiceSecteur extends Controller {
 				sql += ")";
 			}
 		}
-		
+
 		// Si le filtre ville est actif
 		if (parametresPresents[5]) {
 			if (wherePlace) {
@@ -200,7 +201,8 @@ public class ServiceSecteur extends Controller {
 			sqlQuery.setParameter("ecole_ID", Integer.parseInt(ecole_ID));
 		}
 		if (parametresPresents[3]) {
-			sqlQuery.setParameter("entreprise_ID", Integer.parseInt(entreprise_ID));
+			sqlQuery.setParameter("entreprise_ID",
+			        Integer.parseInt(entreprise_ID));
 		}
 		if (parametresPresents[4] && !parametresPresents[5]) {
 			sqlQuery.setParameter("pays_ID", Integer.parseInt(pays_ID));
@@ -209,8 +211,9 @@ public class ServiceSecteur extends Controller {
 			sqlQuery.setParameter("ville_ID", Integer.parseInt(ville_ID));
 		}
 
-		List<SqlRow> listSqlRow = sqlQuery.findList();		
-		// Liste de double String : le premier est l'ID et le deuxième est le nom
+		List<SqlRow> listSqlRow = sqlQuery.findList();
+		// Liste de double String : le premier est l'ID et le deuxième est le
+		// nom
 		List<String[]> listeDesSecteursParCriteres = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
 			String identifiant = sqlRow.get("secteur_ID").toString();

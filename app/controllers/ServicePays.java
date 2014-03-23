@@ -45,7 +45,7 @@ public class ServicePays extends Controller {
 		return ok(Json.toJson(listeDesPays));
 	}
 
-	public static Result AJAX_listeDesPaysSelonCriteres(boolean historique, String centralien_ID,
+	public static Result AJAX_listeDesPaysSelonCriteres(String centralien_ID,
 	        String anneePromotion_ID, String ecole_ID, String entreprise_ID,
 	        String secteur_ID) {
 		Boolean[] parametresPresents = new Boolean[] {
@@ -64,28 +64,6 @@ public class ServicePays extends Controller {
 		Boolean wherePlace = false;
 
 		String sql = "SELECT DISTINCT pays_ID, pays_nom, pays_latitude, pays_longitude, pays_zoom FROM Pays";
-		
-		// On ajoute la contrainte d'historique
-		if (!historique) {
-			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
-				sql += ", EntrepriseVilleSecteur, EntrepriseVilleSecteurCentralien, Centralien";
-			} else {
-				sql += ", EcoleSecteurCentralien, EcoleSecteur, Centralien";
-			}
-			
-			wherePlace = true;
-			sql += " WHERE ";
-			
-			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
-				sql += "entrepriseVilleSecteurCentralien_centralien_ID IN (";
-				sql += "SELECT posteActuel_entrepriseVilleSecteurCentralien_ID FROM PosteActuel";
-				sql += ")";
-			} else {
-				sql += "ecoleSecteurCentralien_ID IN (";
-				sql += "SELECT posteActuel_ecoleSecteurCentralien_ID FROM PosteActuel";
-				sql += ")";
-			}
-		}
 
 		// Si le filtre centralien est actif
 		if (parametresPresents[0]) {

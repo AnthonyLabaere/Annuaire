@@ -25,7 +25,7 @@ POST    /AJAX_listeDesEntreprisesSelonCriteres           controllers.ServiceEntr
 POST    /AJAX_listeDesSecteurs                           controllers.ServiceSecteur.AJAX_listeDesSecteurs()
 POST    /AJAX_listeDesSecteursSelonCriteres              controllers.ServiceSecteur.AJAX_listeDesSecteursSelonCriteres(centralien_ID: String, anneePromotion_ID: String, ecole_ID: String, entreprise_ID: String, pays_ID: String, ville_ID: String)
 POST    /AJAX_listeDesPays                               controllers.ServicePays.AJAX_listeDesPays()
-POST    /AJAX_listeDesPaysSelonCriteres                  controllers.ServicePays.AJAX_listeDesPaysSelonCriteres(historique:Boolean, centralien_ID: String, anneePromotion_ID: String, ecole_ID: String, entreprise_ID: String, secteur_ID: String)
+POST    /AJAX_listeDesPaysSelonCriteres                  controllers.ServicePays.AJAX_listeDesPaysSelonCriteres(centralien_ID: String, anneePromotion_ID: String, ecole_ID: String, entreprise_ID: String, secteur_ID: String)
 POST    /AJAX_listeDesVillesDuPays                       controllers.ServiceVille.AJAX_listeDesVillesDuPays(pays_ID: String)
 POST    /AJAX_listeDesVillesSelonCriteres                controllers.ServiceVille.AJAX_listeDesVillesSelonCriteres(centralien_ID: String, anneePromotion_ID: String, ecole_ID: String, entreprise_ID: String, secteur_ID: String, pays_ID: String)
 

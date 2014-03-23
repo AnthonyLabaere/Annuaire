@@ -548,7 +548,6 @@ function miseAJourDuFiltreSecteur(centralien_ID, anneePromotion_ID, ecole_ID,
 function miseAJourDuFiltrePays(centralien_ID, anneePromotion_ID, ecole_ID,
 		entreprise_ID, secteur_ID) {
 	jsRoutes.controllers.ServicePays.AJAX_listeDesPaysSelonCriteres(
-			HTML(CHECKBOX_HISTORIQUE_ID).checked,
 			centralien_ID ? centralien_ID : "",
 			anneePromotion_ID ? anneePromotion_ID : "",
 			ecole_ID ? ecole_ID : "", entreprise_ID ? entreprise_ID : "",
