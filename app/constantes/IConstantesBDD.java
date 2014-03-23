@@ -24,6 +24,7 @@ public interface IConstantesBDD {
 	public static final String SQL_BRACKET_CLOSE = ")";	
 	public static final String SQL_COMMA = ", ";	
 	public static final String SQL_COLON = ":";	
+	public static final String SQL_DISTINCT = "DISTINCT ";
 	
 	/** Principales fonctions sql */
 	public static final String SQL_CONCAT = "CONCAT";

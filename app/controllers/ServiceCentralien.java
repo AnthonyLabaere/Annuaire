@@ -246,7 +246,7 @@ public class ServiceCentralien extends Controller {
 		        pays_ID != null && !pays_ID.isEmpty(),
 		        ville_ID != null && !ville_ID.isEmpty() };
 
-		String sql = IConstantesBDD.SQL_SELECT + IConstantesBDD.CENTRALIEN_ID
+		String sql = IConstantesBDD.SQL_SELECT + IConstantesBDD.SQL_DISTINCT + IConstantesBDD.CENTRALIEN_ID
 		        + IConstantesBDD.SQL_AS + identifiant
 		        + IConstantesBDD.SQL_COMMA + IConstantesBDD.SQL_CONCAT
 		        + IConstantesBDD.SQL_BRACKET_OPEN
@@ -415,6 +415,7 @@ public class ServiceCentralien extends Controller {
 		// Les informations renvoyees sont le prenom, le nom, l'annee de
 		// Promotion, l'ecole ou l'entreprise, le secteur
 		String sql = "SELECT ";
+		sql += IConstantesBDD.SQL_DISTINCT;
 
 		// Si le client veut uniquement le nombre total de lignes
 		if (!nombreLignes) {
