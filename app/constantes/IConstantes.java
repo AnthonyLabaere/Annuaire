@@ -13,5 +13,8 @@ public interface IConstantes {
 	
 	/** Status "ok" renvoye par le webservice */
 	public static final String GEOCODER_STATUS_OK = "OK";
+	
+	/** Message a afficher a la place du champ si le centralien ne l'a pas renseigne */
+	public static final String CHAMP_NON_RENSEIGNE = "Non renseign&eacute;";
 
 }

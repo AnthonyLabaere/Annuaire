@@ -159,6 +159,14 @@ function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 	nomTh.setAttribute('onClick', 'alimenterModale(' + ville_ID + ', ' + limite
 			+ ', ' + numeroBloc + ', "nom");afficherModale();');
 	nomTh.innerHTML = 'Nom';
+	var telephoneTh = document.createElement('th');
+	telephoneTh.setAttribute('onClick', 'alimenterModale(' + ville_ID + ', ' + limite
+			+ ', ' + numeroBloc + ', "telephone");afficherModale();');
+	telephoneTh.innerHTML = 'T&eacute;l&eacute;phone';
+	var mailTh = document.createElement('th');
+	mailTh.setAttribute('onClick', 'alimenterModale(' + ville_ID + ', ' + limite
+			+ ', ' + numeroBloc + ', "mail");afficherModale();');
+	mailTh.innerHTML = 'Mail';
 	var anneePromotionTh = document.createElement('th');
 	anneePromotionTh.setAttribute('onClick', 'alimenterModale(' + ville_ID
 			+ ', ' + limite + ', ' + numeroBloc
@@ -184,6 +192,8 @@ function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 	var bodyTr = document.createElement('tr');
 	bodyTr.appendChild(prenomTh);
 	bodyTr.appendChild(nomTh);
+	bodyTr.appendChild(telephoneTh);
+	bodyTr.appendChild(mailTh);
 	bodyTr.appendChild(anneePromotionTh);
 	bodyTr.appendChild(ecoleOuEntrepriseTh);
 	bodyTr.appendChild(secteurTh);
@@ -218,16 +228,22 @@ function alimenterModale(ville_ID, limite, numeroBloc, tri) {
 						prenomTd.innerHTML = data[element][0];
 						var nomTd = document.createElement('td');
 						nomTd.innerHTML = data[element][1];
+						var telephoneTd = document.createElement('td');
+						telephoneTd.innerHTML = data[element][2];
+						var mailTd = document.createElement('td');
+						mailTd.innerHTML = data[element][3];
 						var anneePromotionTd = document.createElement('td');
-						anneePromotionTd.innerHTML = data[element][2];
+						anneePromotionTd.innerHTML = data[element][4];
 						var ecoleOuEntrepriseTd = document.createElement('td');
-						ecoleOuEntrepriseTd.innerHTML = data[element][3];
+						ecoleOuEntrepriseTd.innerHTML = data[element][5];
 						var secteurTd = document.createElement('td');
-						secteurTd.innerHTML = data[element][4];
+						secteurTd.innerHTML = data[element][6];
 
 						var modaleTr = document.createElement('tr');
 						modaleTr.appendChild(prenomTd);
 						modaleTr.appendChild(nomTd);
+						modaleTr.appendChild(telephoneTd);
+						modaleTr.appendChild(mailTd);
 						modaleTr.appendChild(anneePromotionTd);
 						modaleTr.appendChild(ecoleOuEntrepriseTd);
 						modaleTr.appendChild(secteurTd);

@@ -418,7 +418,7 @@ public class ServiceCentralien extends Controller {
 
 		if (!nombreLignes) {
 			sql += IConstantesBDD.SQL_DISTINCT;
-			sql += "centralien_prenom, centralien_nom, anneePromotion_libelle";
+			sql += "centralien_prenom, centralien_nom, centralien_telephone, centralien_mail, anneePromotion_libelle";
 			if (entrepriseActif) {
 				sql += ", entreprise_nom";
 			} else {
@@ -427,7 +427,7 @@ public class ServiceCentralien extends Controller {
 			sql += ", secteur_nom";
 		} else {
 			// Si le client veut uniquement le nombre total de lignes
-			sql += "COUNT(DISTINCT CONCAT(centralien_prenom, centralien_nom, anneePromotion_libelle, entreprise_nom, secteur_nom)) AS nombreLignes";
+			sql += "COUNT(DISTINCT CONCAT(centralien_prenom, centralien_nom, centralien_telephone, centralien_mail, anneePromotion_libelle, entreprise_nom, secteur_nom)) AS nombreLignes";
 		}
 
 		sql += " FROM Centralien, AnneePromotion";
@@ -522,12 +522,23 @@ public class ServiceCentralien extends Controller {
 			List<SqlRow> listSqlRow = sqlQuery.findList();
 
 			// Liste de double String : le premier est l'ID et le deuxième est
-			// le
-			// prenomNom
+			// le prenomNom
 			List<String[]> listeDesCoordonneesDesCentraliens = new ArrayList<String[]>();
 			for (SqlRow sqlRow : listSqlRow) {
 				String prenom = sqlRow.get("centralien_prenom").toString();
 				String nom = sqlRow.get("centralien_nom").toString();
+				String telephone;
+				if (sqlRow.get("centralien_telephone") != null){
+					telephone = sqlRow.get("centralien_telephone").toString();
+				} else {
+					telephone = IConstantes.CHAMP_NON_RENSEIGNE;
+				}
+				String mail;
+				if (sqlRow.get("centralien_mail") != null){
+					mail = sqlRow.get("centralien_mail").toString();
+				} else {
+					mail = IConstantes.CHAMP_NON_RENSEIGNE;
+				}
 				String anneePromotion = sqlRow.get("anneePromotion_libelle")
 				        .toString();
 				String ecoleOuEntreprise;
@@ -538,7 +549,7 @@ public class ServiceCentralien extends Controller {
 				}
 				String secteur = sqlRow.get("secteur_nom").toString();
 				listeDesCoordonneesDesCentraliens.add(new String[] { prenom,
-				        nom, anneePromotion, ecoleOuEntreprise, secteur });
+				        nom, telephone, mail, anneePromotion, ecoleOuEntreprise, secteur });
 			}
 
 			return ok(Json.toJson(listeDesCoordonneesDesCentraliens));
