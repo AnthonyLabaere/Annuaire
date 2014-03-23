@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                           controllers.Application.index(erreur: Boolean = true)
 
 POST	/							controllers.Application.login()
 

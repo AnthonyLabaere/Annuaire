@@ -20,6 +20,7 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 
 ******************************************************************************@
+@(erreur: Boolean)
 @main("Annuaire ACCENTS"){
 <div class = "pourAlignerVerticalement">
 </div>
@@ -39,6 +40,9 @@
 	<p>
 		<button>OK</button>
 	</p>
+	@if(!erreur){
+		<p>Login / mot de passe incompatible<p>
+	}
 </form>
 </div>
 }
