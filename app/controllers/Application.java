@@ -23,7 +23,7 @@
 
 package controllers;
 
-import geography.GeocoderUtil;
+import geography.ThreadGeocoder;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -40,13 +40,14 @@ import connections.LDAP;
 public class Application extends Controller {
 
 	/**
-	 * Affiche la page d'index
+	 * Affiche la page d'index avec un message d'erreur de connexion si le
+	 * parametre renseigne est true
 	 * 
 	 * @return la page d'index si l'uid est null ou la carte sinon
 	 */
-	public static Result index() {		
+	public static Result index(boolean erreur) {
 		if (session("uid") == null) {
-			return ok(views.html.index.render());
+			return ok(views.html.index.render(erreur));
 		} else {
 			return showCarte();
 		}
@@ -64,7 +65,7 @@ public class Application extends Controller {
 			session("uid", login);
 			return showCarte();
 		} else {
-			return index();
+			return index(false);
 		}
 	}
 
@@ -84,13 +85,14 @@ public class Application extends Controller {
 	 * @return la page de la carte
 	 */
 	public static Result showCarte() {
-		
-		// Avant de montrer la carte on verifie que la base est correctement alimentee en coordonnees GPS (uniquement en mode developpeur)
-		if(Play.application().configuration().getString("developpeur.mode").equals("on")){
-			GeocoderUtil.alimenterPays();
-			GeocoderUtil.alimenterVilles();
+
+		// Avant de montrer la carte on verifie que la base est correctement
+		// alimentee en coordonnees GPS (uniquement en mode developpeur)
+		if (Play.application().configuration().getString("developpeur.mode")
+		        .equals("on")) {
+			new ThreadGeocoder().start();
 		}
-		
+
 		return ok(views.html.carte.render());
 	}
 

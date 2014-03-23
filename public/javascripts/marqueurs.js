@@ -32,6 +32,7 @@ function init_marqueur() {
 	});
 
 	CARTE.addControl(SELECT_CONTROL);
+
 	SELECT_CONTROL.activate();
 
 	// On cree les marqueurs (un par pays)
@@ -112,7 +113,7 @@ function miseAjourDesMarqueurs() {
 			// l'application affiche les villes du pays apres avoir effectue un
 			// zoom sur le pays
 			zoom(filtre_pays.options[filtre_pays.selectedIndex]);
-			
+
 			var nombre_ville = filtre_ville.options.length;
 			for ( var i = 1; i < nombre_ville; i++) {
 				ajout_marqueur(TYPES_MARQUEUR[TYPE_MARQUEUR_VILLE_ID],

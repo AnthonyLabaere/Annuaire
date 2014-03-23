@@ -128,7 +128,7 @@ var ZOOM_INITIAL = 6;
  */
 
 /** Nombre de lignes par défaut */
-var NOMBRE_LIGNES = 20;
+var NOMBRE_LIGNES = 2;
 
 /**
  * -----------------------------------------------------------------------------

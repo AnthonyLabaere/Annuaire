@@ -449,6 +449,7 @@ function miseAJourDuFiltreCentralien(anneePromotion_ID, ecole_ID,
 		entreprise_ID, secteur_ID, pays_ID, ville_ID) {
 	jsRoutes.controllers.ServiceCentralien
 			.AJAX_listeDesCentraliensSelonCriteres(
+					HTML(CHECKBOX_HISTORIQUE_ID).checked,
 					anneePromotion_ID ? anneePromotion_ID : "",
 					ecole_ID ? ecole_ID : "",
 					entreprise_ID ? entreprise_ID : "",
