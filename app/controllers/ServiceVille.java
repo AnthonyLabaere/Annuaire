@@ -15,6 +15,7 @@ import com.avaje.ebean.SqlRow;
 import com.avaje.ebean.SqlUpdate;
 
 import constantes.IConstantes;
+import constantes.IConstantesBDD;
 
 /**
  * Service Ajax concernant la table Ville
@@ -25,21 +26,41 @@ import constantes.IConstantes;
 public class ServiceVille extends Controller {
 
 	public static Result AJAX_listeDesVillesDuPays(String pays_ID) {
-
-		String sql = "SELECT ville_ID, ville_nom, ville_latitude, ville_longitude FROM Ville WHERE ville_pays_ID = :pays_ID";
-		sql += " ORDER BY ville_nom ASC";
+		String param_paysID = "pays_ID";
+		String param_ville_ID = "ville_ID";
+		String param_ville_nom = "ville_nom";
+		String param_ville_latitude = "ville_latitude";
+		String param_ville_longitude = "ville_longitude";
+		
+		String sql = IConstantesBDD.SQL_SELECT 
+				+ IConstantesBDD.VILLE_ID
+				+ IConstantesBDD.SQL_COMMA
+				+ IConstantesBDD.VILLE_NOM
+				+ IConstantesBDD.SQL_COMMA
+				+ IConstantesBDD.VILLE_LATITUDE
+				+ IConstantesBDD.SQL_COMMA
+				+ IConstantesBDD.VILLE_LONGITUDE
+				+ IConstantesBDD.SQL_FROM
+				+ IConstantesBDD.VILLE
+				+ IConstantesBDD.SQL_WHERE 
+				+ IConstantesBDD.VILLE_PAYS_ID
+				+ IConstantesBDD.SQL_EQUAL
+				+ IConstantesBDD.SQL_COLON
+				+ IConstantesBDD.PAYS_ID
+				+ IConstantesBDD.SQL_ORDER_BY
+				+ IConstantesBDD.VILLE_NOM;
 
 		SqlQuery sqlQuery = Ebean.createSqlQuery(sql);
-		sqlQuery.setParameter("pays_ID", pays_ID);
+		sqlQuery.setParameter(param_paysID, pays_ID);
 
 		List<SqlRow> listSqlRow = sqlQuery.findList();
 		// Liste de 4 String : ID, nom, latitude et longitude
 		List<String[]> listeDesVilles = new ArrayList<String[]>();
 		for (SqlRow sqlRow : listSqlRow) {
-			String identifiant = sqlRow.get("ville_ID").toString();
-			String nom = sqlRow.get("ville_nom").toString();
-			String latitude = sqlRow.get("ville_latitude").toString();
-			String longitude = sqlRow.get("ville_longitude").toString();
+			String identifiant = sqlRow.get(param_ville_ID).toString();
+			String nom = sqlRow.get(param_ville_nom).toString();
+			String latitude = sqlRow.get(param_ville_latitude).toString();
+			String longitude = sqlRow.get(param_ville_longitude).toString();
 			listeDesVilles.add(new String[] { identifiant, nom, latitude,
 			        longitude });
 		}
