@@ -124,65 +124,22 @@ public class ServiceCentralien extends Controller {
 		// Si le filtre entreprise est actif
 		if (parametresPresents[2]) {
 			sql += IConstantesBDD.SQL_AND;
-
-			sql += IConstantesBDD.CENTRALIEN_ID + IConstantesBDD.SQL_IN
-			        + IConstantesBDD.SQL_BRACKET_OPEN;
-			sql += IConstantesBDD.SQL_SELECT
-			        + IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN_CENTRALIEN_ID
-			        + IConstantesBDD.SQL_FROM
-			        + IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN
-			        + IConstantesBDD.SQL_COMMA
-			        + IConstantesBDD.ENTREPRISEVILLESECTEUR
-			        + IConstantesBDD.SQL_WHERE
-			        + IConstantesBDD.ENTREPRISEVILLESECTEUR_ENTREPRISE_ID
+			sql += 	IConstantesBDD.ENTREPRISEVILLESECTEUR_ENTREPRISE_ID
 			        + IConstantesBDD.SQL_EQUAL + IConstantesBDD.SQL_COLON
 			        + PARAM_ENTREPRISE;
-			sql += IConstantesBDD.SQL_AND;
-			sql += IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN_ENTREPRISEVILLESECTEUR_ID
-			        + IConstantesBDD.SQL_EQUAL
-			        + IConstantesBDD.ENTREPRISEVILLESECTEUR_ID;
-			sql += IConstantesBDD.SQL_BRACKET_CLOSE;
 		}
 
 		// Si le filtre secteur est actif
 		if (parametresPresents[3]) {
 			sql += IConstantesBDD.SQL_AND;
 			if (ecole_ID.equals(IConstantes.ECOLE_OU_ENTREPRISE_INACTIF)) {
-				sql += IConstantesBDD.CENTRALIEN_ID + IConstantesBDD.SQL_IN
-				        + IConstantesBDD.SQL_BRACKET_OPEN;
-				sql += IConstantesBDD.SQL_SELECT
-				        + IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN_CENTRALIEN_ID
-				        + IConstantesBDD.SQL_FROM
-				        + IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN
-				        + IConstantesBDD.SQL_COMMA
-				        + IConstantesBDD.ENTREPRISEVILLESECTEUR
-				        + IConstantesBDD.SQL_WHERE
-				        + IConstantesBDD.ENTREPRISEVILLESECTEUR_SECTEUR_ID
+				sql += IConstantesBDD.ENTREPRISEVILLESECTEUR_SECTEUR_ID
 				        + IConstantesBDD.SQL_EQUAL + IConstantesBDD.SQL_COLON
 				        + PARAM_SECTEUR;
-				sql += IConstantesBDD.SQL_AND;
-				sql += IConstantesBDD.ENTREPRISEVILLESECTEURCENTRALIEN_ENTREPRISEVILLESECTEUR_ID
-				        + IConstantesBDD.SQL_EQUAL
-				        + IConstantesBDD.ENTREPRISEVILLESECTEUR_ID;
-				sql += IConstantesBDD.SQL_BRACKET_CLOSE;
 			} else {
-				sql += IConstantesBDD.CENTRALIEN_ID + IConstantesBDD.SQL_IN
-				        + IConstantesBDD.SQL_BRACKET_OPEN;
-				sql += IConstantesBDD.SQL_SELECT
-				        + IConstantesBDD.ECOLESECTEURCENTRALIEN_CENTRALIEN_ID
-				        + IConstantesBDD.SQL_FROM
-				        + IConstantesBDD.ECOLESECTEURCENTRALIEN
-				        + IConstantesBDD.SQL_COMMA
-				        + IConstantesBDD.ECOLESECTEUR
-				        + IConstantesBDD.SQL_WHERE
-				        + IConstantesBDD.ECOLESECTEUR_SECTEUR_ID
+				sql += IConstantesBDD.ECOLESECTEUR_SECTEUR_ID
 				        + IConstantesBDD.SQL_EQUAL + IConstantesBDD.SQL_COLON
 				        + PARAM_SECTEUR;
-				sql += IConstantesBDD.SQL_AND;
-				sql += IConstantesBDD.ECOLESECTEURCENTRALIEN_ECOLESECTEUR_ID
-				        + IConstantesBDD.SQL_EQUAL
-				        + IConstantesBDD.ECOLESECTEUR_ID;
-				sql += IConstantesBDD.SQL_BRACKET_CLOSE;
 			}
 		}
 
