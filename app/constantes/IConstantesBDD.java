@@ -53,7 +53,7 @@ public interface IConstantesBDD {
 	
 	/** Principaux termes sql */
 	public static final String SQL_SELECT = "SELECT ";
-	public static final String SQL_UPDATE = "UPDATE ";
+	public static final String SQL_UPDATE = "UPDATE "; 
 	public static final String SQL_SET = "SET ";
 	public static final String SQL_WHERE = " WHERE ";	
 	public static final String SQL_FROM = " FROM ";	
